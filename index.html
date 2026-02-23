@@ -4,207 +4,817 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>THE VOID TEMPLE | $CLICK</title>
-    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --bg-val: 255; 
-            --text-col: #1a1a1a;
-            --accent: #ff3b30;
+            --bg-start: #1a2634;    /* Тёмный серо-голубой */
+            --bg-end: #2c3e50;       /* Глубокий серо-синий */
+            --text-col: #ecf0f1;
+            --accent: #ff6b6b;
             --lid: -100%;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; user-select: none; }
         
         body { 
-            background-color: rgb(var(--bg-val), var(--bg-val), var(--bg-val));
+            background: linear-gradient(145deg, var(--bg-start), var(--bg-end));
             color: var(--text-col);
             font-family: 'Inter', sans-serif;
-            height: 100vh; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; 
+            min-height: 100vh;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
             transition: background 0.3s linear, color 0.5s ease;
-            overflow: hidden; text-align: center;
+            overflow-x: hidden;
+            text-align: center;
+            position: relative;
         }
 
-        body::after { 
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: url(https://upload.wikimedia.org);
-            opacity: 0.05; pointer-events: none; z-index: 100;
+        /* ТЕКСТУРА */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255,107,107,0.03) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(255,107,107,0.03) 0%, transparent 25%),
+                repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 8px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ЧАСТИЦЫ */
+        .particle {
+            position: fixed;
+            width: 6px; height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 2;
+            animation: float 15s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* ЛЕНГВИДЖ ПАНЕЛЬ */
+        .langs { 
+            position: fixed; 
+            top: 20px; 
+            display: flex; 
+            gap: 8px; 
+            z-index: 100; 
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
+            padding: 8px 12px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 90%;
+        }
+        .l-btn { 
+            font-size: 0.75rem; 
+            cursor: pointer; 
+            opacity: 0.6; 
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 20px;
+            transition: 0.2s;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .l-btn.active { 
+            opacity: 1; 
+            background: rgba(255,107,107,0.3);
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255,107,107,0.5);
         }
 
         /* ЧАТ */
-        #chat-wall { position: absolute; top: 15%; width: 100%; pointer-events: none; height: 180px; overflow: hidden; z-index: 5; }
-        .m { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.2rem; animation: f 6s forwards; text-align: center; position: absolute; left: 0; right: 0; }
-        @keyframes f { 0% { opacity: 0; transform: translateY(20px); } 15% { opacity: 0.8; } 100% { opacity: 0; transform: translateY(-50px); } }
+        #chat-wall { 
+            position: fixed; 
+            top: 15%; 
+            width: 100%; 
+            pointer-events: none; 
+            height: 200px; 
+            overflow: hidden; 
+            z-index: 5; 
+        }
+        .m { 
+            font-family: 'Playfair Display', serif; 
+            font-style: italic; 
+            font-size: 1.2rem; 
+            animation: floatMsg 6s forwards; 
+            text-align: center; 
+            position: absolute; 
+            left: 0; 
+            right: 0; 
+            color: rgba(255,255,255,0.8);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        @keyframes floatMsg { 
+            0% { opacity: 0; transform: translateY(20px); } 
+            15% { opacity: 0.8; } 
+            100% { opacity: 0; transform: translateY(-100px); } 
+        }
 
-        .main { width: 90%; max-width: 600px; z-index: 10; display: flex; flex-direction: column; align-items: center; }
-        #q { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 60px; min-height: 80px; width: 100%; pointer-events: none; }
+        /* ОСНОВНОЙ КОНТЕЙНЕР */
+        .main { 
+            width: 90%; 
+            max-width: 600px; 
+            z-index: 10; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            position: relative;
+        }
 
-        /* ОГРОМНАЯ ОБЪЕМНАЯ КНОПКА */
+        /* ЦИТАТА */
+        #q { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.6rem; 
+            margin-bottom: 40px; 
+            min-height: 120px; 
+            width: 100%; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s;
+            padding: 0 20px;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.3);
+            line-height: 1.5;
+        }
+
+        /* КНОПКА */
         #btn { 
-            width: 200px; height: 200px; 
-            background: radial-gradient(circle at 35% 35%, #ff5248, #d32f2f); 
-            border-radius: 50%; border: none; cursor: pointer; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            box-shadow: 0 25px 60px rgba(211, 47, 47, 0.4), inset 0 -12px 20px rgba(0,0,0,0.3); 
-            transition: transform 0.1s; position: relative; flex-shrink: 0; margin: 0 auto;
+            width: 240px; height: 240px; 
+            background: radial-gradient(circle at 35% 35%, #ff8a80, #d32f2f); 
+            border-radius: 50%; 
+            border: 4px solid rgba(255,255,255,0.3);
+            cursor: pointer; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            box-shadow: 0 30px 50px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,107,107,0.3), inset 0 -15px 25px rgba(0,0,0,0.4); 
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
+            position: relative; 
+            flex-shrink: 0; 
+            margin: 0 auto;
+            animation: bob 3s infinite ease-in-out;
         }
-        #btn:active { transform: scale(0.95); }
+        @keyframes bob {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0); }
+        }
+        #btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 40px 70px rgba(0,0,0,0.6), 0 0 0 4px rgba(255,107,107,0.5);
+        }
+        #btn:active { 
+            transform: scale(0.95); 
+            animation: none;
+        }
 
-        /* БОЛЬШИЕ ГЛАЗА */
-        .eyes { display: flex; gap: 15px; margin-bottom: 12px; position: relative; z-index: 2; pointer-events: none; }
+        /* ГЛАЗА */
+        .eyes { 
+            display: flex; 
+            gap: 25px; 
+            margin-bottom: 15px; 
+            position: relative; 
+            z-index: 2; 
+            pointer-events: none; 
+        }
         .eye { 
-            width: 44px; height: 28px; 
-            background: #fff; border-radius: 50%; 
-            position: relative; overflow: hidden; 
-            border: 1.5px solid rgba(0,0,0,0.15); 
+            width: 55px; height: 35px; 
+            background: #fff; 
+            border-radius: 50%; 
+            position: relative; 
+            overflow: hidden; 
+            border: 2px solid rgba(0,0,0,0.2);
+            box-shadow: inset 0 -2px 5px rgba(0,0,0,0.1);
         }
-        .p { 
-            width: 17px; height: 17px; 
-            background: #000; border-radius: 50%; 
-            position: absolute; top: 5.5px; left: 13.5px; 
-            transition: transform 0.05s linear; 
+        .pupil { 
+            width: 20px; height: 20px; 
+            background: #2c3e50; 
+            border-radius: 50%; 
+            position: absolute; 
+            top: 7px; left: 17px; 
+            transition: transform 0.05s linear;
+            border: 2px solid #1a2634;
         }
-        .lid { position: absolute; top: var(--lid); left: 0; width: 100%; height: 100%; background: #d32f2f; transition: 0.1s; z-index: 2; }
+        .pupil::after {
+            content: "";
+            position: absolute;
+            top: 4px; left: 4px;
+            width: 5px; height: 5px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 50%;
+        }
+        .lid { 
+            position: absolute; 
+            top: var(--lid); 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: #ff8a80; 
+            transition: 0.1s; 
+            z-index: 3; 
+            border-radius: 50%;
+        }
 
-        /* ГРУСТНЫЙ РОТ */
+        /* РОТ */
         #mouth { 
-            width: 45px; height: 20px; 
-            border: 3px solid rgba(0,0,0,0.7); 
+            width: 60px; height: 25px; 
+            border: 3px solid rgba(0,0,0,0.6); 
             border-top: transparent; border-left: transparent; border-right: transparent; 
-            border-radius: 0; transition: 0.3s; 
-            margin-top: 5px; transform-origin: center; 
+            border-radius: 0 0 30px 30px; 
+            transition: all 0.3s ease; 
+            margin-top: 5px; 
+            transform-origin: center;
         }
+
+        /* РУМЯНЕЦ */
+        .blush {
+            position: absolute;
+            width: 30px; height: 15px;
+            background: rgba(255,107,107,0.3);
+            border-radius: 50%;
+            bottom: 60px;
+            filter: blur(5px);
+            transition: 0.3s;
+        }
+        .blush-left { left: 30px; }
+        .blush-right { right: 30px; }
 
         /* ИНТЕРФЕЙС */
-        #in { position: absolute; bottom: 130px; background: none; border: none; border-bottom: 1px solid #999; color: inherit; text-align: center; width: 220px; padding: 5px; font-size: 0.8rem; z-index: 60; user-select: text; }
-        .ft { position: absolute; bottom: 20px; font-size: 0.7rem; opacity: 0.6; width: 100%; pointer-events: none; }
-        #ca { border: 1px solid #999; padding: 6px 15px; border-radius: 20px; cursor: pointer; display: inline-block; margin-top: 10px; pointer-events: auto; }
-        
-        .langs { position: absolute; top: 20px; display: flex; gap: 10px; z-index: 100; }
-        .l-btn { font-size: 0.6rem; cursor: pointer; opacity: 0.5; text-transform: uppercase; }
-        .l-btn.active { opacity: 1; font-weight: bold; color: var(--accent); }
+        #in { 
+            position: fixed; 
+            bottom: 130px; 
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 40px;
+            color: inherit; 
+            text-align: center; 
+            width: 280px; 
+            padding: 12px 20px; 
+            font-size: 0.9rem; 
+            z-index: 60; 
+            user-select: text; 
+        }
+        .ft { 
+            position: fixed; 
+            bottom: 20px; 
+            font-size: 0.8rem; 
+            opacity: 0.8; 
+            width: 100%; 
+            pointer-events: none; 
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        #ca { 
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+            padding: 8px 20px; 
+            border-radius: 40px; 
+            cursor: pointer; 
+            display: inline-block; 
+            margin-top: 10px; 
+            pointer-events: auto;
+            transition: 0.2s;
+            font-size: 0.75rem;
+        }
+        #ca:hover {
+            background: rgba(255,107,107,0.3);
+        }
+
+        /* ПОРОГОВЫЕ СООБЩЕНИЯ */
+        .threshold-msg {
+            position: fixed;
+            bottom: 200px;
+            font-size: 1rem;
+            opacity: 0.9;
+            animation: fadeUp 2s forwards;
+            pointer-events: none;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            padding: 10px 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,107,107,0.3);
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            max-width: 90%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translate(-50%, 10px); }
+            20% { opacity: 0.9; }
+            80% { opacity: 0.9; }
+            100% { opacity: 0; transform: translate(-50%, -30px); }
+        }
     </style>
 </head>
 <body>
 
+    <!-- ПАРЯЩИЕ ЧАСТИЦЫ (ГЕНЕРИРУЕМ 30 ШТУК) -->
+    <script>
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (15 + Math.random() * 20) + 's';
+            particle.style.animationDelay = (Math.random() * 10) + 's';
+            particle.style.width = (3 + Math.random() * 8) + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.background = `rgba(255, 255, 255, ${0.05 + Math.random() * 0.1})`;
+            document.body.appendChild(particle);
+        }
+    </script>
+
+    <!-- ПАНЕЛЬ ЯЗЫКОВ (10 ШТУК) -->
     <div class="langs">
-        <div class="l-btn active" onclick="sL('en')">EN</div>
-        <div class="l-btn" onclick="sL('ru')">RU</div>
+        <div class="l-btn active" onclick="setLanguage('en')">EN</div>
+        <div class="l-btn" onclick="setLanguage('ru')">RU</div>
+        <div class="l-btn" onclick="setLanguage('zh')">中文</div>
+        <div class="l-btn" onclick="setLanguage('ja')">日本語</div>
+        <div class="l-btn" onclick="setLanguage('ko')">한국어</div>
+        <div class="l-btn" onclick="setLanguage('es')">ES</div>
+        <div class="l-btn" onclick="setLanguage('pt')">PT</div>
+        <div class="l-btn" onclick="setLanguage('tr')">TR</div>
+        <div class="l-btn" onclick="setLanguage('vi')">VI</div>
+        <div class="l-btn" onclick="setLanguage('de')">DE</div>
     </div>
 
     <div id="chat-wall"></div>
 
     <div class="main">
-        <div id="q">Look into the void. It waits for you.</div>
+        <div id="q">The void waits for you.</div>
         <button id="btn">
             <div class="eyes">
-                <div class="eye"><div class="lid"></div><div class="p"></div></div>
-                <div class="eye"><div class="lid"></div><div class="p"></div></div>
+                <div class="eye">
+                    <div class="lid"></div>
+                    <div class="pupil"></div>
+                </div>
+                <div class="eye">
+                    <div class="lid"></div>
+                    <div class="pupil"></div>
+                </div>
             </div>
+            <div class="blush blush-left"></div>
+            <div class="blush blush-right"></div>
             <div id="mouth"></div>
         </button>
     </div>
 
-    <input type="text" id="in" placeholder="прошепчи что-нибудь..." maxlength="50" autocomplete="off">
+    <input type="text" id="in" placeholder="whisper something..." maxlength="50" autocomplete="off">
 
     <div class="ft">
         <div id="cnt">your pain: 0</div>
-        <div id="ca" onclick="cp()">CA: CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump</div>
+        <div id="ca" onclick="copyCA()">CA: CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump</div>
     </div>
 
-<script src="https://cdn.pubnub.com"></script>
-<script>
-    const CA_VAL = "CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump";
-    let clks = parseInt(localStorage.getItem('v_c_final')) || 0;
-    let ln = 'en';
-    let aCtx;
+    <div id="threshold-container"></div>
 
-    // --- ЧАТ ---
-    let pn;
+<script src="https://cdn.pubnub.com/pubnub-3.7.16.js"></script>
+<script>
+    // === 10 ЯЗЫКОВ: ЦИТАТЫ И ИНТЕРФЕЙС ===
+    const quotes = {
+        // Английский (основной)
+        en: [
+            "I think, therefore I am. I regret both.",
+            "The unexamined life is not worth living. The examined one is exhausting.",
+            "We are what we repeatedly do. Unfortunately.",
+            "Life is suffering. The rest is details.",
+            "God is dead. And I'm not feeling so good either.",
+            "When you look into the void, the void looks into you. It's tired too.",
+            "I am alone. I am always alone. Even in a crowd.",
+            "I can't go on. I'll go on.",
+            "Hello darkness, my old friend.",
+            "Nothing really matters, anyone can see.",
+            "I'm tired of being almost.",
+            "They promised moons. They delivered graves.",
+            "I don't hope anymore. It's easier.",
+            "The void is generous today. (Unfortunately.)",
+            "Click. Regret. Repeat."
+        ],
+        // Русский
+        ru: [
+            "Я мыслю, следовательно, существую. Жалею об обоих.",
+            "Неисследованная жизнь не стоит того, чтобы жить. Исследованная — выматывает.",
+            "Мы есть то, что мы постоянно делаем. К сожалению.",
+            "Жизнь есть страдание. Остальное — детали.",
+            "Бог мёртв. И я тоже не очень.",
+            "Когда ты смотришь в бездну, бездна смотрит в тебя. Она тоже устала.",
+            "Я один. Я всегда один. Даже в толпе.",
+            "Я не могу продолжать. Я буду продолжать.",
+            "Привет, тьма, мой старый друг.",
+            "Ничто не имеет значения, это видно каждому.",
+            "Я устал быть почти.",
+            "Они обещали луну. Они принесли могилы.",
+            "Я больше не надеюсь. Так проще.",
+            "Пустота сегодня щедра. (К сожалению.)",
+            "Нажми. Пожалей. Повтори."
+        ],
+        // Китайский
+        zh: [
+            "我思故我在。两者都后悔。",
+            "未经审视的人生不值得过。审视后的人生令人疲惫。",
+            "我们就是我们反复做的事。不幸的是。",
+            "人生是苦难。其余是细节。",
+            "上帝已死。我也不太好。",
+            "当你凝视深渊，深渊也凝视你。它也累了。",
+            "我孤独。我总是孤独。即使在人群中。",
+            "我无法继续。我会继续。",
+            "你好，黑暗，我的老朋友。",
+            "一切皆无意义，谁都能看见。",
+            "我厌倦了几乎要成为。",
+            "他们承诺月亮。他们带来了坟墓。",
+            "我不再希望。这样更简单。",
+            "虚空今天很慷慨。（不幸的是。）",
+            "点击。后悔。重复。"
+        ],
+        // Японский
+        ja: [
+            "我思う、故に我あり。両方を後悔している。",
+            "吟味されない人生は生きる価値がない。吟味された人生は疲れる。",
+            "私たちは繰り返し行うことである。残念ながら。",
+            "人生は苦しみである。残りは細部だ。",
+            "神は死んだ。私もあまり調子が良くない。",
+            "虚空を覗き込むと、虚空もあなたを覗き込む。それも疲れている。",
+            "私は孤独だ。いつも孤独だ。群衆の中でも。",
+            "もう続けられない。続けるつもりだ。",
+            "こんにちは、暗闇よ、古い友よ。",
+            "何も重要ではない、誰の目にも明らかだ。",
+            "もう希望は持たない。その方が楽だ。",
+            "虚空は今日は寛大だ。（残念ながら。）",
+            "クリック。後悔。繰り返す。"
+        ],
+        // Корейский
+        ko: [
+            "나는 생각한다, 고로 존재한다. 둘 다 후회한다.",
+            "검토되지 않은 삶은 살 가치가 없다. 검토된 삶은 지치게 한다.",
+            "우리는 반복적으로 행하는 것들이다. 불행히도.",
+            "인생은 고통이다. 나머지는 세부사항일 뿐.",
+            "신은 죽었다. 나도 별로 좋지 않다.",
+            "당신이 공허를 응시할 때, 공허도 당신을 응시한다. 그것도 지쳤다.",
+            "나는 혼자다. 항상 혼자다. 군중 속에서도.",
+            "계속할 수 없다. 계속하겠다.",
+            "안녕, 어둠이여, 나의 오랜 친구여.",
+            "아무것도 중요하지 않다, 누구나 알 수 있다.",
+            "더 이상 희망하지 않는다. 그것이 더 쉽다.",
+            "오늘 공허는 관대하다. (불행히도.)",
+            "클릭. 후회. 반복."
+        ],
+        // Испанский
+        es: [
+            "Pienso, luego existo. Me arrepiento de ambas.",
+            "La vida no examinada no merece ser vivida. La examinada es agotadora.",
+            "Somos lo que hacemos repetidamente. Desafortunadamente.",
+            "La vida es sufrimiento. El resto son detalles.",
+            "Dios ha muerto. Y yo tampoco me siento muy bien.",
+            "Cuando miras al abismo, el abismo te mira a ti. También está cansado.",
+            "Estoy solo. Siempre estoy solo. Incluso entre la multitud.",
+            "No puedo seguir. Seguiré.",
+            "Hola, oscuridad, mi vieja amiga.",
+            "Nada importa realmente, cualquiera puede verlo.",
+            "Ya no tengo esperanza. Es más fácil.",
+            "Prometieron lunas. Entregaron tumbas.",
+            "El vacío es generoso hoy. (Desafortunadamente.)",
+            "Haz clic. Arrepiéntete. Repite."
+        ],
+        // Португальский
+        pt: [
+            "Penso, logo existo. Arrependo-me de ambos.",
+            "A vida não examinada não vale a pena ser vivida. A examinada é exaustiva.",
+            "Somos o que fazemos repetidamente. Infelizmente.",
+            "A vida é sofrimento. O resto são detalhes.",
+            "Deus está morto. E eu também não estou me sentindo muito bem.",
+            "Quando você olha para o abismo, o abismo olha para você. Também está cansado.",
+            "Estou sozinho. Estou sempre sozinho. Mesmo na multidão.",
+            "Não posso continuar. Vou continuar.",
+            "Olá, escuridão, minha velha amiga.",
+            "Nada realmente importa, qualquer um pode ver.",
+            "Não tenho mais esperança. É mais fácil.",
+            "Prometeram luas. Entregaram túmulos.",
+            "O vazio é generoso hoje. (Infelizmente.)",
+            "Clique. Arrependa-se. Repita."
+        ],
+        // Турецкий
+        tr: [
+            "Düşünüyorum, öyleyse varım. İkisinden de pişmanım.",
+            "Sorgulanmamış hayat yaşamaya değmez. Sorgulanmış olan yorucudur.",
+            "Tekrar tekrar yaptığımız şeyiz. Ne yazık ki.",
+            "Hayat acı çekmektir. Gerisi detay.",
+            "Tanrı öldü. Ben de pek iyi hissetmiyorum.",
+            "Boşluğa baktığında, boşluk da sana bakar. O da yorgun.",
+            "Yalnızım. Her zaman yalnızım. Kalabalıkta bile.",
+            "Devam edemiyorum. Devam edeceğim.",
+            "Merhaba karanlık, eski dostum.",
+            "Hiçbir şey gerçekten önemli değil, herkes görebilir.",
+            "Artık umudum yok. Bu daha kolay.",
+            "Söz verdikleri ay. Teslim ettikleri mezarlar.",
+            "Boşluk bugün cömert. (Ne yazık ki.)",
+            "Tıkla. Pişman ol. Tekrarla."
+        ],
+        // Вьетнамский
+        vi: [
+            "Tôi tư duy, vậy tôi tồn tại. Tôi hối tiếc cả hai.",
+            "Cuộc sống không được xem xét thì không đáng sống. Cuộc sống được xem xét thì mệt mỏi.",
+            "Chúng ta là những gì chúng ta lặp đi lặp lại. Thật không may.",
+            "Cuộc sống là đau khổ. Phần còn lại là chi tiết.",
+            "Chúa đã chết. Và tôi cũng không cảm thấy tốt.",
+            "Khi bạn nhìn vào vực thẳm, vực thẳm cũng nhìn lại bạn. Nó cũng mệt mỏi.",
+            "Tôi cô đơn. Tôi luôn cô đơn. Ngay cả trong đám đông.",
+            "Tôi không thể tiếp tục. Tôi sẽ tiếp tục.",
+            "Xin chào bóng tối, người bạn cũ của tôi.",
+            "Không có gì thực sự quan trọng, ai cũng thấy.",
+            "Tôi không hy vọng nữa. Dễ hơn.",
+            "Họ hứa mặt trăng. Họ mang đến nấm mồ.",
+            "Hư vô hôm nay hào phóng. (Thật không may.)",
+            "Nhấp. Hối tiếc. Lặp lại."
+        ],
+        // Немецкий
+        de: [
+            "Ich denke, also bin ich. Ich bereue beides.",
+            "Das ungeprüfte Leben ist nicht lebenswert. Das geprüfte ist anstrengend.",
+            "Wir sind, was wir wiederholt tun. Unglücklicherweise.",
+            "Leben ist Leiden. Der Rest sind Details.",
+            "Gott ist tot. Und mir geht es auch nicht gut.",
+            "Wenn du in den Abgrund blickst, blickt der Abgrund auch in dich. Er ist auch müde.",
+            "Ich bin allein. Ich bin immer allein. Sogar in der Menge.",
+            "Ich kann nicht weitermachen. Ich werde weitermachen.",
+            "Hallo Dunkelheit, mein alter Freund.",
+            "Nichts ist wirklich wichtig, das kann jeder sehen.",
+            "Ich hoffe nicht mehr. Es ist einfacher.",
+            "Sie versprachen Monde. Sie lieferten Gräber.",
+            "Die Leere ist heute großzügig. (Unglücklicherweise.)",
+            "Klicken. Bereuen. Wiederholen."
+        ]
+    };
+
+    // Интерфейс на 10 языках
+    const interfaceText = {
+        en: { hint: "(she doesn't want to be clicked)", counterPrefix: "your pain: ", counterSuffix: "", footer: "don't click. (you will)", smallNote: "every click is a small death.", inputPlaceholder: "whisper something..." },
+        ru: { hint: "(она не хочет, чтобы на неё нажимали)", counterPrefix: "твоя боль: ", counterSuffix: "", footer: "не нажимай. (но ты нажмёшь)", smallNote: "каждое нажатие — маленькая смерть.", inputPlaceholder: "прошепчи что-нибудь..." },
+        zh: { hint: "(她不想被点击)", counterPrefix: "你的痛苦: ", counterSuffix: "", footer: "不要点击。(但你会)", smallNote: "每次点击都是一次小死亡。", inputPlaceholder: "低语..." },
+        ja: { hint: "(彼女はクリックされたくない)", counterPrefix: "あなたの痛み: ", counterSuffix: "", footer: "クリックしないで。(あなたはする)", smallNote: "すべてのクリックは小さな死です。", inputPlaceholder: "ささやく..." },
+        ko: { hint: "(그녀는 클릭되기를 원하지 않는다)", counterPrefix: "너의 고통: ", counterSuffix: "", footer: "클릭하지 마세요. (그래도 할거야)", smallNote: "모든 클릭은 작은 죽음이다.", inputPlaceholder: "속삭임..." },
+        es: { hint: "(ella no quiere ser clickeada)", counterPrefix: "tu dolor: ", counterSuffix: "", footer: "no hagas clic. (lo harás)", smallNote: "cada clic es una pequeña muerte.", inputPlaceholder: "susurra algo..." },
+        pt: { hint: "(ela não quer ser clicada)", counterPrefix: "sua dor: ", counterSuffix: "", footer: "não clique. (você vai)", smallNote: "cada clique é uma pequena morte.", inputPlaceholder: "sussurre algo..." },
+        tr: { hint: "(tıklanmak istemiyor)", counterPrefix: "acın: ", counterSuffix: "", footer: "tıklama. (tıklayacaksın)", smallNote: "her tıklama küçük bir ölümdür.", inputPlaceholder: "fısılda..." },
+        vi: { hint: "(cô ấy không muốn bị nhấp)", counterPrefix: "nỗi đau của bạn: ", counterSuffix: "", footer: "đừng nhấp. (bạn sẽ)", smallNote: "mỗi cú nhấp là một cái chết nhỏ.", inputPlaceholder: "thì thầm..." },
+        de: { hint: "(sie will nicht geklickt werden)", counterPrefix: "dein Schmerz: ", counterSuffix: "", footer: "nicht klicken. (du wirst)", smallNote: "jeder Klick ist ein kleiner Tod.", inputPlaceholder: "flüstern..." }
+    };
+
+    // Пороговые сообщения (EN/RU как пример, можно расширить)
+    const thresholdMessages = [
+        { threshold: 50, en: "The void notices you.", ru: "Бездна замечает тебя." },
+        { threshold: 100, en: "You are becoming part of the void.", ru: "Ты становишься частью пустоты." },
+        { threshold: 250, en: "The button feels your pain.", ru: "Кнопка чувствует твою боль." },
+        { threshold: 500, en: "You have been consumed by the void.", ru: "Ты поглощён пустотой." },
+        { threshold: 750, en: "There is no turning back.", ru: "Обратного пути нет." },
+        { threshold: 1000, en: "You are the void now.", ru: "Теперь ты — пустота." }
+    ];
+
+    const CA_VAL = "CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump";
+    let clickCount = parseInt(localStorage.getItem('v_c_final')) || 0;
+    let currentLang = 'en';
+    let audioCtx;
+    let lastThresholdShown = 0;
+    let expressionTimer;
+    let currentExpression = 'sad';
+
+    // --- ИНИЦИАЛИЗАЦИЯ ---
+    document.getElementById('cnt').innerText = interfaceText[currentLang].counterPrefix + clickCount;
+    document.getElementById('in').placeholder = interfaceText[currentLang].inputPlaceholder;
+
+    // --- ПОРОГОВЫЕ СООБЩЕНИЯ ---
+    function checkThreshold() {
+        for (let i = 0; i < thresholdMessages.length; i++) {
+            const msg = thresholdMessages[i];
+            if (clickCount >= msg.threshold && msg.threshold > lastThresholdShown) {
+                showThresholdMessage(msg[currentLang] || msg.en);
+                lastThresholdShown = msg.threshold;
+                break;
+            }
+        }
+    }
+
+    function showThresholdMessage(text) {
+        const container = document.getElementById('threshold-container');
+        const msg = document.createElement('div');
+        msg.className = 'threshold-msg';
+        msg.innerText = text;
+        container.appendChild(msg);
+        setTimeout(() => msg.remove(), 2000);
+    }
+
+    // --- ЧАТ (PubNub) ---
+    let pubnub;
     try {
-        pn = new PubNub({ publishKey: 'demo', subscribeKey: 'demo', uuid: 'v' + Math.random().toString(36).substring(7) });
-        pn.addListener({ message: (m) => {
-            const d = document.createElement('div'); d.className = 'm'; d.innerText = m.message;
-            document.getElementById('chat-wall').appendChild(d); setTimeout(() => d.remove(), 6000);
-        }});
-        pn.subscribe({ channels: ['void_temple_v_final_1'] });
+        pubnub = PUBNUB.init({ 
+            publish_key: 'demo', 
+            subscribe_key: 'demo', 
+            uuid: 'v' + Math.random().toString(36).substring(7) 
+        });
+        pubnub.subscribe({
+            channel: 'void_temple_v3',
+            message: (msg) => {
+                const div = document.createElement('div'); 
+                div.className = 'm'; 
+                div.innerText = msg;
+                document.getElementById('chat-wall').appendChild(div); 
+                setTimeout(() => div.remove(), 6000);
+            }
+        });
     } catch(e) {}
 
     document.getElementById('in').addEventListener('keypress', function (e) {
         if (e.key === 'Enter' && this.value.trim() !== '') {
-            pn.publish({ channel: 'void_temple_v_final_1', message: this.value });
+            if (pubnub) {
+                pubnub.publish({
+                    channel: 'void_temple_v3',
+                    message: this.value
+                });
+            }
             this.value = '';
         }
     });
 
-    // --- ЗВУК (ГРОМКИЙ И ЗВОНКИЙ) ---
-    function initA() {
-        if (!aCtx) aCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (aCtx.state === 'suspended') aCtx.resume();
-    }
-    function play() {
-        if (!aCtx) return;
-        const o = aCtx.createOscillator(); const g = aCtx.createGain();
-        o.type = 'triangle'; o.frequency.setValueAtTime(1200, aCtx.currentTime);
-        o.frequency.exponentialRampToValueAtTime(100, aCtx.currentTime + 0.1);
-        g.gain.setValueAtTime(0.7, aCtx.currentTime);
-        g.gain.exponentialRampToValueAtTime(0.001, aCtx.currentTime + 0.1);
-        o.connect(g); g.connect(aCtx.destination); o.start(); o.stop(aCtx.currentTime + 0.1);
+    // --- ЗВУК ---
+    function initAudio() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
     }
 
-    // --- ЭВОЛЮЦИЯ ---
-    function update() {
-        const r = document.documentElement;
-        const progress = Math.min(clks / 1000, 1);
-        
-        // Плавное потемнение фона
-        const val = Math.floor(255 - (progress * 245));
-        r.style.setProperty('--bg-val', val);
-        
-        // Цвет текста
-        if (val < 120) r.style.setProperty('--text-col', '#eee');
-        else r.style.setProperty('--text-col', '#1a1a1a');
-
-        // РОТ (Грусть переворачивается и выгибается)
-        const mouthEl = document.getElementById('mouth');
-        const curvature = progress * 60; 
-        mouthEl.style.borderRadius = `0 0 ${curvature}% ${curvature}%`;
-        mouthEl.style.transform = `rotate(180deg) translateY(${progress * 10}px)`;
-        
-        document.getElementById('cnt').innerText = (ln === 'ru' ? 'твоя боль: ' : 'your pain: ') + clks;
+    function playClick() {
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.15);
     }
 
-    const bE = document.getElementById('btn');
-    bE.onmousedown = (e) => { 
-        e.preventDefault(); // ФИКС СМЕЩЕНИЯ ПРИ КЛИКЕ
-        initA(); 
+    // --- АНИМАЦИЯ РТА (ВЫРАЖЕНИЯ) ---
+    function setExpression(expr) {
+        const mouth = document.getElementById('mouth');
+        switch(expr) {
+            case 'happy':
+                mouth.style.borderRadius = '30px 30px 0 0';
+                mouth.style.transform = 'rotate(180deg)';
+                break;
+            case 'sad':
+                mouth.style.borderRadius = '0 0 30px 30px';
+                mouth.style.transform = 'rotate(0deg)';
+                break;
+            case 'surprised':
+                mouth.style.borderRadius = '50%';
+                mouth.style.width = '25px';
+                mouth.style.height = '25px';
+                mouth.style.border = '3px solid rgba(0,0,0,0.6)';
+                mouth.style.borderTop = '3px solid rgba(0,0,0,0.6)';
+                break;
+            case 'annoyed':
+                mouth.style.borderRadius = '0';
+                mouth.style.width = '40px';
+                mouth.style.height = '3px';
+                mouth.style.border = 'none';
+                mouth.style.backgroundColor = 'rgba(0,0,0,0.6)';
+                break;
+        }
+        currentExpression = expr;
+    }
+
+    function randomExpression() {
+        const exprs = ['sad', 'happy', 'surprised', 'annoyed'];
+        const random = exprs[Math.floor(Math.random() * exprs.length)];
+        setExpression(random);
+        // Возвращаем грустное выражение через 2 секунды
+        clearTimeout(expressionTimer);
+        expressionTimer = setTimeout(() => setExpression('sad'), 2000);
+    }
+
+    // --- ОБНОВЛЕНИЕ ВИЗУАЛА ---
+    function updateVisuals() {
+        const root = document.documentElement;
+        const progress = Math.min(clickCount / 1000, 1);
+        
+        // Изменение цвета фона
+        const r = 26 + Math.floor(progress * 30);
+        const g = 38 + Math.floor(progress * 30);
+        const b = 52 + Math.floor(progress * 30);
+        root.style.setProperty('--bg-start', `rgb(${r}, ${g}, ${b})`);
+        root.style.setProperty('--bg-end', `rgb(${r+20}, ${g+20}, ${b+20})`);
+        
+        document.getElementById('cnt').innerText = interfaceText[currentLang].counterPrefix + clickCount;
+    }
+
+    // --- СЛУЧАЙНАЯ ЦИТАТА ---
+    function updateQuote() {
+        const langQuotes = quotes[currentLang] || quotes.en;
+        const randomIndex = Math.floor(Math.random() * langQuotes.length);
+        document.getElementById('q').innerText = langQuotes[randomIndex];
+    }
+
+    // --- МОРГАНИЕ ---
+    function blink() {
+        const root = document.documentElement;
+        root.style.setProperty('--lid', '0%');
+        setTimeout(() => root.style.setProperty('--lid', '-100%'), 150);
+    }
+    setInterval(blink, 4000);
+
+    // --- ОБРАБОТКА КЛИКА ---
+    const button = document.getElementById('btn');
+    
+    button.onmousedown = (e) => { 
+        e.preventDefault();
+        initAudio(); 
         document.documentElement.style.setProperty('--lid', '0%'); 
-        play(); 
+        playClick(); 
     };
-    bE.onmouseup = () => {
-        if (clks < 1000) clks++; 
-        localStorage.setItem('v_c_final', clks);
+    
+    button.onmouseup = () => {
+        clickCount++; 
+        localStorage.setItem('v_c_final', clickCount);
         document.documentElement.style.setProperty('--lid', '-100%'); 
-        document.getElementById('q').innerText = ln === 'ru' ? "Бездна помнит каждое нажатие." : "The void remembers every click.";
-        update();
+        
+        // Случайное выражение лица
+        randomExpression();
+        
+        // Обновляем цитату
+        updateQuote();
+        updateVisuals();
+        checkThreshold();
     };
 
-    // СЛЕЖЕНИЕ ЗРАЧКОВ
+    // СЕНСОРНАЯ ПОДДЕРЖКА ДЛЯ МОБИЛЬНЫХ
+    button.ontouchstart = button.onmousedown;
+    button.ontouchend = button.onmouseup;
+
+    // --- СЛЕЖЕНИЕ ЗРАЧКОВ ---
     document.addEventListener('mousemove', (e) => {
-        document.querySelectorAll('.p').forEach(p => {
-            const rect = p.getBoundingClientRect();
-            const a = Math.atan2(e.clientX - (rect.left + rect.width/2), e.clientY - (rect.top + rect.height/2));
-            p.style.transform = `rotate(${(a * (180/Math.PI) * -1) + 180}deg) translateY(-6px)`;
+        document.querySelectorAll('.pupil').forEach(pupil => {
+            const rect = pupil.getBoundingClientRect();
+            const dx = e.clientX - (rect.left + rect.width/2);
+            const dy = e.clientY - (rect.top + rect.height/2);
+            const angle = Math.atan2(dy, dx);
+            const distance = Math.min(8, Math.sqrt(dx*dx + dy*dy) / 20);
+            const x = Math.cos(angle) * distance;
+            const y = Math.sin(angle) * distance;
+            pupil.style.transform = `translate(${x}px, ${y}px)`;
         });
     });
 
-    function sL(l) { 
-        ln = l; 
-        document.querySelectorAll('.l-btn').forEach(b => b.classList.toggle('active', b.innerText.toLowerCase() === l)); 
-        update(); 
+    // --- ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА ---
+    function setLanguage(lang) { 
+        currentLang = lang; 
+        document.querySelectorAll('.l-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.innerText.toLowerCase().includes(lang) || 
+                (lang === 'zh' && btn.innerText.includes('中文')) ||
+                (lang === 'ja' && btn.innerText.includes('日本語')) ||
+                (lang === 'ko' && btn.innerText.includes('한국어')));
+        });
+        
+        // Обновляем интерфейс
+        document.getElementById('in').placeholder = interfaceText[lang].inputPlaceholder;
+        document.getElementById('cnt').innerText = interfaceText[lang].counterPrefix + clickCount;
+        
+        // Обновляем цитату
+        updateQuote();
     }
-    function cp() { navigator.clipboard.writeText(CA_VAL); document.getElementById('ca').innerText = "COPIED"; setTimeout(()=>document.getElementById('ca').innerText="CA: "+CA_VAL.substring(0,6)+'...', 1000); }
-    
-    update();
+
+    // --- КОПИРОВАНИЕ CA ---
+    function copyCA() { 
+        navigator.clipboard.writeText(CA_VAL); 
+        const caElem = document.getElementById('ca');
+        const originalText = caElem.innerText;
+        caElem.innerText = "✅ COPIED"; 
+        setTimeout(() => caElem.innerText = originalText, 1000); 
+    }
+
+    // --- ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ ---
+    window.onload = () => {
+        updateVisuals();
+        updateQuote();
+        checkThreshold();
+        setExpression('sad');
+    };
 </script>
 </body>
 </html>
