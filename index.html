@@ -7,8 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --bg-start: #1a1f2e;    /* Тёмный синий */
-            --bg-end: #2c3a5e;       /* Глубокий синий */
+            --bg-start: #1a1f2e;
+            --bg-end: #2c3a5e;
             --text-col: #ecf0f1;
             --accent: #ff3b30;
             --lid: -100%;
@@ -22,16 +22,15 @@
             min-height: 100vh;
             display: flex; 
             flex-direction: column; 
-            justify-content: center; 
+            justify-content: flex-start;
             align-items: center; 
             transition: background 0.3s linear, color 0.5s ease;
             overflow-x: hidden;
             text-align: center;
             position: relative;
-            padding-top: 40px; /* Поднимаем контент выше */
+            padding: 10px 20px 0;
         }
 
-        /* ТЕКСТУРА (более насыщенная) */
         body::before {
             content: "";
             position: fixed;
@@ -44,7 +43,6 @@
             z-index: 1;
         }
 
-        /* КРАСНЫЕ ЧАСТИЦЫ */
         .particle {
             position: fixed;
             width: 6px; height: 6px;
@@ -66,28 +64,27 @@
             100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
         }
 
-        /* ЛЕНГВИДЖ ПАНЕЛЬ */
         .langs { 
             position: fixed; 
-            top: 20px; 
+            top: 15px; 
             display: flex; 
-            gap: 8px; 
+            gap: 5px; 
             z-index: 100; 
             background: rgba(10,10,20,0.4);
             backdrop-filter: blur(8px);
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 40px;
             border: 1px solid rgba(255,100,100,0.3);
             flex-wrap: wrap;
             justify-content: center;
-            max-width: 90%;
+            max-width: 95%;
         }
         .l-btn { 
-            font-size: 0.75rem; 
+            font-size: 0.7rem; 
             cursor: pointer; 
             opacity: 0.7; 
             text-transform: uppercase;
-            padding: 4px 8px;
+            padding: 3px 6px;
             border-radius: 20px;
             transition: 0.2s;
             font-weight: 500;
@@ -102,13 +99,12 @@
             border: 1px solid rgba(255,100,100,0.4);
         }
 
-        /* ЧАТ (опускаем ниже, чтобы не мешал кнопке) */
         #chat-wall { 
             position: fixed; 
-            top: 60%; 
+            bottom: 170px; 
             width: 100%; 
             pointer-events: none; 
-            height: 200px; 
+            height: 250px; 
             overflow: hidden; 
             z-index: 5; 
         }
@@ -123,6 +119,8 @@
             right: 0; 
             color: rgba(255,255,255,0.9);
             text-shadow: 0 2px 15px rgba(255,50,50,0.4);
+            text-transform: uppercase;
+            font-weight: 500;
         }
         @keyframes floatMsg { 
             0% { opacity: 0; transform: translateY(20px); } 
@@ -130,7 +128,6 @@
             100% { opacity: 0; transform: translateY(-100px); } 
         }
 
-        /* ОСНОВНОЙ КОНТЕЙНЕР (поднят выше) */
         .main { 
             width: 90%; 
             max-width: 600px; 
@@ -139,28 +136,26 @@
             flex-direction: column; 
             align-items: center; 
             position: relative;
-            margin-top: -50px; /* Поднимаем выше */
+            margin-top: 30px;
         }
 
-        /* ЦИТАТА (поднята выше, крупнее) */
         #q { 
             font-family: 'Playfair Display', serif; 
             font-size: 1.8rem; 
-            margin-bottom: 50px; 
+            margin-bottom: 20px; 
             min-height: 140px; 
             width: 100%; 
             display: flex;
             align-items: center;
             justify-content: center;
             transition: opacity 0.3s;
-            padding: 0 20px;
+            padding: 0 15px;
             text-shadow: 0 3px 20px rgba(255,50,50,0.4), 0 2px 10px rgba(0,0,0,0.5);
-            line-height: 1.5;
+            line-height: 1.4;
             font-weight: 500;
             letter-spacing: 0.3px;
         }
 
-        /* КНОПКА (НОВАЯ: ЯРКО-КРАСНАЯ, ГЛЯНЦЕВАЯ) */
         #btn { 
             width: 260px; height: 260px; 
             background: radial-gradient(circle at 30% 30%, #ff5e5e, #c62828); 
@@ -175,7 +170,7 @@
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
             position: relative; 
             flex-shrink: 0; 
-            margin: 20px auto 0;
+            margin: 10px auto;
             animation: bob 3s infinite ease-in-out;
         }
         @keyframes bob {
@@ -192,7 +187,6 @@
             animation: none;
         }
 
-        /* ГЛАЗА */
         .eyes { 
             display: flex; 
             gap: 30px; 
@@ -240,19 +234,15 @@
             border-radius: 50%;
         }
 
-        /* РОТ */
         #mouth { 
             width: 70px; height: 30px; 
             border: 4px solid rgba(20,20,20,0.8); 
-            border-top: transparent; border-left: transparent; border-right: transparent; 
-            border-radius: 0 0 40px 40px; 
             transition: all 0.3s ease; 
             margin-top: 8px; 
             transform-origin: center;
             filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2));
         }
 
-        /* РУМЯНЕЦ (более яркий) */
         .blush {
             position: absolute;
             width: 40px; height: 20px;
@@ -271,7 +261,6 @@
             filter: blur(8px);
         }
 
-        /* ИНТЕРФЕЙС */
         #in { 
             position: fixed; 
             bottom: 120px; 
@@ -288,6 +277,11 @@
             user-select: text; 
             box-shadow: 0 0 15px rgba(255,60,60,0.2);
         }
+        #in::placeholder {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         .ft { 
             position: fixed; 
             bottom: 20px; 
@@ -296,6 +290,15 @@
             width: 100%; 
             pointer-events: none; 
             text-shadow: 0 2px 8px rgba(255,50,50,0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        #cnt {
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
         #ca { 
             border: 1px solid rgba(255,100,100,0.4);
@@ -305,7 +308,7 @@
             border-radius: 40px; 
             cursor: pointer; 
             display: inline-block; 
-            margin-top: 12px; 
+            margin-top: 5px; 
             pointer-events: auto;
             transition: 0.2s;
             font-size: 0.8rem;
@@ -317,40 +320,75 @@
             box-shadow: 0 0 20px rgba(255,80,80,0.4);
         }
 
-        /* ПОРОГОВЫЕ СООБЩЕНИЯ */
+        #x-link {
+            border: 1px solid rgba(255,100,100,0.3);
+            background: rgba(10,10,20,0.4);
+            backdrop-filter: blur(8px);
+            padding: 6px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: inline-block;
+            pointer-events: auto;
+            transition: 0.2s;
+            font-size: 0.8rem;
+            color: var(--text-col);
+            text-decoration: none;
+            border: 1px solid rgba(255,100,100,0.3);
+        }
+        #x-link:hover {
+            background: rgba(255,80,80,0.3);
+            border-color: rgba(255,120,120,0.5);
+            box-shadow: 0 0 15px rgba(255,80,80,0.3);
+        }
+
         .threshold-msg {
             position: fixed;
-            bottom: 200px;
-            font-size: 1rem;
+            bottom: 180px;
+            font-size: 1.1rem;
             opacity: 0.95;
-            animation: fadeUp 2s forwards;
+            animation: fadeUp 3s forwards;
             pointer-events: none;
-            background: rgba(10,10,20,0.6);
+            background: rgba(10,10,20,0.7);
             backdrop-filter: blur(8px);
-            padding: 12px 25px;
-            border-radius: 40px;
-            border: 1px solid rgba(255,80,80,0.5);
+            padding: 15px 30px;
+            border-radius: 50px;
             left: 50%;
             transform: translateX(-50%);
-            white-space: nowrap;
-            max-width: 90%;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            max-width: 80%;
             color: #fff;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            box-shadow: 0 0 20px rgba(255,60,60,0.3);
+            text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+            white-space: normal;
+            word-wrap: break-word;
+            border: 2px solid transparent;
+            box-shadow: 0 0 30px rgba(255,215,0,0.5);
+        }
+        .special-threshold {
+            background: linear-gradient(145deg, #332a00, #4d3f00);
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            text-shadow: 0 0 15px rgba(255,215,0,0.7);
+            font-size: 1.3rem;
+            font-weight: 700;
+            box-shadow: 0 0 40px rgba(255,215,0,0.6);
+            animation: specialFadeUp 3.5s forwards;
         }
         @keyframes fadeUp {
             0% { opacity: 0; transform: translate(-50%, 10px); }
-            20% { opacity: 0.95; }
-            80% { opacity: 0.95; }
-            100% { opacity: 0; transform: translate(-50%, -40px); }
+            10% { opacity: 0.95; }
+            90% { opacity: 0.95; }
+            100% { opacity: 0; transform: translate(-50%, -50px); }
+        }
+        @keyframes specialFadeUp {
+            0% { opacity: 0; transform: translate(-50%, 10px) scale(0.95); }
+            10% { opacity: 1; transform: translate(-50%, 0) scale(1.05); }
+            20% { transform: translate(-50%, 0) scale(1); }
+            90% { opacity: 1; transform: translate(-50%, -20px) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -60px) scale(0.95); }
         }
     </style>
 </head>
 <body>
 
-    <!-- КРАСНЫЕ ЧАСТИЦЫ -->
     <script>
         for (let i = 0; i < 40; i++) {
             const particle = document.createElement('div');
@@ -364,7 +402,6 @@
         }
     </script>
 
-    <!-- ПАНЕЛЬ ЯЗЫКОВ -->
     <div class="langs">
         <div class="l-btn active" onclick="setLanguage('en')">EN</div>
         <div class="l-btn" onclick="setLanguage('ru')">RU</div>
@@ -381,7 +418,7 @@
     <div id="chat-wall"></div>
 
     <div class="main">
-        <div id="q">The void waits for you.</div>
+        <div id="q">THE VOID WAITS FOR YOU.</div>
         <button id="btn">
             <div class="eyes">
                 <div class="eye">
@@ -399,233 +436,306 @@
         </button>
     </div>
 
-    <input type="text" id="in" placeholder="whisper something..." maxlength="50" autocomplete="off">
+    <input type="text" id="in" placeholder="WHISPER SOMETHING..." maxlength="50" autocomplete="off">
 
     <div class="ft">
-        <div id="cnt">your pain: 0</div>
+        <div id="cnt">YOUR PAIN: 0</div>
         <div id="ca" onclick="copyCA()">CA: CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump</div>
+        <a href="https://x.com/ClickDontPush" target="_blank" id="x-link">X: @ClickDontPush</a>
     </div>
 
     <div id="threshold-container"></div>
 
 <script src="https://cdn.pubnub.com/pubnub-3.7.16.js"></script>
 <script>
-    // === 10 ЯЗЫКОВ: ЦИТАТЫ ===
     const quotes = {
         en: [
             "I think, therefore I am. I regret both.",
-            "The unexamined life is not worth living. The examined one is exhausting.",
-            "We are what we repeatedly do. Unfortunately.",
-            "Life is suffering. The rest is details.",
+            "The unexamined life is not worth living.",
+            "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
+            "It is not death that a man should fear, but he should fear never beginning to live.",
+            "The happiness of your life depends upon the quality of your thoughts.",
+            "I am not afraid of tomorrow, for I have seen yesterday and I do not like today.",
+            "The only true wisdom is in knowing you know nothing.",
+            "Man is condemned to be free.",
+            "Hell is other people.",
+            "One must imagine Sisyphus happy.",
+            "The struggle itself toward the heights is enough to fill a man's heart.",
             "God is dead. And I'm not feeling so good either.",
-            "When you look into the void, the void looks into you. It's tired too.",
+            "He who has a why to live for can bear almost any how.",
+            "When you look into the void, the void looks into you.",
+            "Life has no meaning. That's what makes it so absurd.",
+            "Existence precedes essence.",
+            "We suffer because we take seriously what the gods made for fun.",
+            "All happy families are alike; each unhappy family is unhappy in its own way.",
             "I am alone. I am always alone. Even in a crowd.",
+            "The soul is born old but grows young.",
+            "To live is the rarest thing in the world. Most people exist, that is all.",
+            "I can resist everything except temptation.",
+            "We are all in the gutter, but some of us are looking at the stars.",
+            "The mystery of human existence lies not in just staying alive, but in finding something to live for.",
+            "Man is a mystery. It must be unraveled.",
+            "I am terrified by this dark thing that sleeps in me.",
+            "So we beat on, boats against the current, borne back ceaselessly into the past.",
+            "Waiting for Godot. Still waiting. He never comes.",
             "I can't go on. I'll go on.",
+            "We are born astride a grave.",
+            "Every word is like an unnecessary stain on silence and nothingness.",
+            "The end is in the beginning and yet you go on.",
+            "Life is a tale told by an idiot, full of sound and fury, signifying nothing.",
+            "Tomorrow, and tomorrow, and tomorrow creeps in this petty pace from day to day.",
+            "Nothing will come of nothing.",
+            "The rest is silence.",
+            "I'm so tired. I haven't slept a wink.",
+            "I tried so hard and got so far, but in the end, it doesn't even matter.",
             "Hello darkness, my old friend.",
+            "I hurt myself today, to see if I still feel.",
             "Nothing really matters, anyone can see.",
             "I'm tired of being almost.",
             "They promised moons. They delivered graves.",
             "I don't hope anymore. It's easier.",
-            "The void is generous today. (Unfortunately.)",
-            "Click. Regret. Repeat."
+            "The void is generous today.",
+            "Click. Regret. Repeat.",
+            "The cave you fear to enter holds the treasure you seek.",
+            "The wound is the place where the Light enters you.",
+            "You were born with wings, why prefer to crawl through life?",
+            "The quieter you become, the more you are able to hear.",
+            "What you seek is seeking you.",
+            "Don't grieve. Anything you lose comes round in another form.",
+            "Let yourself be silently drawn by the strange pull of what you really love.",
+            "The only lasting beauty is the beauty of the heart.",
+            "Yesterday I was clever, so I wanted to change the world. Today I am wise, so I am changing myself.",
+            "The moon stays bright when it doesn't avoid the night.",
+            "If you are irritated by every rub, how will your mirror be polished?",
+            "Be empty of worrying. Think of who created thought.",
+            "Why do you stay in prison when the door is so wide open?",
+            "Sell your cleverness and buy bewilderment.",
+            "The art of knowing is knowing what to ignore.",
+            "It's not what happens to you, but how you react to it that matters.",
+            "No man ever steps in the same river twice, for it's not the same river and he's not the same man.",
+            "The only way to have a friend is to be one.",
+            "Quality is not an act, it is a habit.",
+            "Happiness depends upon ourselves.",
+            "It is the mark of an educated mind to be able to entertain a thought without accepting it.",
+            "The more you know, the more you realize you don't know.",
+            "Pleasure in the job puts perfection in the work.",
+            "Hope is a waking dream.",
+            "The unexamined life is not worth living.",
+            "True knowledge exists in knowing that you know nothing.",
+            "The secret of change is to focus all of your energy not on fighting the old, but on building the new.",
+            "Knowing others is intelligence; knowing yourself is true wisdom.",
+            "The journey of a thousand miles begins with one step.",
+            "When I let go of what I am, I become what I might be.",
+            "Life is a series of natural and spontaneous changes. Don't resist them; that only creates sorrow.",
+            "The obstacle is the path.",
+            "The mind is everything. What you think you become.",
+            "Peace comes from within. Do not seek it without.",
+            "Three things cannot be long hidden: the sun, the moon, and the truth.",
+            "You, yourself, as much as anybody in the entire universe, deserve your love and affection.",
+            "The way is not in the sky. The way is in the heart.",
+            "If you propose to speak, always ask yourself, is it true, is it necessary, is it kind.",
+            "Better than a thousand hollow words, is one word that brings peace.",
+            "The tongue like a sharp knife... Kills without drawing blood.",
+            "Even death is not to be feared by one who has lived wisely.",
+            "Chaos is inherent in all compounded things. Strive on with diligence.",
+            "What we think, we become.",
+            "The root of suffering is attachment.",
+            "In the end, only three things matter: how much you loved, how gently you lived, and how gracefully you let go of things not meant for you.",
+            "If you want to fly, you have to give up the things that weigh you down.",
+            "The more you know yourself, the more you forgive yourself.",
+            "Happiness is not something ready made. It comes from your own actions.",
+            "The only real failure in life is not to be true to the best one knows.",
+            "To know what you know and what you do not know, that is true knowledge.",
+            "Life is really simple, but we insist on making it complicated.",
+            "He who knows all the answers has not been asked all the questions.",
+            "The greatest wealth is to live content with little.",
+            "A man is but what he knows.",
+            "Wisdom begins in wonder.",
+            "The secret to happiness is freedom. And the secret to freedom is courage.",
+            "It does not matter how slowly you go as long as you do not stop.",
+            "Life is 10% what happens to us and 90% how we react to it.",
+            "Time is the longest distance between two places.",
+            "Lost time is never found again.",
+            "The two most powerful warriors are patience and time."
         ],
         ru: [
             "Я мыслю, следовательно, существую. Жалею об обоих.",
-            "Неисследованная жизнь не стоит того, чтобы жить. Исследованная — выматывает.",
-            "Мы есть то, что мы постоянно делаем. К сожалению.",
-            "Жизнь есть страдание. Остальное — детали.",
+            "Неисследованная жизнь не стоит того, чтобы жить.",
+            "Мы есть то, что мы постоянно делаем. Совершенство — это не поступок, а привычка.",
+            "Человеку следует бояться не смерти, а того, что он никогда не начнёт жить.",
+            "Счастье твоей жизни зависит от качества твоих мыслей.",
+            "Я не боюсь завтра, ибо я видел вчера, и мне не нравится сегодня.",
+            "Единственная истинная мудрость — в осознании, что ты ничего не знаешь.",
+            "Человек осуждён быть свободным.",
+            "Ад — это другие.",
+            "Нужно представлять Сизифа счастливым.",
+            "Сама борьба за вершины способна наполнить сердце человека.",
             "Бог мёртв. И я тоже не очень.",
-            "Когда ты смотришь в бездну, бездна смотрит в тебя. Она тоже устала.",
+            "Тот, у кого есть зачем жить, может вынести любое как.",
+            "Когда ты смотришь в бездну, бездна смотрит в тебя.",
+            "У жизни нет смысла. Именно это делает её такой абсурдной.",
+            "Существование предшествует сущности.",
+            "Мы страдаем, потому что принимаем всерьёз то, что боги создали ради забавы.",
+            "Все счастливые семьи похожи друг на друга, каждая несчастливая семья несчастлива по-своему.",
             "Я один. Я всегда один. Даже в толпе.",
+            "Душа рождается старой, но молодеет.",
+            "Жить — редчайшее явление в мире. Большинство людей просто существуют, вот и всё.",
+            "Я могу противостоять всему, кроме искушения.",
+            "Мы все в сточной канаве, но некоторые из нас смотрят на звёзды.",
+            "Тайна человеческого бытия не в том, чтобы просто оставаться в живых, а в том, чтобы найти, ради чего жить.",
+            "Человек есть тайна. Её надо разгадать.",
+            "Я в ужасе от этой тёмной вещи, что спит во мне.",
+            "И так мы и плывём, как лодки, против течения, без устали относимые назад, в прошлое.",
+            "В ожидании Годо. Всё ещё жду. Он не приходит.",
             "Я не могу продолжать. Я буду продолжать.",
+            "Мы рождаемся верхом на могиле.",
+            "Каждое слово — как ненужное пятно на тишине и пустоте.",
+            "Конец — в начале, и всё же ты продолжаешь.",
+            "Жизнь — это история, рассказанная идиотом, полная шума и ярости, но ничего не значащая.",
+            "Завтра, и завтра, и завтра крадётся мелким шагом изо дня в день.",
+            "Из ничего не выйдет ничего.",
+            "Дальше — тишина.",
+            "Я так устал. Я не сомкнул глаз.",
+            "Я так старался и зашёл так далеко, но в конце это не имеет значения.",
             "Привет, тьма, мой старый друг.",
+            "Я поранил себя сегодня, чтобы проверить, чувствую ли я ещё.",
             "Ничто не имеет значения, это видно каждому.",
             "Я устал быть почти.",
             "Они обещали луну. Они принесли могилы.",
             "Я больше не надеюсь. Так проще.",
-            "Пустота сегодня щедра. (К сожалению.)",
-            "Нажми. Пожалей. Повтори."
+            "Пустота сегодня щедра.",
+            "Нажми. Пожалей. Повтори.",
+            "Пещера, в которую ты боисься войти, хранит сокровище, которое ты ищешь.",
+            "Рана — это место, через которое в тебя входит свет.",
+            "Ты родился с крыльями, зачем ты предпочитаешь ползать по жизни?",
+            "Чем тише ты становишься, тем больше ты способен слышать.",
+            "То, что ты ищешь, ищет тебя.",
+            "Не печалься. Всё, что ты теряешь, возвращается в другой форме.",
+            "Позволь себе молча следовать за странным притяжением того, что ты действительно любишь.",
+            "Единственная непреходящая красота — это красота сердца.",
+            "Вчера я был умным, хотел изменить мир. Сегодня я мудр, и меняю себя.",
+            "Луна остаётся яркой, когда не избегает ночи.",
+            "Если ты раздражаешься от каждого прикосновения, как твоё зеркало сможет отполироваться?",
+            "Перестань волноваться. Подумай о том, кто создал мысль.",
+            "Зачем ты остаёшься в тюрьме, когда дверь так широко открыта?",
+            "Продай свою хитрость и купи изумление.",
+            "Искусство знания — это знание того, что игнорировать.",
+            "Важно не то, что с тобой происходит, а то, как ты на это реагируешь.",
+            "Нельзя войти в одну реку дважды, ибо это уже не та река и ты уже не тот.",
+            "Единственный способ иметь друга — быть им.",
+            "Качество — это не поступок, а привычка.",
+            "Счастье зависит от нас самих.",
+            "Признак образованного ума — способность размышлять о мысли, не принимая её.",
+            "Чем больше ты знаешь, тем больше понимаешь, что ничего не знаешь.",
+            "Удовольствие от работы придаёт совершенство результату.",
+            "Надежда — это сон наяву.",
+            "Секрет перемен — сосредоточить всю энергию не на борьбе со старым, а на построении нового.",
+            "Знать других — это интеллект; знать себя — это истинная мудрость.",
+            "Путь в тысячу миль начинается с одного шага.",
+            "Когда я отпускаю то, что я есть, я становлюсь тем, кем я могу быть.",
+            "Жизнь — это череда естественных и спонтанных изменений. Не сопротивляйся им.",
+            "Препятствие — это путь.",
+            "Разум — это всё. Что ты думаешь, тем ты и становишься.",
+            "Покой приходит изнутри. Не ищи его вовне.",
+            "Три вещи нельзя долго скрывать: солнце, луну и истину.",
+            "Ты сам, как никто другой во всей вселенной, заслуживаешь своей любви и привязанности.",
+            "Путь не в небе. Путь в сердце.",
+            "Если собираешься говорить, всегда спрашивай себя: правда ли это, необходимо ли это, добро ли это.",
+            "Лучше тысячи пустых слов одно слово, несущее мир.",
+            "Язык подобен острому ножу — убивает без крови.",
+            "Даже смерти не следует бояться тому, кто жил мудро.",
+            "Всё составное подвержено распаду. Усердствуйте в своём спасении.",
+            "Что мы думаем, тем мы и становимся.",
+            "Корень страданий — привязанность.",
+            "В конце концов, важны лишь три вещи: как сильно ты любил, как мягко ты жил и как gracefully ты отпустил то, что не было для тебя предназначено.",
+            "Если хочешь летать, тебе придётся отказаться от того, что тянет тебя вниз.",
+            "Чем больше ты знаешь себя, тем больше ты прощаешь себя.",
+            "Счастье — это не что-то готовое. Оно происходит от твоих собственных действий.",
+            "Единственная настоящая неудача в жизни — не быть верным лучшему, что ты знаешь.",
+            "Знать, что ты знаешь то, что ты знаешь, и знать, что ты не знаешь того, чего ты не знаешь — вот истинное знание.",
+            "Жизнь на самом деле проста, но мы настойчиво её усложняем.",
+            "Тот, кто знает все ответы, не слышал всех вопросов.",
+            "Величайшее богатство — жить довольным малым.",
+            "Человек есть лишь то, что он знает.",
+            "Мудрость начинается с удивления.",
+            "Секрет счастья — свобода. А секрет свободы — храбрость.",
+            "Неважно, как медленно ты идёшь, пока ты не останавливаешься.",
+            "Жизнь — это то, что с тобой происходит, пока ты строишь планы.",
+            "Время — это ткань, из которой сделана жизнь.",
+            "Потерянного времени никогда не вернуть.",
+            "Два самых могущественных воина — это терпение и время."
+        ]
+    };
+
+    const hundredQuotes = {
+        en: [
+            "✨ 100 CLICKS. 100 MOMENTS. ALL GONE. WAS IT WORTH IT? ✨",
+            "✨ TIME IS THE ONLY CURRENCY THAT CAN'T BE MINED. YOU JUST SPENT 100 UNITS. ✨",
+            "✨ YOU HAVE CLICKED 100 TIMES. THE BUTTON REMEMBERS. DO YOU? ✨",
+            "✨ EVERY CLICK IS A SECOND OF YOUR LIFE. YOU WON'T GET THEM BACK. ✨",
+            "✨ WHAT IF EACH CLICK WAS A DAY? YOU'D BE 100 DAYS OLDER NOW. FEEL ANY WISER? ✨",
+            "✨ THE BUTTON DOESN'T CARE. BUT MAYBE YOU SHOULD. ✨",
+            "✨ 100 CLICKS DEEPER INTO THE VOID. HOW FAR WILL YOU GO? ✨",
+            "✨ YOU CAME HERE FOR MEANING. YOU FOUND A BUTTON. AND 100 CLICKS. ✨",
+            "✨ IMAGINE IF YOU'D SPENT THOSE 100 CLICKS ON SOMETHING REAL. ✨",
+            "✨ THE AVERAGE HUMAN LIFETIME IS 2.5 BILLION CLICKS. YOU'RE JUST GETTING STARTED. ✨"
         ],
-        zh: [
-            "我思故我在。两者都后悔。",
-            "未经审视的人生不值得过。审视后的人生令人疲惫。",
-            "我们就是我们反复做的事。不幸的是。",
-            "人生是苦难。其余是细节。",
-            "上帝已死。我也不太好。",
-            "当你凝视深渊，深渊也凝视你。它也累了。",
-            "我孤独。我总是孤独。即使在人群中。",
-            "我无法继续。我会继续。",
-            "你好，黑暗，我的老朋友。",
-            "一切皆无意义，谁都能看见。",
-            "我厌倦了几乎要成为。",
-            "他们承诺月亮。他们带来了坟墓。",
-            "我不再希望。这样更简单。",
-            "虚空今天很慷慨。（不幸的是。）",
-            "点击。后悔。重复。"
-        ],
-        ja: [
-            "我思う、故に我あり。両方を後悔している。",
-            "吟味されない人生は生きる価値がない。吟味された人生は疲れる。",
-            "私たちは繰り返し行うことである。残念ながら。",
-            "人生は苦しみである。残りは細部だ。",
-            "神は死んだ。私もあまり調子が良くない。",
-            "虚空を覗き込むと、虚空もあなたを覗き込む。それも疲れている。",
-            "私は孤独だ。いつも孤独だ。群衆の中でも。",
-            "もう続けられない。続けるつもりだ。",
-            "こんにちは、暗闇よ、古い友よ。",
-            "何も重要ではない、誰の目にも明らかだ。",
-            "もう希望は持たない。その方が楽だ。",
-            "虚空は今日は寛大だ。（残念ながら。）",
-            "クリック。後悔。繰り返す。"
-        ],
-        ko: [
-            "나는 생각한다, 고로 존재한다. 둘 다 후회한다.",
-            "검토되지 않은 삶은 살 가치가 없다. 검토된 삶은 지치게 한다.",
-            "우리는 반복적으로 행하는 것들이다. 불행히도.",
-            "인생은 고통이다. 나머지는 세부사항일 뿐.",
-            "신은 죽었다. 나도 별로 좋지 않다.",
-            "당신이 공허를 응시할 때, 공허도 당신을 응시한다. 그것도 지쳤다.",
-            "나는 혼자다. 항상 혼자다. 군중 속에서도.",
-            "계속할 수 없다. 계속하겠다.",
-            "안녕, 어둠이여, 나의 오랜 친구여.",
-            "아무것도 중요하지 않다, 누구나 알 수 있다.",
-            "더 이상 희망하지 않는다. 그것이 더 쉽다.",
-            "오늘 공허는 관대하다. (불행히도.)",
-            "클릭. 후회. 반복."
-        ],
-        es: [
-            "Pienso, luego existo. Me arrepiento de ambas.",
-            "La vida no examinada no merece ser vivida. La examinada es agotadora.",
-            "Somos lo que hacemos repetidamente. Desafortunadamente.",
-            "La vida es sufrimiento. El resto son detalles.",
-            "Dios ha muerto. Y yo tampoco me siento muy bien.",
-            "Cuando miras al abismo, el abismo te mira a ti. También está cansado.",
-            "Estoy solo. Siempre estoy solo. Incluso entre la multitud.",
-            "No puedo seguir. Seguiré.",
-            "Hola, oscuridad, mi vieja amiga.",
-            "Nada importa realmente, cualquiera puede verlo.",
-            "Ya no tengo esperanza. Es más fácil.",
-            "Prometieron lunas. Entregaron tumbas.",
-            "El vacío es generoso hoy. (Desafortunadamente.)",
-            "Haz clic. Arrepiéntete. Repite."
-        ],
-        pt: [
-            "Penso, logo existo. Arrependo-me de ambos.",
-            "A vida não examinada não vale a pena ser vivida. A examinada é exaustiva.",
-            "Somos o que fazemos repetidamente. Infelizmente.",
-            "A vida é sofrimento. O resto são detalhes.",
-            "Deus está morto. E eu também não estou me sentindo muito bem.",
-            "Quando você olha para o abismo, o abismo olha para você. Também está cansado.",
-            "Estou sozinho. Estou sempre sozinho. Mesmo na multidão.",
-            "Não posso continuar. Vou continuar.",
-            "Olá, escuridão, minha velha amiga.",
-            "Nada realmente importa, qualquer um pode ver.",
-            "Não tenho mais esperança. É mais fácil.",
-            "Prometeram luas. Entregaram túmulos.",
-            "O vazio é generoso hoje. (Infelizmente.)",
-            "Clique. Arrependa-se. Repita."
-        ],
-        tr: [
-            "Düşünüyorum, öyleyse varım. İkisinden de pişmanım.",
-            "Sorgulanmamış hayat yaşamaya değmez. Sorgulanmış olan yorucudur.",
-            "Tekrar tekrar yaptığımız şeyiz. Ne yazık ki.",
-            "Hayat acı çekmektir. Gerisi detay.",
-            "Tanrı öldü. Ben de pek iyi hissetmiyorum.",
-            "Boşluğa baktığında, boşluk da sana bakar. O da yorgun.",
-            "Yalnızım. Her zaman yalnızım. Kalabalıkta bile.",
-            "Devam edemiyorum. Devam edeceğim.",
-            "Merhaba karanlık, eski dostum.",
-            "Hiçbir şey gerçekten önemli değil, herkes görebilir.",
-            "Artık umudum yok. Bu daha kolay.",
-            "Söz verdikleri ay. Teslim ettikleri mezarlar.",
-            "Boşluk bugün cömert. (Ne yazık ki.)",
-            "Tıkla. Pişman ol. Tekrarla."
-        ],
-        vi: [
-            "Tôi tư duy, vậy tôi tồn tại. Tôi hối tiếc cả hai.",
-            "Cuộc sống không được xem xét thì không đáng sống. Cuộc sống được xem xét thì mệt mỏi.",
-            "Chúng ta là những gì chúng ta lặp đi lặp lại. Thật không may.",
-            "Cuộc sống là đau khổ. Phần còn lại là chi tiết.",
-            "Chúa đã chết. Và tôi cũng không cảm thấy tốt.",
-            "Khi bạn nhìn vào vực thẳm, vực thẳm cũng nhìn lại bạn. Nó cũng mệt mỏi.",
-            "Tôi cô đơn. Tôi luôn cô đơn. Ngay cả trong đám đông.",
-            "Tôi không thể tiếp tục. Tôi sẽ tiếp tục.",
-            "Xin chào bóng tối, người bạn cũ của tôi.",
-            "Không có gì thực sự quan trọng, ai cũng thấy.",
-            "Tôi không hy vọng nữa. Dễ hơn.",
-            "Họ hứa mặt trăng. Họ mang đến nấm mồ.",
-            "Hư vô hôm nay hào phóng. (Thật không may.)",
-            "Nhấp. Hối tiếc. Lặp lại."
-        ],
-        de: [
-            "Ich denke, also bin ich. Ich bereue beides.",
-            "Das ungeprüfte Leben ist nicht lebenswert. Das geprüfte ist anstrengend.",
-            "Wir sind, was wir wiederholt tun. Unglücklicherweise.",
-            "Leben ist Leiden. Der Rest sind Details.",
-            "Gott ist tot. Und mir geht es auch nicht gut.",
-            "Wenn du in den Abgrund blickst, blickt der Abgrund auch in dich. Er ist auch müde.",
-            "Ich bin allein. Ich bin immer allein. Sogar in der Menge.",
-            "Ich kann nicht weitermachen. Ich werde weitermachen.",
-            "Hallo Dunkelheit, mein alter Freund.",
-            "Nichts ist wirklich wichtig, das kann jeder sehen.",
-            "Ich hoffe nicht mehr. Es ist einfacher.",
-            "Sie versprachen Monde. Sie lieferten Gräber.",
-            "Die Leere ist heute großzügig. (Unglücklicherweise.)",
-            "Klicken. Bereuen. Wiederholen."
+        ru: [
+            "✨ 100 НАЖАТИЙ. 100 МГНОВЕНИЙ. ВСЕ ПРОШЛИ. ОНО ТОГО СТОИЛО? ✨",
+            "✨ ВРЕМЯ — ЕДИНСТВЕННАЯ ВАЛЮТА, КОТОРУЮ НЕЛЬЗЯ НАМАЙНИТЬ. ТЫ ТОЛЬКО ЧТО ПОТРАТИЛ 100 ЕДИНИЦ. ✨",
+            "✨ ТЫ НАЖАЛ 100 РАЗ. КНОПКА ПОМНИТ. А ТЫ? ✨",
+            "✨ КАЖДОЕ НАЖАТИЕ — СЕКУНДА ТВОЕЙ ЖИЗНИ. ТЫ ИХ НЕ ВЕРНЁШЬ. ✨",
+            "✨ А ЧТО, ЕСЛИ КАЖДЫЙ КЛИК — ЭТО ДЕНЬ? ТЫ БЫ СТАЛ НА 100 ДНЕЙ СТАРШЕ. ПОЧУВСТВОВАЛ МУДРОСТЬ? ✨",
+            "✨ КНОПКЕ ВСЁ РАВНО. А ТЕБЕ НЕ ДОЛЖНО БЫТЬ. ✨",
+            "✨ 100 НАЖАТИЙ В ГЛУБИНУ ПУСТОТЫ. КАК ДАЛЕКО ТЫ ЗАЙДЁШЬ? ✨",
+            "✨ ТЫ ПРИШЁЛ СЮДА ЗА СМЫСЛОМ. А НАШЁЛ КНОПКУ И 100 НАЖАТИЙ. ✨",
+            "✨ ПРЕДСТАВЬ, ЕСЛИ БЫ ТЫ ПОТРАТИЛ ЭТИ 100 КЛИКОВ НА ЧТО-ТО НАСТОЯЩЕЕ. ✨",
+            "✨ СРЕДНЯЯ ЖИЗНЬ ЧЕЛОВЕКА — 2.5 МИЛЛИАРДА КЛИКОВ. ТЫ ТОЛЬКО НАЧИНАЕШЬ. ✨"
         ]
     };
 
     const interfaceText = {
-        en: { counterPrefix: "your pain: ", inputPlaceholder: "whisper something..." },
-        ru: { counterPrefix: "твоя боль: ", inputPlaceholder: "прошепчи что-нибудь..." },
+        en: { counterPrefix: "YOUR PAIN: ", inputPlaceholder: "WHISPER SOMETHING..." },
+        ru: { counterPrefix: "ТВОЯ БОЛЬ: ", inputPlaceholder: "ПРОШЕПЧИ ЧТО-НИБУДЬ..." },
         zh: { counterPrefix: "你的痛苦: ", inputPlaceholder: "低语..." },
         ja: { counterPrefix: "あなたの痛み: ", inputPlaceholder: "ささやく..." },
         ko: { counterPrefix: "너의 고통: ", inputPlaceholder: "속삭임..." },
-        es: { counterPrefix: "tu dolor: ", inputPlaceholder: "susurra algo..." },
-        pt: { counterPrefix: "sua dor: ", inputPlaceholder: "sussurre algo..." },
-        tr: { counterPrefix: "acın: ", inputPlaceholder: "fısılda..." },
-        vi: { counterPrefix: "nỗi đau của bạn: ", inputPlaceholder: "thì thầm..." },
-        de: { counterPrefix: "dein Schmerz: ", inputplaceholder: "flüstern..." }
+        es: { counterPrefix: "TU DOLOR: ", inputPlaceholder: "SUSURRA ALGO..." },
+        pt: { counterPrefix: "SUA DOR: ", inputPlaceholder: "SUSSURRE ALGO..." },
+        tr: { counterPrefix: "ACIN: ", inputPlaceholder: "FISILDA..." },
+        vi: { counterPrefix: "NỖI ĐAU CỦA BẠN: ", inputPlaceholder: "THÌ THẦM..." },
+        de: { counterPrefix: "DEIN SCHMERZ: ", inputPlaceholder: "FLÜSTERN..." }
     };
-
-    const thresholdMessages = [
-        { threshold: 50, en: "The void notices you.", ru: "Бездна замечает тебя." },
-        { threshold: 100, en: "You are becoming part of the void.", ru: "Ты становишься частью пустоты." },
-        { threshold: 250, en: "The button feels your pain.", ru: "Кнопка чувствует твою боль." },
-        { threshold: 500, en: "You have been consumed by the void.", ru: "Ты поглощён пустотой." },
-        { threshold: 750, en: "There is no turning back.", ru: "Обратного пути нет." },
-        { threshold: 1000, en: "You are the void now.", ru: "Теперь ты — пустота." }
-    ];
 
     const CA_VAL = "CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump";
     let clickCount = parseInt(localStorage.getItem('v_c_final')) || 0;
     let currentLang = 'en';
     let audioCtx;
-    let lastThresholdShown = 0;
-    let expressionTimer;
-    let currentExpression = 'sad';
+    let lastHundredThreshold = 0;
 
     document.getElementById('cnt').innerText = interfaceText[currentLang].counterPrefix + clickCount;
     document.getElementById('in').placeholder = interfaceText[currentLang].inputPlaceholder;
 
-    function checkThreshold() {
-        for (let i = 0; i < thresholdMessages.length; i++) {
-            const msg = thresholdMessages[i];
-            if (clickCount >= msg.threshold && msg.threshold > lastThresholdShown) {
-                showThresholdMessage(msg[currentLang] || msg.en);
-                lastThresholdShown = msg.threshold;
-                break;
-            }
+    function showHundredQuote() {
+        const hundredThreshold = Math.floor(clickCount / 100) * 100;
+        if (hundredThreshold > 0 && hundredThreshold > lastHundredThreshold) {
+            lastHundredThreshold = hundredThreshold;
+            const quotesArray = hundredQuotes[currentLang] || hundredQuotes.en;
+            const randomIndex = Math.floor(Math.random() * quotesArray.length);
+            showThresholdMessage(quotesArray[randomIndex], true);
         }
     }
 
-    function showThresholdMessage(text) {
+    function showThresholdMessage(text, isSpecial = false) {
         const container = document.getElementById('threshold-container');
         const msg = document.createElement('div');
         msg.className = 'threshold-msg';
+        if (isSpecial) {
+            msg.classList.add('special-threshold');
+        }
         msg.innerText = text;
         container.appendChild(msg);
-        setTimeout(() => msg.remove(), 2000);
+        setTimeout(() => msg.remove(), 3500);
     }
 
     let pubnub;
@@ -636,11 +746,11 @@
             uuid: 'v' + Math.random().toString(36).substring(7) 
         });
         pubnub.subscribe({
-            channel: 'void_temple_v4',
+            channel: 'void_temple_v6',
             message: (msg) => {
                 const div = document.createElement('div'); 
                 div.className = 'm'; 
-                div.innerText = msg;
+                div.innerText = msg.toUpperCase();
                 document.getElementById('chat-wall').appendChild(div); 
                 setTimeout(() => div.remove(), 6000);
             }
@@ -650,7 +760,7 @@
     document.getElementById('in').addEventListener('keypress', function (e) {
         if (e.key === 'Enter' && this.value.trim() !== '') {
             if (pubnub) {
-                pubnub.publish({ channel: 'void_temple_v4', message: this.value });
+                pubnub.publish({ channel: 'void_temple_v6', message: this.value.toUpperCase() });
             }
             this.value = '';
         }
@@ -682,34 +792,55 @@
             case 'happy':
                 mouth.style.borderRadius = '30px 30px 0 0';
                 mouth.style.transform = 'rotate(180deg)';
+                mouth.style.border = '4px solid rgba(20,20,20,0.8)';
                 break;
             case 'sad':
                 mouth.style.borderRadius = '0 0 40px 40px';
                 mouth.style.transform = 'rotate(0deg)';
+                mouth.style.border = '4px solid rgba(20,20,20,0.8)';
+                mouth.style.backgroundColor = 'transparent';
                 break;
             case 'surprised':
                 mouth.style.borderRadius = '50%';
                 mouth.style.width = '30px';
                 mouth.style.height = '30px';
+                mouth.style.transform = 'rotate(0deg)';
                 mouth.style.border = '4px solid rgba(20,20,20,0.8)';
+                mouth.style.backgroundColor = 'transparent';
                 break;
             case 'annoyed':
                 mouth.style.borderRadius = '0';
                 mouth.style.width = '50px';
                 mouth.style.height = '4px';
+                mouth.style.transform = 'rotate(0deg)';
                 mouth.style.border = 'none';
                 mouth.style.backgroundColor = 'rgba(20,20,20,0.8)';
+                break;
+            case 'skeptical':
+                mouth.style.borderRadius = '0';
+                mouth.style.width = '50px';
+                mouth.style.height = '4px';
+                mouth.style.transform = 'rotate(-5deg)';
+                mouth.style.border = 'none';
+                mouth.style.backgroundColor = 'rgba(20,20,20,0.8)';
+                break;
+            case 'smile':
+                mouth.style.borderRadius = '0 0 20px 20px';
+                mouth.style.width = '50px';
+                mouth.style.height = '15px';
+                mouth.style.transform = 'rotate(0deg)';
+                mouth.style.border = '4px solid rgba(20,20,20,0.8)';
+                mouth.style.backgroundColor = 'transparent';
                 break;
         }
         currentExpression = expr;
     }
 
     function randomExpression() {
-        const exprs = ['sad', 'happy', 'surprised', 'annoyed'];
+        const exprs = ['sad', 'happy', 'surprised', 'annoyed', 'skeptical', 'smile'];
         const random = exprs[Math.floor(Math.random() * exprs.length)];
         setExpression(random);
-        clearTimeout(expressionTimer);
-        expressionTimer = setTimeout(() => setExpression('sad'), 2000);
+        setTimeout(() => setExpression('sad'), 2000);
     }
 
     function updateVisuals() {
@@ -726,7 +857,7 @@
     function updateQuote() {
         const langQuotes = quotes[currentLang] || quotes.en;
         const randomIndex = Math.floor(Math.random() * langQuotes.length);
-        document.getElementById('q').innerText = langQuotes[randomIndex];
+        document.getElementById('q').innerText = langQuotes[randomIndex].toUpperCase();
     }
 
     function blink() {
@@ -752,7 +883,7 @@
         randomExpression();
         updateQuote();
         updateVisuals();
-        checkThreshold();
+        showHundredQuote();
     };
 
     button.ontouchstart = button.onmousedown;
@@ -763,10 +894,9 @@
             const rect = pupil.getBoundingClientRect();
             const dx = e.clientX - (rect.left + rect.width/2);
             const dy = e.clientY - (rect.top + rect.height/2);
-            const angle = Math.atan2(dy, dx);
             const distance = Math.min(10, Math.sqrt(dx*dx + dy*dy) / 20);
-            const x = Math.cos(angle) * distance;
-            const y = Math.sin(angle) * distance;
+            const x = Math.cos(Math.atan2(dy, dx)) * distance;
+            const y = Math.sin(Math.atan2(dy, dx)) * distance;
             pupil.style.transform = `translate(${x}px, ${y}px)`;
         });
     });
@@ -795,7 +925,6 @@
     window.onload = () => {
         updateVisuals();
         updateQuote();
-        checkThreshold();
         setExpression('sad');
     };
 </script>
