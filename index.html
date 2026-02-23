@@ -2370,12 +2370,18 @@
         let lastHundredThreshold = 0;
         let currentSpecialQuote = null;
         
-        // Collective regret (unique visitors)
+              // === COLLECTIVE REGRET (UNIQUE VISITORS) ===
         let totalVisitors = parseInt(localStorage.getItem('total_collective_regret')) || 0;
-        if (!localStorage.getItem('visitor_has_been_counted')) {
+        
+        // Generate unique ID for this user (if not exists)
+        let userId = localStorage.getItem('user_unique_id');
+        if (!userId) {
+            userId = 'user_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+            localStorage.setItem('user_unique_id', userId);
+            
+            // New visitor — increase counter
             totalVisitors++;
             localStorage.setItem('total_collective_regret', totalVisitors);
-            localStorage.setItem('visitor_has_been_counted', 'true');
         }
 
         document.getElementById('cnt').innerText = interfaceText[currentLang].counterPrefix + clickCount;
@@ -2606,6 +2612,7 @@
     </script>
 </body>
 </html>
+
 
 
 
