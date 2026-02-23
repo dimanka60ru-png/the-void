@@ -198,30 +198,6 @@
             }
         }
 
-        .eyebrows {
-            display: flex;
-            gap: 35px;
-            margin-bottom: 5px;
-            position: relative;
-            z-index: 3;
-            pointer-events: none;
-            width: 100%;
-            justify-content: center;
-        }
-        .eyebrow {
-            width: 45px;
-            height: 8px;
-            background: rgba(20,20,20,0.9);
-            border-radius: 10px;
-            transform-origin: center;
-        }
-        .eyebrow.left {
-            transform: rotate(-5deg) translateY(-5px);
-        }
-        .eyebrow.right {
-            transform: rotate(5deg) translateY(-5px);
-        }
-
         .eyes { 
             display: flex; 
             gap: 35px; 
@@ -274,21 +250,22 @@
             width: 70px;
             height: 30px;
             transition: all 0.3s ease;
-            margin-top: 10px;
             transform-origin: center;
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
         }
         
         #mouth.sad {
-            width: 60px;
-            height: 25px;
-            border-bottom: 6px solid rgba(20,20,20,0.9);
+            width: 55px;
+            height: 28px;
+            border-bottom: 8px solid rgba(20,20,20,0.9);
             border-left: transparent;
             border-right: transparent;
             border-top: transparent;
-            border-radius: 0 0 40px 40px;
+            border-radius: 0 0 60px 60px;
             transform: rotate(0deg) scale(1);
-            margin-top: 15px;
+            margin-top: 18px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         #mouth.happy {
@@ -310,7 +287,7 @@
             border-radius: 50%;
             margin-left: auto;
             margin-right: auto;
-            margin-top: 10px;
+            margin-top: 15px;
         }
         
         #mouth.annoyed {
@@ -320,7 +297,9 @@
             border: none;
             border-radius: 2px;
             transform: rotate(-2deg);
-            margin-top: 20px;
+            margin-top: 25px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         #mouth.neutral {
@@ -330,7 +309,9 @@
             border: none;
             border-radius: 2px;
             transform: rotate(0deg);
-            margin-top: 20px;
+            margin-top: 25px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         #mouth.smirk {
@@ -340,20 +321,24 @@
             border: none;
             border-radius: 2px;
             transform: rotate(5deg) translateY(-5px);
-            margin-top: 20px;
+            margin-top: 25px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         #mouth.crying {
             width: 50px;
             height: 20px;
-            border-bottom: 6px solid rgba(20,20,20,0.9);
+            border-bottom: 8px solid rgba(20,20,20,0.9);
             border-left: transparent;
             border-right: transparent;
             border-top: transparent;
-            border-radius: 0 0 30px 30px;
+            border-radius: 0 0 40px 40px;
             transform: rotate(0deg);
             position: relative;
-            margin-top: 15px;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
         }
         #mouth.crying::before,
         #mouth.crying::after {
@@ -544,7 +529,7 @@
 <body>
 
     <div class="sound-control" id="soundToggle" onclick="toggleSound()">
-        <span>🌬️</span> <span id="soundText">Wind on</span>
+        <span>🌬️</span> <span id="windText">Wind on</span>
     </div>
 
     <script>
@@ -576,10 +561,6 @@
     <div class="main">
         <div id="q">The void waits for you.</div>
         <button id="btn">
-            <div class="eyebrows">
-                <div class="eyebrow left"></div>
-                <div class="eyebrow right"></div>
-            </div>
             <div class="eyes">
                 <div class="eye">
                     <div class="lid"></div>
@@ -859,43 +840,63 @@
     const interfaceText = {
         en: { 
             counterPrefix: "My regrets: ", 
-            totalPrefix: "Collective regret: "
+            totalPrefix: "Collective regret: ",
+            windOn: "Wind on",
+            windOff: "Wind off"
         },
         ru: { 
             counterPrefix: "Мои сожаления: ", 
-            totalPrefix: "Коллективное сожаление: "
+            totalPrefix: "Коллективное сожаление: ",
+            windOn: "Ветер вкл",
+            windOff: "Ветер выкл"
         },
         zh: { 
             counterPrefix: "我的遗憾: ", 
-            totalPrefix: "集体遗憾: "
+            totalPrefix: "集体遗憾: ",
+            windOn: "风开",
+            windOff: "风关"
         },
         ja: { 
             counterPrefix: "私の後悔: ", 
-            totalPrefix: "集合的後悔: "
+            totalPrefix: "集合的後悔: ",
+            windOn: "風オン",
+            windOff: "風オフ"
         },
         ko: { 
             counterPrefix: "나의 후회: ", 
-            totalPrefix: "집단적 후회: "
+            totalPrefix: "집단적 후회: ",
+            windOn: "바람 켜짐",
+            windOff: "바람 꺼짐"
         },
         es: { 
             counterPrefix: "Mis arrepentimientos: ", 
-            totalPrefix: "Arrepentimiento colectivo: "
+            totalPrefix: "Arrepentimiento colectivo: ",
+            windOn: "Viento on",
+            windOff: "Viento off"
         },
         pt: { 
             counterPrefix: "Meus arrependimentos: ", 
-            totalPrefix: "Arrependimento coletivo: "
+            totalPrefix: "Arrependimento coletivo: ",
+            windOn: "Vento on",
+            windOff: "Vento off"
         },
         tr: { 
             counterPrefix: "Pişmanlıklarım: ", 
-            totalPrefix: "Toplumsal pişmanlık: "
+            totalPrefix: "Toplumsal pişmanlık: ",
+            windOn: "Rüzgar açık",
+            windOff: "Rüzgar kapalı"
         },
         vi: { 
             counterPrefix: "Hối tiếc của tôi: ", 
-            totalPrefix: "Hối tiếc tập thể: "
+            totalPrefix: "Hối tiếc tập thể: ",
+            windOn: "Gió bật",
+            windOff: "Gió tắt"
         },
         de: { 
             counterPrefix: "Meine Reue: ", 
-            totalPrefix: "Kollektive Reue: "
+            totalPrefix: "Kollektive Reue: ",
+            windOn: "Wind an",
+            windOff: "Wind aus"
         }
     };
 
@@ -906,9 +907,8 @@
     let lastHundredThreshold = 0;
     let currentSpecialQuote = null;
     let soundEnabled = true;
-    let windGain;
+    let windAudio;
     let totalClicks = 0;
-    let pubnub;
 
     document.getElementById('cnt').innerText = interfaceText[currentLang].counterPrefix + clickCount;
 
@@ -938,111 +938,53 @@
     }
 
     function initAudio() {
-        if (!audioCtx) {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (!windAudio) {
+            // Создаём аудио-элемент с завывающим ветром
+            windAudio = new Audio();
+            windAudio.src = 'https://cdn.freesound.org/previews/130/130465_110426-lq.mp3';
+            windAudio.loop = true;
+            windAudio.volume = 0.15;
             
-            // === ЗАВЫВАЮЩИЙ ВЕТЕР ===
-            const windOsc = audioCtx.createOscillator();
-            windGain = audioCtx.createGain();
-            windOsc.type = 'sawtooth'; // Пилообразный звук для завываний
+            // Устанавливаем начальный текст кнопки
+            document.getElementById('windText').innerText = interfaceText[currentLang].windOn;
             
-            // Начальная частота
-            windOsc.frequency.setValueAtTime(70, audioCtx.currentTime);
-            
-            // Функция для создания завываний
-            function createHowl() {
-                if (!soundEnabled || !audioCtx) return;
-                
-                const now = audioCtx.currentTime;
-                
-                // Плавные колебания частоты от 40 до 110 Гц
-                windOsc.frequency.linearRampToValueAtTime(40 + Math.random() * 70, now + 2);
-                
-                // Случайные паузы между завываниями
-                setTimeout(() => {
-                    if (!soundEnabled || !audioCtx) return;
-                    const nextNow = audioCtx.currentTime;
-                    windOsc.frequency.linearRampToValueAtTime(60 + Math.random() * 50, nextNow + 1.5);
-                }, 2000 + Math.random() * 1000);
-                
-                // Изменение громкости вместе с высотой
-                windGain.gain.linearRampToValueAtTime(0.015 + Math.random() * 0.01, now + 1);
-                windGain.gain.linearRampToValueAtTime(0.01 + Math.random() * 0.005, now + 3);
-                
-                // Продолжаем цикл
-                setTimeout(createHowl, 4000 + Math.random() * 2000);
-            }
-            
-            // Запускаем завывания
-            setTimeout(createHowl, 1000);
-            
-            // Фоновый гул (тихий, постоянный)
-            const backgroundOsc = audioCtx.createOscillator();
-            const bgGain = audioCtx.createGain();
-            backgroundOsc.type = 'sine';
-            backgroundOsc.frequency.setValueAtTime(30, audioCtx.currentTime);
-            bgGain.gain.setValueAtTime(0.005, audioCtx.currentTime);
-            
-            // Фильтр для мягкости
-            const windFilter = audioCtx.createBiquadFilter();
-            windFilter.type = 'lowpass';
-            windFilter.frequency.setValueAtTime(300, audioCtx.currentTime);
-            
-            // Соединяем всё
-            windOsc.connect(windGain);
-            backgroundOsc.connect(bgGain);
-            windGain.connect(windFilter);
-            bgGain.connect(windFilter);
-            windFilter.connect(audioCtx.destination);
-            
-            windOsc.start();
-            backgroundOsc.start();
-        }
-        
-        if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
+            // Пытаемся воспроизвести (сработает после клика)
+            document.addEventListener('click', function initOnClick() {
+                if (soundEnabled) {
+                    windAudio.play().catch(e => console.log('Playback failed:', e));
+                }
+                document.removeEventListener('click', initOnClick);
+            }, { once: true });
         }
     }
 
     function toggleSound() {
         soundEnabled = !soundEnabled;
-        const soundText = document.getElementById('soundText');
+        const windText = document.getElementById('windText');
         const soundIcon = document.querySelector('#soundToggle span:first-child');
         
         if (soundEnabled) {
-            soundText.innerText = 'Wind on';
+            windText.innerText = interfaceText[currentLang].windOn;
             soundIcon.innerText = '🌬️';
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            if (windGain) {
-                windGain.gain.setValueAtTime(0.015, audioCtx.currentTime);
+            if (windAudio) {
+                windAudio.play().catch(e => console.log('Playback failed:', e));
+                windAudio.volume = 0.15;
             }
         } else {
-            soundText.innerText = 'Wind off';
+            windText.innerText = interfaceText[currentLang].windOff;
             soundIcon.innerText = '💨';
-            if (windGain) {
-                windGain.gain.setValueAtTime(0, audioCtx.currentTime);
-            }
-            if (audioCtx) {
-                audioCtx.suspend();
+            if (windAudio) {
+                windAudio.pause();
             }
         }
     }
 
     function playClick() {
-        if (!audioCtx) return;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(900, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.1);
-        gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.15);
+        if (!windAudio) return;
+        const clickSound = new Audio();
+        clickSound.src = 'data:audio/wav;base64,UklGRlwAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YVAAAAA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==';
+        clickSound.volume = 0.3;
+        clickSound.play().catch(e => console.log('Click sound failed:', e));
     }
 
     function createRipple(x, y) {
@@ -1061,49 +1003,30 @@
         const mouth = document.getElementById('mouth');
         mouth.className = '';
         
-        const leftEyebrow = document.querySelector('.eyebrow.left');
-        const rightEyebrow = document.querySelector('.eyebrow.right');
-        
         switch(expr) {
             case 'happy':
                 mouth.classList.add('happy');
-                leftEyebrow.style.transform = 'rotate(10deg) translateY(-8px)';
-                rightEyebrow.style.transform = 'rotate(-10deg) translateY(-8px)';
                 break;
             case 'sad':
                 mouth.classList.add('sad');
-                leftEyebrow.style.transform = 'rotate(-5deg) translateY(-5px)';
-                rightEyebrow.style.transform = 'rotate(5deg) translateY(-5px)';
                 break;
             case 'surprised':
                 mouth.classList.add('surprised');
-                leftEyebrow.style.transform = 'rotate(0deg) translateY(-10px)';
-                rightEyebrow.style.transform = 'rotate(0deg) translateY(-10px)';
                 break;
             case 'annoyed':
                 mouth.classList.add('annoyed');
-                leftEyebrow.style.transform = 'rotate(-15deg) translateY(-2px)';
-                rightEyebrow.style.transform = 'rotate(15deg) translateY(-2px)';
                 break;
             case 'neutral':
                 mouth.classList.add('neutral');
-                leftEyebrow.style.transform = 'rotate(0deg) translateY(-5px)';
-                rightEyebrow.style.transform = 'rotate(0deg) translateY(-5px)';
                 break;
             case 'smirk':
                 mouth.classList.add('smirk');
-                leftEyebrow.style.transform = 'rotate(10deg) translateY(-8px)';
-                rightEyebrow.style.transform = 'rotate(10deg) translateY(-8px)';
                 break;
             case 'crying':
                 mouth.classList.add('crying');
-                leftEyebrow.style.transform = 'rotate(10deg) translateY(-3px)';
-                rightEyebrow.style.transform = 'rotate(10deg) translateY(-3px)';
                 break;
             default:
                 mouth.classList.add('sad');
-                leftEyebrow.style.transform = 'rotate(-5deg) translateY(-5px)';
-                rightEyebrow.style.transform = 'rotate(5deg) translateY(-5px)';
         }
     }
 
@@ -1217,6 +1140,14 @@
         
         const totalContainer = document.getElementById('total-cnt-container');
         totalContainer.innerHTML = interfaceText[lang].totalPrefix + '<span id="total-cnt">' + totalClicks + '</span>';
+        
+        // Обновляем текст кнопки ветра
+        const windText = document.getElementById('windText');
+        if (soundEnabled) {
+            windText.innerText = interfaceText[lang].windOn;
+        } else {
+            windText.innerText = interfaceText[lang].windOff;
+        }
         
         updateQuote();
     }
