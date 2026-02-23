@@ -260,11 +260,22 @@
         }
 
         #mouth {
+        .mouth {
             width: 70px;
             height: 30px;
-            transition: all 0.3s ease;
-            transform-origin: center;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+            background: transparent;
+            position: relative;
+        }
+        .mouth::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-bottom: 8px solid black;
+            border-radius: 0 0 60px 60px;
+            top: 0;
+            left: 0;
+    
         }
         
         #mouth.sad {
@@ -1329,3 +1340,4 @@
 </script>
 </body>
 </html>
+
