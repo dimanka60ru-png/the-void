@@ -7,174 +7,193 @@
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { 
-            --bg-hue: 255; /* Белый */
-            --text-color: #1a1a1a;
+            --bg-val: 255; 
+            --text-col: #1a1a1a;
             --accent: #ff3b30;
-            --eye-state: -100%;
-            --sadness: 0deg;
-            --grayscale: 0%;
+            --lid-pos: -100%;
+            --mouth-curve: 0px; /* Изгиб рта */
+            --grain-op: 0.04;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
         body { 
-            background-color: rgb(var(--bg-hue), var(--bg-hue), var(--bg-hue));
-            color: var(--text-color);
+            background-color: rgb(var(--bg-val), var(--bg-val), var(--bg-val));
+            color: var(--text-col);
             font-family: 'Inter', sans-serif;
             height: 100vh; display: flex; flex-direction: column; 
             justify-content: center; align-items: center; 
-            transition: background 0.8s ease, color 0.8s ease; /* Очень плавная смена */
+            transition: background 0.5s linear, color 1s ease;
             overflow: hidden; text-align: center;
-            filter: grayscale(var(--grayscale));
         }
 
+        /* Эффект зернистости */
         body::after { 
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: url(https://upload.wikimedia.org);
-            opacity: 0.05; pointer-events: none; 
+            opacity: var(--grain-op); pointer-events: none; z-index: 100;
         }
 
-        /* КНОПКА С ОБЪЕМОМ */
+        /* ОГРОМНАЯ ОБЪЕМНАЯ КНОПКА */
         #btn { 
-            width: 170px; height: 170px; 
-            background: radial-gradient(circle at 30% 30%, #ff5f56, #cc2f26);
+            width: 200px; height: 200px; 
+            background: radial-gradient(circle at 35% 35%, #ff5248, #d32f2f);
             border-radius: 50%; border: none; cursor: pointer; 
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            box-shadow: 0 20px 60px rgba(255,0,0,0.2), inset 0 -10px 20px rgba(0,0,0,0.3); 
-            transition: transform 0.1s; z-index: 10;
+            box-shadow: 0 25px 60px rgba(211, 47, 47, 0.4), inset 0 -12px 20px rgba(0,0,0,0.3); 
+            transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            z-index: 50; position: relative;
         }
-        #btn:active { transform: scale(0.94); }
+        #btn:active { transform: scale(0.92); box-shadow: 0 10px 30px rgba(211, 47, 47, 0.5); }
 
         /* ЛИЦО */
-        .eyes-row { display: flex; gap: 20px; margin-bottom: 12px; }
-        .eye { width: 32px; height: 20px; background: #fff; border-radius: 50%; position: relative; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); }
-        .p { width: 13px; height: 13px; background: #000; border-radius: 50%; position: absolute; top: 3px; left: 9px; transition: transform 0.05s linear; }
-        .lid { position: absolute; top: var(--eye-state); left: 0; width: 100%; height: 100%; background: #cc2f26; transition: 0.1s; z-index: 2; }
+        .eyes-row { display: flex; gap: 25px; margin-bottom: 15px; }
+        .eye { width: 36px; height: 22px; background: #fff; border-radius: 50%; position: relative; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); }
+        .p { width: 14px; height: 14px; background: #000; border-radius: 50%; position: absolute; top: 4px; left: 11px; transition: transform 0.05s linear; }
+        .lid { position: absolute; top: var(--lid-pos); left: 0; width: 100%; height: 100%; background: #d32f2f; transition: 0.1s ease; z-index: 2; }
 
-        #mouth {
-            width: 35px; height: 15px;
-            border: 2px solid rgba(0,0,0,0.6);
-            border-top: transparent; border-left: transparent; border-right: transparent;
-            border-radius: 50%;
-            transform: rotateX(var(--sadness));
-            transition: 0.3s ease;
-        }
+        /* РОТ - ЭВОЛЮЦИЯ ГРУСТИ */
+        .mouth-container { width: 40px; height: 20px; position: relative; overflow: hidden; }
+        #mouth-svg { width: 40px; height: 20px; fill: none; stroke: rgba(0,0,0,0.7); stroke-width: 2.5; stroke-linecap: round; transition: 0.3s ease; }
 
         /* ИНТЕРФЕЙС */
-        #q { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 50px; min-height: 80px; width: 80%; }
-        #in { position: absolute; bottom: 130px; background: none; border: none; border-bottom: 1px solid #999; color: inherit; text-align: center; width: 220px; padding: 5px; font-size: 0.8rem; }
-        .ft { position: absolute; bottom: 20px; font-size: 0.7rem; opacity: 0.6; }
-        #ca { border: 1px solid #999; padding: 6px 15px; border-radius: 20px; cursor: pointer; display: inline-block; margin-top: 10px; font-family: monospace; }
+        #q { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 60px; min-height: 90px; width: 85%; max-width: 700px; z-index: 10; }
+        #in { position: absolute; bottom: 140px; background: none; border: none; border-bottom: 1px solid rgba(128,128,128,0.3); color: inherit; text-align: center; width: 240px; padding: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; z-index: 60; }
         
-        .langs { position: absolute; top: 20px; display: flex; gap: 10px; }
-        .l-btn { font-size: 0.6rem; cursor: pointer; opacity: 0.5; text-transform: uppercase; }
-        .l-btn.active { opacity: 1; font-weight: bold; color: var(--accent); }
+        .ft { position: absolute; bottom: 25px; font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; opacity: 0.6; z-index: 10; width: 100%; }
+        #ca { border: 1px solid rgba(128,128,128,0.4); padding: 8px 18px; border-radius: 25px; cursor: pointer; display: inline-block; margin-top: 15px; transition: 0.3s; }
+        #ca:hover { background: var(--text-col); color: var(--bg-hue); }
 
-        #chat-wall { position: absolute; top: 15%; width: 100%; pointer-events: none; height: 150px; overflow: hidden; }
-        .m { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.2rem; animation: f 6s forwards; text-align: center; }
-        @keyframes f { 0% { opacity: 0; transform: translateY(10px); } 15% { opacity: 0.8; } 100% { opacity: 0; transform: translateY(-40px); } }
+        .langs { position: absolute; top: 30px; display: flex; gap: 15px; z-index: 10; }
+        .l-btn { font-size: 0.65rem; cursor: pointer; opacity: 0.4; letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; }
+        .l-btn.active { opacity: 1; color: var(--accent); font-weight: bold; }
+
+        #chat-wall { position: absolute; top: 15%; width: 100%; pointer-events: none; height: 200px; z-index: 5; }
+        .m { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.3rem; animation: floatMsg 6s forwards; text-align: center; position: absolute; left: 0; right: 0; }
+        @keyframes floatMsg { 0% { opacity: 0; transform: translateY(20px); } 15% { opacity: 0.8; } 100% { opacity: 0; transform: translateY(-50px); } }
     </style>
 </head>
 <body>
 
-    <div class="langs"><div class="l-btn active">EN</div><div class="l-btn">RU</div></div>
+    <div class="langs">
+        <div class="l-btn active" onclick="setL('en')">EN</div>
+        <div class="l-btn" onclick="setL('ru')">RU</div>
+    </div>
+
     <div id="chat-wall"></div>
 
-    <div id="q">Прими пустоту.</div>
+    <div id="q">Look into the void. It is looking back.</div>
 
     <button id="btn">
         <div class="eyes-row">
             <div class="eye"><div class="lid"></div><div class="p"></div></div>
             <div class="eye"><div class="lid"></div><div class="p"></div></div>
         </div>
-        <div id="mouth"></div>
+        <div class="mouth-container">
+            <svg id="mouth-svg" viewBox="0 0 40 20">
+                <path id="mouth-path" d="M 5 10 Q 20 10 35 10" />
+            </svg>
+        </div>
     </button>
 
-    <input type="text" id="in" placeholder="прошепчи что-нибудь..." maxlength="50">
+    <input type="text" id="in" placeholder="whisper to the void..." maxlength="50">
 
     <div class="ft">
-        <div id="cnt">твоя боль: 0</div>
-        <div id="ca" onclick="cp()">CA: CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump</div>
+        <div id="cnt">personal despair: 0 clicks</div>
+        <div id="ca" onclick="copyCA()">CA: CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump</div>
     </div>
 
 <script src="https://cdn.pubnub.com"></script>
 <script>
-    const CA_V = "CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump";
-    let clks = parseInt(localStorage.getItem('v_c_evolve')) || 0;
-    let audio;
+    const CA_ADDR = "CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump";
+    let clicks = parseInt(localStorage.getItem('v_final_v3')) || 0;
+    let currentLang = 'en';
+    let aCtx;
 
+    // --- ЧАТ ---
     const pn = new PubNub({ publishKey: 'demo', subscribeKey: 'demo', uuid: 'v' + Math.random() });
     pn.addListener({ message: (m) => {
         const d = document.createElement('div'); d.className = 'm'; d.innerText = m.message;
-        document.getElementById('chat-wall').appendChild(d); setTimeout(() => d.remove(), 5500);
+        document.getElementById('chat-wall').appendChild(d); setTimeout(() => d.remove(), 5800);
     }});
-    pn.subscribe({ channels: ['void_v_final_evolve'] });
+    pn.subscribe({ channels: ['void_v3_chat'] });
 
     document.getElementById('in').onkeypress = (e) => {
         if(e.key === 'Enter' && e.target.value.trim() !== '') {
-            pn.publish({ channel: 'void_v_final_evolve', message: e.target.value }); e.target.value = '';
+            pn.publish({ channel: 'void_v3_chat', message: e.target.value }); e.target.value = '';
         }
     };
 
-    function initAudio() {
-        if (!audio) audio = new (window.AudioContext || window.webkitAudioContext)();
-        if (audio.state === 'suspended') audio.resume();
+    // --- ЗВУК ---
+    function initA() {
+        if (!aCtx) aCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (aCtx.state === 'suspended') aCtx.resume();
     }
-
     function play() {
-        if (!audio) return;
-        const o = audio.createOscillator(); const g = audio.createGain();
-        o.type = 'triangle'; o.frequency.setValueAtTime(1100, audio.currentTime);
-        o.frequency.exponentialRampToValueAtTime(150, audio.currentTime + 0.1);
-        g.gain.setValueAtTime(0.5, audio.currentTime);
-        g.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + 0.1);
-        o.connect(g); g.connect(audio.destination); o.start(); o.stop(audio.currentTime + 0.1);
+        if (!aCtx) return;
+        const o = aCtx.createOscillator(); const g = aCtx.createGain();
+        o.type = 'triangle'; o.frequency.setValueAtTime(1000, aCtx.currentTime);
+        o.frequency.exponentialRampToValueAtTime(150, aCtx.currentTime + 0.1);
+        g.gain.setValueAtTime(0.5, aCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, aCtx.currentTime + 0.1);
+        o.connect(g); g.connect(aCtx.destination); o.start(); o.stop(aCtx.currentTime + 0.1);
     }
 
+    // --- ЭВОЛЮЦИЯ ---
     function updateEvolution() {
-        const r = document.documentElement;
-        const progress = Math.min(clks / 1000, 1);
+        const root = document.documentElement;
+        const progress = Math.min(clicks / 1000, 1);
         
-        // Плавное потемнение (от 255 до 10)
-        const val = Math.floor(255 - (progress * 245));
-        r.style.setProperty('--bg-hue', val);
+        // Постепенное потемнение (255 -> 15)
+        const colorVal = Math.floor(255 - (progress * 240));
+        root.style.setProperty('--bg-val', colorVal);
         
-        // Цвет текста (белеет при потемнении фона)
-        if (val < 120) r.style.setProperty('--text-color', '#eee');
-        else r.style.setProperty('--text-color', '#1a1a1a');
+        // Текст: меняем на белый, когда совсем темно
+        if (colorVal < 100) root.style.setProperty('--text-col', '#eee');
+        else root.style.setProperty('--text-col', '#1a1a1a');
 
-        // Грусть рта
-        r.style.setProperty('--sadness', `${progress * 180}deg`);
-        
-        // Обесцвечивание (GrayScale)
-        r.style.setProperty('--grayscale', `${progress * 100}%`);
+        // Зернистость: растет к финалу
+        root.style.setProperty('--grain-op', 0.04 + (progress * 0.1));
 
-        document.getElementById('cnt').innerText = 'твоя боль: ' + clks;
+        // РОТ: изгибаем кривую Безье (Q 20 10 -> Q 20 25)
+        const mouthY = 10 + (progress * 15);
+        document.getElementById('mouth-path').setAttribute('d', `M 5 10 Q 20 ${mouthY} 35 10`);
+        
+        const langText = currentLang === 'ru' ? 'твоя боль: ' : 'personal despair: ';
+        document.getElementById('cnt').innerText = langText + clicks + (currentLang === 'ru' ? ' кликов' : ' clicks');
     }
 
-    const bE = document.getElementById('btn');
-    bE.onmousedown = () => { 
-        initAudio(); 
-        r = document.documentElement;
-        r.style.setProperty('--eye-state', '0%'); 
+    const b = document.getElementById('btn');
+    b.onmousedown = () => { 
+        initA(); 
+        document.documentElement.style.setProperty('--lid-pos', '0%'); 
         play(); 
     };
-    bE.onmouseup = () => {
-        if (clks < 1000) clks++; 
-        localStorage.setItem('v_c_evolve', clks);
-        document.documentElement.style.setProperty('--eye-state', '-100%'); 
-        document.getElementById('q').innerText = "Бездна слышит каждое нажатие.";
+    b.onmouseup = () => {
+        if (clicks < 1000) clicks++; 
+        localStorage.setItem('v_final_v3', clicks);
+        document.documentElement.style.setProperty('--lid-pos', '-100%'); 
         updateEvolution();
     };
 
     document.addEventListener('mousemove', (e) => {
         document.querySelectorAll('.p').forEach(p => {
-            const rect = p.getBoundingClientRect();
-            const a = Math.atan2(e.clientX - (rect.left + rect.width/2), e.clientY - (rect.top + rect.height/2));
-            p.style.transform = `rotate(${(a * (180/Math.PI) * -1) + 180}deg) translateY(-5px)`;
+            const r = p.getBoundingClientRect();
+            const ang = Math.atan2(e.clientX - (r.left + r.width/2), e.clientY - (r.top + r.height/2));
+            p.style.transform = `rotate(${(ang * (180/Math.PI) * -1) + 180}deg) translateY(-6px)`;
         });
     });
 
-    function cp() { navigator.clipboard.writeText(CA_V); document.getElementById('ca').innerText = "COPIED"; setTimeout(()=>document.getElementById('ca').innerText="CA: "+CA_V.substring(0,6)+'...', 1000); }
+    function setL(l) { 
+        currentLang = l; 
+        document.querySelectorAll('.l-btn').forEach(b => b.classList.toggle('active', b.innerText.toLowerCase() === l));
+        updateEvolution(); 
+    }
+    function copyCA() { 
+        navigator.clipboard.writeText(CA_ADDR); 
+        const el = document.getElementById('ca'); el.innerText = "COPIED"; 
+        setTimeout(() => el.innerText = "CA: " + CA_ADDR.substring(0,6) + "...", 1000); 
+    }
+
     updateEvolution();
 </script>
 </body>
