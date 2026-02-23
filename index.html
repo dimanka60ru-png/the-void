@@ -85,7 +85,7 @@
     }
 
     // --- CHAT ---
-    let pn;
+   let pn;
     try {
         pn = new PubNub({ publishKey: 'pub-c-46700c2b-986c-486a-8b83-50069a30456c', subscribeKey: 'sub-c-1349071c-7607-11eb-987a-526466f24419', uuid: 'u'+Math.random() });
         pn.addListener({ message: (m) => {
@@ -94,12 +94,6 @@
         }});
         pn.subscribe({ channels: ['void_v1'] });
     } catch(e) {}
-
-    document.getElementById('in').onkeypress = (e) => {
-        if(e.key === 'Enter' && e.target.value.trim() !== '' && pn) {
-            pn.publish({ channel: 'void_v1', message: e.target.value }); e.target.value = '';
-        }
-    };
 
     // --- CORE ---
     function up() {
@@ -136,3 +130,4 @@
 </script>
 </body>
 </html>
+
