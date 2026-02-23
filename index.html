@@ -1,1142 +1,217 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>THE VOID TEMPLE | $CLICK</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sad Button</title>
     <style>
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            outline: none; 
-            -webkit-tap-highlight-color: transparent; 
-            user-select: none;
-            touch-action: manipulation;
-        }
-        
-        body { 
-            background: #0a050a;
-            color: #ecf0f1;
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            display: flex; 
-            flex-direction: column; 
-            justify-content: flex-start;
-            align-items: center; 
-            overflow-x: hidden;
-            overflow: hidden;
-            text-align: center;
-            position: fixed;
-            width: 100%;
-            height: 100vh;
-            padding: 10px 20px 80px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(180, 40, 40, 0.12) 0%, transparent 35%),
-                radial-gradient(circle at 80% 70%, rgba(200, 80, 80, 0.12) 0%, transparent 35%),
-                repeating-linear-gradient(45deg, rgba(180, 60, 60, 0.04) 0px, rgba(180, 60, 60, 0.04) 2px, transparent 2px, transparent 10px);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .particle {
-            position: fixed;
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 2;
-            animation: float 15s infinite linear;
-            opacity: 0.6;
-        }
-        
-        .particle:nth-child(3n) {
-            background: rgba(255, 80, 80, 0.5);
-            box-shadow: 0 0 12px rgba(255, 60, 60, 0.6);
-        }
-        .particle:nth-child(3n+1) {
-            background: rgba(255, 150, 50, 0.5);
-            box-shadow: 0 0 12px rgba(255, 120, 40, 0.6);
-        }
-        .particle:nth-child(3n+2) {
-            background: rgba(255, 200, 80, 0.5);
-            box-shadow: 0 0 12px rgba(255, 180, 60, 0.6);
-        }
-        .particle:nth-child(5n+3) {
-            background: rgba(255, 100, 150, 0.5);
-            box-shadow: 0 0 12px rgba(255, 80, 120, 0.6);
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.7; }
-            90% { opacity: 0.7; }
-            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
-        }
-
-        .langs { 
-            position: fixed; 
-            top: 15px; 
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex; 
-            gap: 5px; 
-            z-index: 100; 
-            background: rgba(20,10,20,0.5);
-            backdrop-filter: blur(8px);
-            padding: 6px 10px;
-            border-radius: 40px;
-            border: 1px solid rgba(255,120,120,0.4);
-            flex-wrap: wrap;
+        body {
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            font-family: sans-serif;
+            display: flex;
             justify-content: center;
-            max-width: 90%;
-        }
-        .l-btn { 
-            font-size: 0.7rem; 
-            cursor: pointer; 
-            opacity: 0.7; 
-            text-transform: uppercase;
-            padding: 8px 10px;
-            border-radius: 20px;
-            transition: 0.2s;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            color: rgba(255,255,255,0.95);
-        }
-        .l-btn.active { 
-            opacity: 1; 
-            background: rgba(255,90,90,0.5);
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255,90,90,0.8);
-            border: 1px solid rgba(255,120,120,0.6);
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 16px;
         }
 
-        .main { 
-            width: 90%; 
-            max-width: 600px; 
-            z-index: 10; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            position: relative;
-            margin-top: 60px;
+        .container {
+            max-width: 600px;
+            width: 100%;
         }
 
-        #q { 
-            font-family: 'Playfair Display', serif; 
-            font-size: 1.8rem; 
-            margin-bottom: 20px; 
-            min-height: 140px; 
-            width: 100%; 
+        .quote {
+            font-size: 1.8rem;
+            line-height: 1.5;
+            min-height: 150px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.3s;
-            padding: 0 15px;
-            text-shadow: 0 3px 25px rgba(255,70,70,0.6), 0 2px 10px rgba(0,0,0,0.5);
-            line-height: 1.4;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            color: #fff;
+            margin-bottom: 30px;
+            padding: 20px;
+            font-style: italic;
         }
 
-        #btn { 
-            width: 280px; height: 280px; 
-            background: radial-gradient(circle at 30% 30%, #d32f2f, #8b0000); 
-            border-radius: 50%; 
+        .button-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        #sadButton {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle at 30% 30%, #b33, #800);
             border: none;
-            cursor: pointer; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            box-shadow: 0 40px 70px rgba(139, 0, 0, 0.8), inset 0 -15px 25px rgba(0,0,0,0.6), inset 0 15px 30px rgba(255, 100, 100, 0.4); 
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
-            position: relative; 
-            flex-shrink: 0; 
-            margin: 10px auto;
-            animation: bob 3s infinite ease-in-out;
-        }
-        @keyframes bob {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
-            100% { transform: translateY(0); }
-        }
-        #btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 50px 80px rgba(100, 0, 0, 0.9), inset 0 -15px 25px rgba(0,0,0,0.6), inset 0 15px 30px rgba(255, 120, 120, 0.5);
-        }
-        #btn:active { 
-            transform: scale(0.96); 
-            animation: none;
-        }
-
-        .ripple-effect {
-            position: absolute;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,100,100,0.6) 0%, rgba(255,50,50,0) 70%);
-            transform: translate(-50%, -50%) scale(0);
-            animation: ripple 0.6s ease-out forwards;
-            pointer-events: none;
-            z-index: 20;
-            width: 100px;
-            height: 100px;
-            opacity: 0.7;
-        }
-        
-        @keyframes ripple {
-            0% {
-                transform: translate(-50%, -50%) scale(0);
-                opacity: 0.8;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(10);
-                opacity: 0;
-            }
-        }
-
-        .eyes { 
-            display: flex; 
-            gap: 35px; 
-            margin-bottom: 15px; 
-            position: relative; 
-            z-index: 2; 
-            pointer-events: none; 
-        }
-        .eye { 
-            width: 70px; height: 45px; 
-            background: #fff; 
-            border-radius: 50%; 
-            position: relative; 
-            overflow: hidden; 
-            border: 3px solid rgba(0,0,0,0.3);
-            box-shadow: inset 0 -4px 10px rgba(0,0,0,0.3), 0 0 15px rgba(255,255,255,0.4);
-        }
-        .pupil { 
-            width: 30px; height: 30px; 
-            background: #111; 
-            border-radius: 50%; 
-            position: absolute; 
-            top: 7px; left: 20px; 
-            transition: transform 0.05s linear;
-            border: 3px solid #222;
-            box-shadow: 0 0 8px rgba(0,0,0,0.6);
-        }
-        .pupil::after {
-            content: "";
-            position: absolute;
-            top: 6px; left: 6px;
-            width: 8px; height: 8px;
-            background: rgba(255,255,255,0.95);
-            border-radius: 50%;
-            box-shadow: 0 0 5px rgba(255,255,255,0.8);
-        }
-        .lid { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: #8b0000; 
-            transition: 0.1s; 
-            z-index: 3; 
-            border-radius: 50%;
-            top: -100%;
-        }
-        .lid.blink {
-            top: 0;
-        }
-
-        #mouth {
-            width: 70px;
-            height: 30px;
-            transition: all 0.3s ease;
-            transform-origin: center;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
-            margin-top: 15px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        #mouth.sad {
-            width: 60px;
-            height: 30px;
-            border-bottom: 8px solid rgba(20,20,20,0.9);
-            border-left: transparent;
-            border-right: transparent;
-            border-top: transparent;
-            border-radius: 0 0 60px 60px;
-            transform: rotate(0deg);
-        }
-        
-        #mouth.happy {
-            width: 60px;
-            height: 30px;
-            border-top: 8px solid rgba(20,20,20,0.9);
-            border-left: transparent;
-            border-right: transparent;
-            border-bottom: transparent;
-            border-radius: 60px 60px 0 0;
-            transform: rotate(0deg);
-        }
-        
-        #mouth.surprised {
-            width: 30px;
-            height: 30px;
-            border: 4px solid rgba(20,20,20,0.9);
-            border-radius: 50%;
-        }
-        
-        #mouth.annoyed {
-            width: 50px;
-            height: 4px;
-            background: rgba(20,20,20,0.9);
-            border: none;
-            border-radius: 2px;
-            transform: rotate(-2deg);
-            margin-top: 25px;
-        }
-        
-        #mouth.neutral {
-            width: 50px;
-            height: 4px;
-            background: rgba(20,20,20,0.9);
-            border: none;
-            border-radius: 2px;
-            transform: rotate(0deg);
-            margin-top: 25px;
-        }
-        
-        #mouth.smirk {
-            width: 50px;
-            height: 4px;
-            background: rgba(20,20,20,0.9);
-            border: none;
-            border-radius: 2px;
-            transform: rotate(5deg) translateY(-5px);
-            margin-top: 25px;
-        }
-        
-        #mouth.crying {
-            width: 50px;
-            height: 20px;
-            border-bottom: 8px solid rgba(20,20,20,0.9);
-            border-left: transparent;
-            border-right: transparent;
-            border-top: transparent;
-            border-radius: 0 0 40px 40px;
-            transform: rotate(0deg);
-            position: relative;
-            margin-top: 20px;
-        }
-        #mouth.crying::before,
-        #mouth.crying::after {
-            content: "💧";
-            position: absolute;
-            font-size: 16px;
-            top: -10px;
-        }
-        #mouth.crying::before {
-            left: -15px;
-        }
-        #mouth.crying::after {
-            right: -15px;
-        }
-
-        .blush {
-            position: absolute;
-            width: 45px; height: 22px;
-            background: rgba(180, 40, 40, 0.45);
-            border-radius: 50%;
-            bottom: 70px;
-            filter: blur(9px);
-            transition: 0.3s;
-            opacity: 0.8;
-        }
-        .blush-left { left: 25px; }
-        .blush-right { right: 25px; }
-        #btn:hover .blush {
-            opacity: 1;
-            background: rgba(200, 50, 50, 0.7);
-            filter: blur(11px);
-        }
-
-        .ft {
-            position: fixed;
-            bottom: 20px;
-            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(180, 0, 0, 0.5);
+            transition: transform 0.1s;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 15px;
-            z-index: 60;
-            pointer-events: none;
         }
-        
+
+        #sadButton:active {
+            transform: scale(0.95);
+        }
+
+        .eyes {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 10px;
+        }
+
+        .eye {
+            width: 50px;
+            height: 35px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #111;
+        }
+
+        .pupil {
+            width: 20px;
+            height: 20px;
+            background: #111;
+            border-radius: 50%;
+            transition: transform 0.05s;
+        }
+
+        .mouth {
+            width: 70px;
+            height: 40px;
+            border-bottom: 8px solid #111;
+            border-radius: 0 0 50px 50px;
+        }
+
         .counters {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            background: rgba(20,10,20,0.5);
-            backdrop-filter: blur(8px);
-            padding: 15px 30px;
-            border-radius: 40px;
-            border: 1px solid rgba(255,100,100,0.3);
-            pointer-events: none;
-            margin-bottom: 10px;
-        }
-        
-        .counters div {
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-        }
-        
-        .counters div:first-child {
-            color: #ffb3b3;
-            text-shadow: 0 0 15px rgba(255,100,100,0.6);
-        }
-        
-        #total-cnt-container {
-            color: #ffd700;
-            text-shadow: 0 0 15px rgba(255,215,0,0.6);
-        }
-        
-        #total-cnt {
-            font-weight: 700;
-        }
-        
-        .link-group {
-            display: flex;
             gap: 10px;
-            background: rgba(20,10,20,0.4);
-            backdrop-filter: blur(5px);
-            padding: 8px 12px;
-            border-radius: 40px;
-            border: 1px solid rgba(255,100,100,0.3);
-            pointer-events: auto;
-        }
-        
-        #ca {
-            border: none;
-            background: transparent;
-            padding: 8px 12px;
-            border-radius: 30px;
-            cursor: pointer;
-            display: inline-block;
-            font-size: 0.8rem;
-            color: #ecf0f1;
-            transition: 0.2s;
-            border-right: 1px solid rgba(255,100,100,0.3);
-            padding-right: 15px;
-        }
-        
-        #ca:hover {
-            color: #ff9f9f;
-            text-shadow: 0 0 10px rgba(255,100,100,0.5);
-        }
-        
-        #x-link {
-            padding: 8px 12px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            color: #ecf0f1;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-        
-        #x-link:hover {
-            color: #ff9f9f;
-            text-shadow: 0 0 10px rgba(255,100,100,0.5);
-        }
-
-        .threshold-msg {
-            position: fixed;
-            bottom: 350px;
             font-size: 1.2rem;
-            opacity: 1;
-            pointer-events: none;
-            background: rgba(20,10,20,0.8);
-            backdrop-filter: blur(10px);
-            padding: 18px 35px;
-            border-radius: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            max-width: 80%;
+        }
+        .counters div {
+            background: #1a1a1a;
+            padding: 10px 20px;
+            border-radius: 40px;
+            border: 1px solid #333;
+        }
+        .collective {
             color: #ffd700;
-            text-shadow: 0 0 20px #ffaa00;
-            word-break: break-word;
-            white-space: normal;
-            line-height: 1.5;
-            border: 2px solid #ffd700;
-            box-shadow: 0 0 50px rgba(255,215,0,0.6);
-            z-index: 200;
-            transition: opacity 0.3s;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-        .special-threshold {
-            background: linear-gradient(145deg, #3a2a00, #4d3f00);
-            border: 3px solid #ffd700;
-            color: #ffd700;
-            text-shadow: 0 0 20px #ffaa00, 0 0 40px #ffaa00;
-            font-size: 1.4rem;
-            font-weight: 700;
-            box-shadow: 0 0 60px rgba(255,215,0,0.8);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 40px rgba(255,215,0,0.6); }
-            50% { box-shadow: 0 0 70px rgba(255,215,0,0.9); }
-            100% { box-shadow: 0 0 40px rgba(255,215,0,0.6); }
-        }
-
-        .sound-control {
-            position: fixed;
-            top: 70px;
-            right: 15px;
-            z-index: 200;
-            background: rgba(20,10,20,0.5);
-            backdrop-filter: blur(5px);
-            border-radius: 30px;
-            padding: 8px 12px;
-            border: 1px solid rgba(255,100,100,0.3);
-            color: #ecf0f1;
-            font-size: 0.8rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .sound-control:hover {
-            background: rgba(255,80,80,0.3);
-        }
-
-        @media (max-width: 600px) {
-            body {
-                padding: 10px 10px 80px;
-            }
-            
-            .main {
-                margin-top: 60px;
-            }
-            
-            #btn {
-                width: 220px;
-                height: 220px;
-            }
-            
-            #q {
-                font-size: 1.4rem;
-                min-height: 100px;
-                margin-bottom: 15px;
-            }
-            
-            .counters {
-                padding: 10px 15px;
-                margin-bottom: 5px;
-            }
-            
-            .counters div {
-                font-size: 0.85rem;
-            }
-            
-            .ft {
-                bottom: 10px;
-            }
-            
-            .langs {
-                max-width: 85%;
-                left: 50%;
-                transform: translateX(-50%);
-                top: 10px;
-                padding: 4px 6px;
-            }
-            
-            .l-btn {
-                font-size: 0.6rem;
-                padding: 4px 5px;
-            }
-            
-            .sound-control {
-                top: 60px;
-                right: 5px;
-                padding: 4px 8px;
-                font-size: 0.65rem;
-                z-index: 101;
-            }
-            
-            .threshold-msg {
-                bottom: 250px;
-                font-size: 1rem;
-                padding: 12px 20px;
-                max-width: 85%;
-            }
-            
-            .special-threshold {
-                font-size: 1.2rem;
-            }
-            
-            .link-group {
-                padding: 4px 8px;
-            }
-            
-            #ca, #x-link {
-                font-size: 0.7rem;
-                padding: 6px 8px;
-            }
-        }
-
-        @media (max-width: 380px) {
-            #btn {
-                width: 180px;
-                height: 180px;
-            }
-            
-            .eyes {
-                gap: 20px;
-            }
-            
-            .eye {
-                width: 50px;
-                height: 32px;
-            }
-            
-            .pupil {
-                width: 22px;
-                height: 22px;
-                top: 5px;
-                left: 14px;
-            }
-            
-            #q {
-                font-size: 1.2rem;
-            }
-            
-            .threshold-msg {
-                bottom: 230px;
-                font-size: 0.9rem;
-                padding: 8px 12px;
-                max-width: 80%;
-            }
-            
-            .special-threshold {
-                font-size: 1.1rem;
-            }
         }
     </style>
 </head>
 <body>
-
-    <div class="sound-control" id="soundToggle" onclick="toggleSound()">
-        <span>🌬️</span> <span id="windText">Wind on</span>
-    </div>
-
-    <script>
-        // Частицы
-        for (let i = 0; i < 50; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDuration = (10 + Math.random() * 20) + 's';
-            particle.style.animationDelay = (Math.random() * 10) + 's';
-            particle.style.width = (5 + Math.random() * 12) + 'px';
-            particle.style.height = particle.style.width;
-            document.body.appendChild(particle);
-        }
-    </script>
-
-    <div class="langs">
-        <div class="l-btn active" onclick="setLanguage('en')">EN</div>
-        <div class="l-btn" onclick="setLanguage('ru')">RU</div>
-        <div class="l-btn" onclick="setLanguage('zh')">中文</div>
-        <div class="l-btn" onclick="setLanguage('ja')">日本語</div>
-        <div class="l-btn" onclick="setLanguage('ko')">한국어</div>
-        <div class="l-btn" onclick="setLanguage('es')">ES</div>
-        <div class="l-btn" onclick="setLanguage('pt')">PT</div>
-        <div class="l-btn" onclick="setLanguage('tr')">TR</div>
-        <div class="l-btn" onclick="setLanguage('vi')">VI</div>
-        <div class="l-btn" onclick="setLanguage('de')">DE</div>
-    </div>
-
-    <div class="main">
-        <div id="q">The void waits for you.</div>
-        <button id="btn">
-            <div class="eyes">
-                <div class="eye">
-                    <div class="lid"></div>
-                    <div class="pupil"></div>
+    <div class="container">
+        <div class="quote" id="quote">Click the button.</div>
+        
+        <div class="button-wrapper">
+            <button id="sadButton">
+                <div class="eyes">
+                    <div class="eye"><div class="pupil"></div></div>
+                    <div class="eye"><div class="pupil"></div></div>
                 </div>
-                <div class="eye">
-                    <div class="lid"></div>
-                    <div class="pupil"></div>
-                </div>
-            </div>
-            <div class="blush blush-left"></div>
-            <div class="blush blush-right"></div>
-            <div id="mouth"></div>
-        </button>
-    </div>
+                <div class="mouth"></div>
+            </button>
+        </div>
 
-    <div class="ft">
         <div class="counters">
-            <div id="cnt">My regrets: 0</div>
-            <div id="total-cnt-container">Collective regret: <span id="total-cnt">0</span></div>
-        </div>
-        <div class="link-group">
-            <div id="ca" onclick="copyCA()">CA: CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump</div>
-            <a href="https://x.com/ClickDontPush" target="_blank" id="x-link">X: @ClickDontPush</a>
+            <div id="personalCount">My regrets: 0</div>
+            <div class="collective" id="globalCount">Collective regret: 0</div>
         </div>
     </div>
 
-    <div id="threshold-container"></div>
-
-    <script src="https://cdn.pubnub.com/pubnub-3.7.16.js"></script>
     <script>
-        // === ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ===
-        const CA_VAL = "CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump";
+        // === НАСТРОЙКИ ===
+        const CA = "CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump";
         
-        // Личное сожаление (в localStorage)
-        let clickCount = parseInt(localStorage.getItem('v_c_final')) || 0;
-        
-        // Коллективное сожаление (глобальное)
-        let totalClicks = 0;
-        
+        // === ДАННЫЕ ===
+        let personalClicks = parseInt(localStorage.getItem('click_personal')) || 0;
+        let globalClicks = 0;
         let currentLang = 'en';
-        let lastHundredThreshold = 0;
-        let currentSpecialQuote = null;
-        let soundEnabled = true;
-        let audioCtx;
-        let windGain;
-        
-        // === ТЕКСТЫ ===
-        const interfaceText = {
-            en: { 
-                counterPrefix: "My regrets: ", 
-                totalPrefix: "Collective regret: ",
-                windOn: "Wind on",
-                windOff: "Wind off"
-            },
-            ru: { 
-                counterPrefix: "Мои сожаления: ", 
-                totalPrefix: "Коллективное сожаление: ",
-                windOn: "Ветер вкл",
-                windOff: "Ветер выкл"
-            },
-            zh: { 
-                counterPrefix: "我的遗憾: ", 
-                totalPrefix: "集体遗憾: ",
-                windOn: "风开",
-                windOff: "风关"
-            },
-            ja: { 
-                counterPrefix: "私の後悔: ", 
-                totalPrefix: "集合的後悔: ",
-                windOn: "風オン",
-                windOff: "風オフ"
-            },
-            ko: { 
-                counterPrefix: "나의 후회: ", 
-                totalPrefix: "집단적 후회: ",
-                windOn: "바람 켜짐",
-                windOff: "바람 꺼짐"
-            },
-            es: { 
-                counterPrefix: "Mis arrepentimientos: ", 
-                totalPrefix: "Arrepentimiento colectivo: ",
-                windOn: "Viento on",
-                windOff: "Viento off"
-            },
-            pt: { 
-                counterPrefix: "Meus arrependimentos: ", 
-                totalPrefix: "Arrependimento coletivo: ",
-                windOn: "Vento on",
-                windOff: "Vento off"
-            },
-            tr: { 
-                counterPrefix: "Pişmanlıklarım: ", 
-                totalPrefix: "Toplumsal pişmanlık: ",
-                windOn: "Rüzgar açık",
-                windOff: "Rüzgar kapalı"
-            },
-            vi: { 
-                counterPrefix: "Hối tiếc của tôi: ", 
-                totalPrefix: "Hối tiếc tập thể: ",
-                windOn: "Gió bật",
-                windOff: "Gió tắt"
-            },
-            de: { 
-                counterPrefix: "Meine Reue: ", 
-                totalPrefix: "Kollektive Reue: ",
-                windOn: "Wind an",
-                windOff: "Wind aus"
-            }
-        };
 
-        const hundredQuotes = {
-            en: [
-                "✨ 100 clicks. 100 moments. All gone. Was it worth it? ✨",
-                "✨ Time is the only currency that can't be mined. You just spent 100 units. ✨",
-                "✨ You have clicked 100 times. The button remembers. Do you? ✨",
-                "✨ Every click is a second of your life. You won't get them back. ✨",
-                "✨ What if each click was a day? You'd be 100 days older now. Feel any wiser? ✨",
-                "✨ The button doesn't care. But maybe you should. ✨",
-                "✨ 100 clicks deeper into the void. How far will you go? ✨",
-                "✨ You came here for meaning. You found a button. And 100 clicks. ✨",
-                "✨ Imagine if you'd spent those 100 clicks on something real. ✨",
-                "✨ The average human lifetime is 2.5 billion clicks. You're just getting started. ✨"
-            ],
-            ru: [
-                "✨ 100 нажатий. 100 мгновений. Все прошли. Оно того стоило? ✨",
-                "✨ Время — единственная валюта, которую нельзя намайнить. Ты только что потратил 100 единиц. ✨",
-                "✨ Ты нажал 100 раз. Кнопка помнит. А ты? ✨",
-                "✨ Каждое нажатие — секунда твоей жизни. Ты их не вернёшь. ✨",
-                "✨ А что, если каждый клик — это день? Ты бы стал на 100 дней старше. Почувствовал мудрость? ✨",
-                "✨ Кнопке всё равно. А тебе не должно быть. ✨",
-                "✨ 100 нажатий в глубину пустоты. Как далеко ты зайдёшь? ✨",
-                "✨ Ты пришёл сюда за смыслом. А нашёл кнопку и 100 нажатий. ✨",
-                "✨ Представь, если бы ты потратил эти 100 кликов на что-то настоящее. ✨",
-                "✨ Средняя жизнь человека — 2.5 миллиарда кликов. Ты только начинаешь. ✨"
-            ]
-        };
+        // === ЦИТАТЫ ===
+        const quotes = [
+            "I think, therefore I am. I regret both.",
+            "The unexamined life is not worth living.",
+            "We are what we repeatedly do. Unfortunately.",
+            "Life is suffering. The rest is details.",
+            "God is dead. And I'm not feeling so good either.",
+            "When you look into the void, the void looks into you. It's tired too.",
+            "I am alone. I am always alone. Even in a crowd.",
+            "I can't go on. I'll go on.",
+            "Hello darkness, my old friend.",
+            "Nothing really matters, anyone can see.",
+            "They promised moons. They delivered graves.",
+            "Click. Regret. Repeat."
+        ];
 
-        // === PUB NUB (ДЛЯ ГЛОБАЛЬНОГО СЧЁТЧИКА) ===
-        let pubnub;
-        const CHANNEL = 'void_temple_global';
-        
-        try {
-            pubnub = PUBNUB.init({ 
-                publish_key: 'demo', 
-                subscribe_key: 'demo', 
-                uuid: 'user_' + Math.random().toString(36).substring(7)
-            });
-            
-            pubnub.subscribe({
-                channel: CHANNEL,
-                message: (msg) => {
-                    if (msg.type === 'click') {
-                        totalClicks = msg.total;
-                        updateTotalCounter();
-                    }
-                },
-                connect: () => {
-                    pubnub.history({
-                        channel: CHANNEL,
-                        count: 1,
-                        callback: (messages) => {
-                            if (messages[0].length > 0 && messages[0][0].type === 'click') {
-                                totalClicks = messages[0][0].total;
-                            }
-                            updateTotalCounter();
-                        }
-                    });
-                }
-            });
-        } catch(e) {
-            console.log('PubNub error');
-        }
+        // === ЭЛЕМЕНТЫ ===
+        const quoteEl = document.getElementById('quote');
+        const personalEl = document.getElementById('personalCount');
+        const globalEl = document.getElementById('globalCount');
+        const button = document.getElementById('sadButton');
+        const pupils = document.querySelectorAll('.pupil');
 
-        // === ФУНКЦИИ ===
-        function updateTotalCounter() {
-            const totalEl = document.getElementById('total-cnt');
-            if (totalEl) {
-                totalEl.innerText = totalClicks;
-            }
-        }
-
-        function sendGlobalClick() {
-            if (pubnub) {
-                pubnub.publish({
-                    channel: CHANNEL,
-                    message: {
-                        type: 'click',
-                        total: totalClicks
-                    }
-                });
-            }
-        }
-
-        function showHundredQuote() {
-            if (clickCount > 0 && clickCount % 100 === 0 && clickCount > lastHundredThreshold) {
-                lastHundredThreshold = clickCount;
-                
-                setExpression('crying');
-                setTimeout(() => setExpression('sad'), 2000);
-                
-                const quotesArray = hundredQuotes[currentLang] || hundredQuotes.en;
-                const randomIndex = Math.floor(Math.random() * quotesArray.length);
-                
-                if (currentSpecialQuote) {
-                    currentSpecialQuote.remove();
-                }
-                
-                const container = document.getElementById('threshold-container');
-                const msg = document.createElement('div');
-                msg.className = 'threshold-msg special-threshold';
-                msg.innerText = quotesArray[randomIndex];
-                container.appendChild(msg);
-                currentSpecialQuote = msg;
-            }
-        }
-
-        function initAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // Создаём шум ветра
-                const bufferSize = 4096;
-                const noiseNode = audioCtx.createScriptProcessor(bufferSize, 1, 1);
-                windGain = audioCtx.createGain();
-                
-                noiseNode.onaudioprocess = (e) => {
-                    const output = e.outputBuffer.getChannelData(0);
-                    for (let i = 0; i < bufferSize; i++) {
-                        output[i] = (Math.random() * 2 - 1) * 0.1;
-                    }
-                };
-                
-                const filter = audioCtx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.value = 200;
-                
-                noiseNode.connect(filter);
-                filter.connect(windGain);
-                windGain.connect(audioCtx.destination);
-                windGain.gain.value = 0.1;
-                
-                document.addEventListener('click', function initOnClick() {
-                    if (audioCtx.state === 'suspended') {
-                        audioCtx.resume();
-                    }
-                    document.removeEventListener('click', initOnClick);
-                }, { once: true });
-            }
-        }
-
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            const windText = document.getElementById('windText');
-            const soundIcon = document.querySelector('#soundToggle span:first-child');
-            
-            if (soundEnabled) {
-                windText.innerText = interfaceText[currentLang].windOn;
-                soundIcon.innerText = '🌬️';
-                if (windGain) {
-                    windGain.gain.value = 0.1;
-                }
-                if (audioCtx && audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-            } else {
-                windText.innerText = interfaceText[currentLang].windOff;
-                soundIcon.innerText = '💨';
-                if (windGain) {
-                    windGain.gain.value = 0;
-                }
-            }
-        }
-
-        function playClick() {
-            if (!audioCtx) return;
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(900, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.1);
-            gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.15);
-        }
-
-        function createRipple(x, y) {
-            const ripple = document.createElement('div');
-            ripple.className = 'ripple-effect';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            document.body.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 600);
-        }
-
-        function setExpression(expr) {
-            const mouth = document.getElementById('mouth');
-            mouth.className = '';
-            mouth.classList.add(expr);
-        }
-
-        function randomExpression() {
-            const rand = Math.random();
-            let expression;
-            
-            if (rand < 0.4) {
-                expression = 'happy';
-            } else if (rand < 0.65) {
-                expression = 'surprised';
-            } else if (rand < 0.85) {
-                expression = 'annoyed';
-            } else if (rand < 0.95) {
-                expression = 'neutral';
-            } else {
-                expression = 'smirk';
-            }
-            
-            setExpression(expression);
-            setTimeout(() => setExpression('sad'), 1500);
-        }
-
-        function updateVisuals() {
-            document.getElementById('cnt').innerText = interfaceText[currentLang].counterPrefix + clickCount;
-        }
-
+        // === ФУНКЦИИ ОБНОВЛЕНИЯ ===
         function updateQuote() {
-            // Просто оставляем текущую цитату
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            quoteEl.textContent = quotes[randomIndex];
         }
 
-        function blink() {
-            document.querySelectorAll('.lid').forEach(lid => {
-                lid.style.top = '0';
-                setTimeout(() => {
-                    lid.style.top = '-100%';
-                }, 150);
-            });
+        function updateCounters() {
+            personalEl.textContent = `My regrets: ${personalClicks}`;
+            globalEl.textContent = `Collective regret: ${globalClicks}`;
         }
 
-        // === ОБРАБОТЧИКИ КНОПКИ ===
-        const button = document.getElementById('btn');
-        
-        button.onmousedown = (e) => { 
+        // === ОБРАБОТКА КЛИКА ===
+        button.addEventListener('click', (e) => {
             e.preventDefault();
-            e.stopPropagation();
             
-            createRipple(e.clientX, e.clientY);
-            initAudio(); 
-            blink();
-            playClick(); 
-        };
-        
-        button.onmouseup = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+            // Личные клики
+            personalClicks++;
+            localStorage.setItem('click_personal', personalClicks);
             
-            if (currentSpecialQuote) {
-                currentSpecialQuote.remove();
-                currentSpecialQuote = null;
-            }
-        
-            clickCount++; 
-            localStorage.setItem('v_c_final', clickCount);
+            // Глобальные клики (локально, без PubNub для простоты)
+            globalClicks++;
             
-            totalClicks++;
-            sendGlobalClick();
+            // Новая цитата
+            updateQuote();
             
-            randomExpression();
-            updateVisuals();
-            showHundredQuote();
-            
-            return false;
-        };
-
-        button.ontouchstart = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const touch = e.touches[0];
-            createRipple(touch.clientX, touch.clientY);
-            initAudio();
-            blink();
-            playClick();
-        };
-        
-        button.ontouchend = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            if (currentSpecialQuote) {
-                currentSpecialQuote.remove();
-                currentSpecialQuote = null;
-            }
-        
-            clickCount++; 
-            localStorage.setItem('v_c_final', clickCount);
-            
-            totalClicks++;
-            sendGlobalClick();
-            
-            randomExpression();
-            updateVisuals();
-            showHundredQuote();
-            
-            return false;
-        };
-        
-        button.onclick = (e) => {
-            e.preventDefault();
-            return false;
-        };
+            // Обновить счётчики
+            updateCounters();
+        });
 
         // === ЗРАЧКИ СЛЕДЯТ ЗА МЫШКОЙ ===
         document.addEventListener('mousemove', (e) => {
-            document.querySelectorAll('.pupil').forEach(pupil => {
+            pupils.forEach(pupil => {
                 const rect = pupil.getBoundingClientRect();
                 const dx = e.clientX - (rect.left + rect.width/2);
                 const dy = e.clientY - (rect.top + rect.height/2);
-                const distance = Math.min(12, Math.sqrt(dx*dx + dy*dy) / 18);
-                const x = Math.cos(Math.atan2(dy, dx)) * distance;
-                const y = Math.sin(Math.atan2(dy, dx)) * distance;
+                const angle = Math.atan2(dy, dx);
+                const distance = Math.min(8, Math.sqrt(dx*dx + dy*dy) / 15);
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
                 pupil.style.transform = `translate(${x}px, ${y}px)`;
             });
         });
 
-        // === ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА ===
-        function setLanguage(lang) { 
-            currentLang = lang; 
-            document.querySelectorAll('.l-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.innerText.toLowerCase().includes(lang) || 
-                    (lang === 'zh' && btn.innerText.includes('中文')) ||
-                    (lang === 'ja' && btn.innerText.includes('日本語')) ||
-                    (lang === 'ko' && btn.innerText.includes('한국어')));
-            });
-            
-            document.getElementById('cnt').innerText = interfaceText[lang].counterPrefix + clickCount;
-            
-            const totalContainer = document.getElementById('total-cnt-container');
-            totalContainer.innerHTML = interfaceText[lang].totalPrefix + '<span id="total-cnt">' + totalClicks + '</span>';
-            
-            const windText = document.getElementById('windText');
-            if (soundEnabled) {
-                windText.innerText = interfaceText[lang].windOn;
-            } else {
-                windText.innerText = interfaceText[lang].windOff;
-            }
-        }
-
-        function copyCA() { 
-            navigator.clipboard.writeText(CA_VAL); 
-            const caElem = document.getElementById('ca');
-            const originalText = caElem.innerText;
-            caElem.innerText = "✅ Copied"; 
-            setTimeout(() => caElem.innerText = originalText, 1000); 
-        }
-
         // === ИНИЦИАЛИЗАЦИЯ ===
-        window.onload = () => {
-            setExpression('sad');
-            updateVisuals();
-            initAudio();
-            
-            const totalContainer = document.getElementById('total-cnt-container');
-            totalContainer.innerHTML = interfaceText[currentLang].totalPrefix + '<span id="total-cnt">' + totalClicks + '</span>';
-        };
+        updateCounters();
+        updateQuote();
     </script>
 </body>
 </html>
