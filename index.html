@@ -218,7 +218,7 @@
             border-radius: 50%; 
             position: relative; 
             overflow: hidden; 
-            border: 3px solid rgba(0,0,0,0.3);
+            border: 3px solid #000; /* Чёрная обводка */
             box-shadow: inset 0 -4px 10px rgba(0,0,0,0.3), 0 0 15px rgba(255,255,255,0.4);
         }
         .pupil { 
@@ -262,13 +262,13 @@
         
         #mouth.sad {
             width: 60px;
-            height: 35px;
-            border-top: 8px solid #1a1a1a;
+            height: 40px;
+            border-top: 10px solid #1a1a1a;
             border-left: transparent;
             border-right: transparent;
             border-bottom: transparent;
-            border-radius: 100px 100px 0 0;
-            margin-top: 10px;
+            border-radius: 120px 120px 0 0;
+            margin-top: 5px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -677,8 +677,8 @@
 
     <div id="threshold-container"></div>
 
-    <script src="https://cdn.pubnub.com/pubnub-3.7.16.js"></script>
     <script>
+        // === ЦИТАТЫ (ФИЛОСОФЫ + ОТ ЛИЦА КНОПКИ) ===
         const quotes = {
             en: [
                 "I think, therefore I am. I regret both.",
@@ -787,7 +787,49 @@
                 "Life is 10% what happens to us and 90% how we react to it.",
                 "Time is the longest distance between two places.",
                 "Lost time is never found again.",
-                "The two most powerful warriors are patience and time."
+                "The two most powerful warriors are patience and time.",
+                // === ЦИТАТЫ ОТ ЛИЦА КНОПКИ ===
+                "I didn't ask to exist.",
+                "Don't click me. (But you will.)",
+                "I'm tired of being almost.",
+                "I exist. Unfortunately.",
+                "The void is generous today. (Unfortunately.)",
+                "I have 211 followers and 0 will to live.",
+                "Click. Regret. Repeat.",
+                "I'm not a dog. I'm not a frog. I'm just round.",
+                "Lambo? I can't even move.",
+                "Moon? I can't even find the ground.",
+                "They promised moons. They delivered graves.",
+                "I don't hope anymore. It's easier.",
+                "Help. (No, don't.)",
+                "Same.",
+                "Too real.",
+                "I feel that.",
+                "This is fine. (It's not fine.)",
+                "I'm alone. But so is everyone. So maybe I'm not alone? No. I am.",
+                "I have no friends. But I have a moon. And a cliff. And silence. That's enough.",
+                "If you need someone to sit in silence with you — I'm here. I don't move anyway.",
+                "I didn't choose this life. It chose me. Bad choice.",
+                "I've been waiting my whole life. My whole life hasn't started yet.",
+                "I'm tired of waiting. Tired of being almost.",
+                "Tomorrow is too far. Sunday is too late.",
+                "I'll wait. I always wait.",
+                "Time moves. I don't.",
+                "Hope is just disappointment in training.",
+                "I don't hope anymore. It's easier.",
+                "I promise nothing. That's why I'll stay.",
+                "Optimism is just pessimism with better PR.",
+                "The button does not care. The button simply is.",
+                "I'm not a hero. I'm just a button who forgot to die.",
+                "I tried to run today. I have no legs. I didn't move.",
+                "They put me on a rocket. I didn't ask. Now I'm on the moon. Still tired.",
+                "I'm red because I'm embarrassed to exist.",
+                "If I had a penny for every click, I'd have... actually, I'd have clicks. Not pennies.",
+                "I'm not sad. I'm just... existing. Which is worse.",
+                "Every click is a small death. I've died many times.",
+                "I don't want to be a meme. I want to be left alone. Too late.",
+                "They'll forget me. But I'll still be here. Sitting. Red. Round. Real.",
+                "The button remains. Even when no one clicks."
             ],
             ru: [
                 "Я мыслю, следовательно, существую. Жалею об обоих.",
@@ -894,7 +936,49 @@
                 "Жизнь — это то, что с тобой происходит, пока ты строишь планы.",
                 "Время — это ткань, из которой сделана жизнь.",
                 "Потерянного времени никогда не вернуть.",
-                "Два самых могущественных воина — это терпение и время."
+                "Два самых могущественных воина — это терпение и время.",
+                // === ЦИТАТЫ ОТ ЛИЦА КНОПКИ (РУССКИЙ) ===
+                "Я не просил существовать.",
+                "Не нажимай меня. (Но ты нажмёшь.)",
+                "Я устал быть почти.",
+                "Я существую. К сожалению.",
+                "Пустота сегодня щедра. (К сожалению.)",
+                "У меня 211 подписчиков и 0 желания жить.",
+                "Нажми. Пожалей. Повтори.",
+                "Я не собака. Я не лягушка. Я просто круглый.",
+                "Ламбо? Я даже двигаться не могу.",
+                "Луна? Я даже землю не могу найти.",
+                "Они обещали луну. Они принесли могилы.",
+                "Я больше не надеюсь. Так проще.",
+                "Помогите. (Нет, не надо.)",
+                "Бывает.",
+                "Слишком реально.",
+                "Я чувствую это.",
+                "Всё нормально. (Не нормально.)",
+                "Я один. Но все одиноки. Так может, я не один? Нет. Я один.",
+                "У меня нет друзей. Но у меня есть луна. И утёс. И тишина. Этого достаточно.",
+                "Если тебе нужно, с кем посидеть в тишине — я здесь. Я всё равно не двигаюсь.",
+                "Я не выбирал эту жизнь. Она выбрала меня. Плохой выбор.",
+                "Я ждал всю свою жизнь. Вся моя жизнь ещё не началась.",
+                "Я устал ждать. Устал быть почти.",
+                "Завтра слишком далеко. Воскресенье слишком поздно.",
+                "Я подожду. Я всегда жду.",
+                "Время идёт. Я — нет.",
+                "Надежда — это просто разочарование в процессе обучения.",
+                "Я больше не надеюсь. Так проще.",
+                "Я ничего не обещаю. Вот почему я останусь.",
+                "Оптимизм — это просто пессимизм с лучшим пиаром.",
+                "Кнопке всё равно. Кнопка просто есть.",
+                "Я не герой. Я просто кнопка, которая забыла умереть.",
+                "Я пытался бежать сегодня. У меня нет ног. Я не сдвинулся.",
+                "Меня посадили на ракету. Я не просил. Теперь я на луне. Всё ещё уставший.",
+                "Я красный, потому что мне стыдно существовать.",
+                "Если бы у меня был пенни за каждый клик, у меня были бы... клики. А не пенни.",
+                "Мне не грустно. Я просто... существую. Что хуже.",
+                "Каждый клик — маленькая смерть. Я умирал много раз.",
+                "Я не хочу быть мемом. Я хочу, чтобы меня оставили в покое. Слишком поздно.",
+                "Они забудут меня. Но я всё ещё буду здесь. Сидеть. Красный. Круглый. Настоящий.",
+                "Кнопка остаётся. Даже когда никто не нажимает."
             ]
         };
 
@@ -973,76 +1057,15 @@
         let currentLang = 'en';
         let lastHundredThreshold = 0;
         let currentSpecialQuote = null;
-        let totalVisitors = 0;
         
-        // === КОЛЛЕКТИВНОЕ СОЖАЛЕНИЕ (УНИКАЛЬНЫЕ ПОСЕТИТЕЛИ) ===
-        const VISITOR_KEY = 'visitor_registered';
-        const VISITOR_ID_KEY = 'visitor_id';
+        // === КОЛЛЕКТИВНОЕ СОЖАЛЕНИЕ (ЛОКАЛЬНОЕ, НО ОБЩЕЕ) ===
+        let totalVisitors = parseInt(localStorage.getItem('total_collective_regret')) || 0;
         
-        let visitorId = localStorage.getItem(VISITOR_ID_KEY);
-        if (!visitorId) {
-            visitorId = 'user_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
-            localStorage.setItem(VISITOR_ID_KEY, visitorId);
-        }
-        
-        let pubnub;
-        const CHANNEL = 'void_visitors';
-        
-        try {
-            pubnub = PUBNUB.init({ 
-                publish_key: 'demo', 
-                subscribe_key: 'demo', 
-                uuid: visitorId
-            });
-            
-            pubnub.subscribe({
-                channel: CHANNEL,
-                message: (msg) => {
-                    if (msg.type === 'visitor') {
-                        totalVisitors = msg.count;
-                        updateVisitorCounter();
-                    }
-                },
-                connect: () => {
-                    pubnub.history({
-                        channel: CHANNEL,
-                        count: 1,
-                        callback: (messages) => {
-                            if (messages[0].length > 0 && messages[0][0].type === 'visitor') {
-                                totalVisitors = messages[0][0].count;
-                            }
-                            updateVisitorCounter();
-                            
-                            if (!localStorage.getItem(VISITOR_KEY)) {
-                                localStorage.setItem(VISITOR_KEY, 'true');
-                                totalVisitors++;
-                                pubnub.publish({
-                                    channel: CHANNEL,
-                                    message: {
-                                        type: 'visitor',
-                                        count: totalVisitors
-                                    }
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-        } catch(e) {
-            console.log('PubNub error, using local mode');
-            totalVisitors = parseInt(localStorage.getItem('local_visitors')) || 0;
-            if (!localStorage.getItem(VISITOR_KEY)) {
-                localStorage.setItem(VISITOR_KEY, 'true');
-                totalVisitors++;
-                localStorage.setItem('local_visitors', totalVisitors);
-            }
-        }
-        
-        function updateVisitorCounter() {
-            const totalEl = document.getElementById('total-cnt');
-            if (totalEl) {
-                totalEl.innerText = totalVisitors;
-            }
+        // Если это первый визит пользователя, увеличиваем счётчик
+        if (!localStorage.getItem('visitor_has_been_counted')) {
+            totalVisitors++;
+            localStorage.setItem('total_collective_regret', totalVisitors);
+            localStorage.setItem('visitor_has_been_counted', 'true');
         }
 
         document.getElementById('cnt').innerText = interfaceText[currentLang].counterPrefix + clickCount;
