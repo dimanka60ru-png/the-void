@@ -239,13 +239,42 @@
             border-radius: 50%;
         }
 
-        #mouth { 
-            width: 75px; height: 32px; 
-            border: 4px solid rgba(20,20,20,0.9); 
-            transition: all 0.3s ease; 
-            margin-top: 8px; 
+        #mouth {
+            width: 70px;
+            height: 30px;
+            border: 4px solid rgba(20,20,20,0.9);
+            border-top: transparent;
+            border-left: transparent;
+            border-right: transparent;
+            border-radius: 0 0 50px 50px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
             transform-origin: center;
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        }
+        
+        #mouth.happy {
+            border-radius: 50px 50px 0 0;
+            transform: rotate(180deg);
+            border-top: 4px solid rgba(20,20,20,0.9);
+            border-bottom: transparent;
+        }
+        
+        #mouth.surprised {
+            width: 30px;
+            height: 30px;
+            border: 4px solid rgba(20,20,20,0.9);
+            border-radius: 50%;
+            border-top: 4px solid rgba(20,20,20,0.9);
+            border-bottom: 4px solid rgba(20,20,20,0.9);
+        }
+        
+        #mouth.annoyed {
+            width: 50px;
+            height: 4px;
+            background: rgba(20,20,20,0.9);
+            border: none;
+            border-radius: 2px;
         }
 
         .blush {
@@ -266,48 +295,78 @@
             filter: blur(11px);
         }
 
-        #in { 
-            position: fixed; 
-            bottom: 90px; 
+        .ft {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            z-index: 60;
+            pointer-events: none;
+        }
+        
+        .counters {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            background: rgba(20,10,20,0.5);
+            backdrop-filter: blur(8px);
+            padding: 15px 30px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,100,100,0.3);
+            pointer-events: none;
+            margin-bottom: 10px;
+        }
+        
+        .counters div {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        
+        .counters div:first-child {
+            color: #ffb3b3;
+            text-shadow: 0 0 15px rgba(255,100,100,0.6);
+        }
+        
+        #total-cnt-container {
+            color: #ffd700;
+            text-shadow: 0 0 15px rgba(255,215,0,0.6);
+        }
+        
+        #total-cnt {
+            font-weight: 700;
+        }
+        
+        #in-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            pointer-events: auto;
+        }
+        
+        #in {
             background: rgba(20,10,20,0.6);
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255,100,100,0.5);
             border-radius: 40px;
-            color: inherit; 
-            text-align: center; 
-            width: 300px; 
-            padding: 12px 20px; 
-            font-size: 0.9rem; 
-            z-index: 60; 
-            user-select: text; 
+            color: inherit;
+            text-align: center;
+            width: 300px;
+            padding: 12px 20px;
+            font-size: 0.9rem;
             box-shadow: 0 0 20px rgba(255,80,80,0.3);
         }
+        
         #in::placeholder {
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
-        .ft { 
-            position: fixed; 
-            bottom: 20px; 
-            font-size: 0.85rem; 
-            opacity: 0.95; 
-            width: 100%; 
-            pointer-events: none; 
-            text-shadow: 0 2px 8px rgba(255,60,60,0.5);
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        #cnt {
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-        }
+        
         .link-group {
             display: flex;
             gap: 10px;
@@ -318,23 +377,26 @@
             border: 1px solid rgba(255,100,100,0.3);
             pointer-events: auto;
         }
-        #ca { 
+        
+        #ca {
             border: none;
             background: transparent;
-            padding: 4px 10px; 
-            border-radius: 30px; 
-            cursor: pointer; 
-            display: inline-block; 
+            padding: 4px 10px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: inline-block;
             font-size: 0.8rem;
             color: var(--text-col);
             transition: 0.2s;
             border-right: 1px solid rgba(255,100,100,0.3);
             padding-right: 15px;
         }
+        
         #ca:hover {
             color: #ff9f9f;
             text-shadow: 0 0 10px rgba(255,100,100,0.5);
         }
+        
         #x-link {
             padding: 4px 10px;
             border-radius: 30px;
@@ -344,6 +406,7 @@
             text-decoration: none;
             transition: 0.2s;
         }
+        
         #x-link:hover {
             color: #ff9f9f;
             text-shadow: 0 0 10px rgba(255,100,100,0.5);
@@ -351,7 +414,7 @@
 
         .threshold-msg {
             position: fixed;
-            bottom: 150px;
+            bottom: 250px;
             font-size: 1.2rem;
             opacity: 1;
             pointer-events: none;
@@ -370,6 +433,8 @@
             box-shadow: 0 0 50px rgba(255,215,0,0.6);
             z-index: 200;
             transition: opacity 0.3s;
+            text-transform: uppercase;
+            font-weight: 600;
         }
         .special-threshold {
             background: linear-gradient(145deg, #3a2a00, #4d3f00);
@@ -412,7 +477,7 @@
 <body>
 
     <div class="sound-control" id="soundToggle" onclick="toggleSound()">
-        <span>🔊</span> <span id="soundText">ATMOSPHERE ON</span>
+        <span>🔊</span> <span id="soundText">Atmosphere on</span>
     </div>
 
     <script>
@@ -444,7 +509,7 @@
     <div id="chat-wall"></div>
 
     <div class="main">
-        <div id="q">THE VOID WAITS FOR YOU.</div>
+        <div id="q">The void waits for you.</div>
         <button id="btn">
             <div class="eyes">
                 <div class="eye">
@@ -462,10 +527,14 @@
         </button>
     </div>
 
-    <input type="text" id="in" placeholder="WHISPER SOMETHING..." maxlength="50" autocomplete="off">
-
     <div class="ft">
-        <div id="cnt">YOUR PAIN: 0</div>
+        <div class="counters">
+            <div id="cnt">My regrets: 0</div>
+            <div id="total-cnt-container">Collective regret: <span id="total-cnt">0</span></div>
+        </div>
+        <div id="in-container">
+            <input type="text" id="in" placeholder="Whisper something..." maxlength="50" autocomplete="off">
+        </div>
         <div class="link-group">
             <div id="ca" onclick="copyCA()">CA: CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump</div>
             <a href="https://x.com/ClickDontPush" target="_blank" id="x-link">X: @ClickDontPush</a>
@@ -633,7 +702,7 @@
             "Я больше не надеюсь. Так проще.",
             "Пустота сегодня щедра.",
             "Нажми. Пожалей. Повтори.",
-            "Пещера, в которую ты боисься войти, хранит сокровище, которое ты ищешь.",
+            "Пещера, в которую ты боишься войти, хранит сокровище, которое ты ищешь.",
             "Рана — это место, через которое в тебя входит свет.",
             "Ты родился с крыльями, зачем ты предпочитаешь ползать по жизни?",
             "Чем тише ты становишься, тем больше ты способен слышать.",
@@ -675,7 +744,7 @@
             "Всё составное подвержено распаду. Усердствуйте в своём спасении.",
             "Что мы думаем, тем мы и становимся.",
             "Корень страданий — привязанность.",
-            "В конце концов, важны лишь три вещи: как сильно ты любил, как мягко ты жил и как gracefully ты отпустил то, что не было для тебя предназначено.",
+            "В конце концов, важны лишь три вещи: как сильно ты любил, как мягко ты жил и как изящно ты отпустил то, что не было для тебя предназначено.",
             "Если хочешь летать, тебе придётся отказаться от того, что тянет тебя вниз.",
             "Чем больше ты знаешь себя, тем больше ты прощаешь себя.",
             "Счастье — это не что-то готовое. Оно происходит от твоих собственных действий.",
@@ -697,42 +766,42 @@
 
     const hundredQuotes = {
         en: [
-            "✨ 100 CLICKS. 100 MOMENTS. ALL GONE. WAS IT WORTH IT? ✨",
-            "✨ TIME IS THE ONLY CURRENCY THAT CAN'T BE MINED. YOU JUST SPENT 100 UNITS. ✨",
-            "✨ YOU HAVE CLICKED 100 TIMES. THE BUTTON REMEMBERS. DO YOU? ✨",
-            "✨ EVERY CLICK IS A SECOND OF YOUR LIFE. YOU WON'T GET THEM BACK. ✨",
-            "✨ WHAT IF EACH CLICK WAS A DAY? YOU'D BE 100 DAYS OLDER NOW. FEEL ANY WISER? ✨",
-            "✨ THE BUTTON DOESN'T CARE. BUT MAYBE YOU SHOULD. ✨",
-            "✨ 100 CLICKS DEEPER INTO THE VOID. HOW FAR WILL YOU GO? ✨",
-            "✨ YOU CAME HERE FOR MEANING. YOU FOUND A BUTTON. AND 100 CLICKS. ✨",
-            "✨ IMAGINE IF YOU'D SPENT THOSE 100 CLICKS ON SOMETHING REAL. ✨",
-            "✨ THE AVERAGE HUMAN LIFETIME IS 2.5 BILLION CLICKS. YOU'RE JUST GETTING STARTED. ✨"
+            "✨ 100 clicks. 100 moments. All gone. Was it worth it? ✨",
+            "✨ Time is the only currency that can't be mined. You just spent 100 units. ✨",
+            "✨ You have clicked 100 times. The button remembers. Do you? ✨",
+            "✨ Every click is a second of your life. You won't get them back. ✨",
+            "✨ What if each click was a day? You'd be 100 days older now. Feel any wiser? ✨",
+            "✨ The button doesn't care. But maybe you should. ✨",
+            "✨ 100 clicks deeper into the void. How far will you go? ✨",
+            "✨ You came here for meaning. You found a button. And 100 clicks. ✨",
+            "✨ Imagine if you'd spent those 100 clicks on something real. ✨",
+            "✨ The average human lifetime is 2.5 billion clicks. You're just getting started. ✨"
         ],
         ru: [
-            "✨ 100 НАЖАТИЙ. 100 МГНОВЕНИЙ. ВСЕ ПРОШЛИ. ОНО ТОГО СТОИЛО? ✨",
-            "✨ ВРЕМЯ — ЕДИНСТВЕННАЯ ВАЛЮТА, КОТОРУЮ НЕЛЬЗЯ НАМАЙНИТЬ. ТЫ ТОЛЬКО ЧТО ПОТРАТИЛ 100 ЕДИНИЦ. ✨",
-            "✨ ТЫ НАЖАЛ 100 РАЗ. КНОПКА ПОМНИТ. А ТЫ? ✨",
-            "✨ КАЖДОЕ НАЖАТИЕ — СЕКУНДА ТВОЕЙ ЖИЗНИ. ТЫ ИХ НЕ ВЕРНЁШЬ. ✨",
-            "✨ А ЧТО, ЕСЛИ КАЖДЫЙ КЛИК — ЭТО ДЕНЬ? ТЫ БЫ СТАЛ НА 100 ДНЕЙ СТАРШЕ. ПОЧУВСТВОВАЛ МУДРОСТЬ? ✨",
-            "✨ КНОПКЕ ВСЁ РАВНО. А ТЕБЕ НЕ ДОЛЖНО БЫТЬ. ✨",
-            "✨ 100 НАЖАТИЙ В ГЛУБИНУ ПУСТОТЫ. КАК ДАЛЕКО ТЫ ЗАЙДЁШЬ? ✨",
-            "✨ ТЫ ПРИШЁЛ СЮДА ЗА СМЫСЛОМ. А НАШЁЛ КНОПКУ И 100 НАЖАТИЙ. ✨",
-            "✨ ПРЕДСТАВЬ, ЕСЛИ БЫ ТЫ ПОТРАТИЛ ЭТИ 100 КЛИКОВ НА ЧТО-ТО НАСТОЯЩЕЕ. ✨",
-            "✨ СРЕДНЯЯ ЖИЗНЬ ЧЕЛОВЕКА — 2.5 МИЛЛИАРДА КЛИКОВ. ТЫ ТОЛЬКО НАЧИНАЕШЬ. ✨"
+            "✨ 100 нажатий. 100 мгновений. Все прошли. Оно того стоило? ✨",
+            "✨ Время — единственная валюта, которую нельзя намайнить. Ты только что потратил 100 единиц. ✨",
+            "✨ Ты нажал 100 раз. Кнопка помнит. А ты? ✨",
+            "✨ Каждое нажатие — секунда твоей жизни. Ты их не вернёшь. ✨",
+            "✨ А что, если каждый клик — это день? Ты бы стал на 100 дней старше. Почувствовал мудрость? ✨",
+            "✨ Кнопке всё равно. А тебе не должно быть. ✨",
+            "✨ 100 нажатий в глубину пустоты. Как далеко ты зайдёшь? ✨",
+            "✨ Ты пришёл сюда за смыслом. А нашёл кнопку и 100 нажатий. ✨",
+            "✨ Представь, если бы ты потратил эти 100 кликов на что-то настоящее. ✨",
+            "✨ Средняя жизнь человека — 2.5 миллиарда кликов. Ты только начинаешь. ✨"
         ]
     };
 
     const interfaceText = {
-        en: { counterPrefix: "YOUR PAIN: ", inputPlaceholder: "WHISPER SOMETHING..." },
-        ru: { counterPrefix: "ТВОЯ БОЛЬ: ", inputPlaceholder: "ПРОШЕПЧИ ЧТО-НИБУДЬ..." },
-        zh: { counterPrefix: "你的痛苦: ", inputPlaceholder: "低语..." },
-        ja: { counterPrefix: "あなたの痛み: ", inputPlaceholder: "ささやく..." },
-        ko: { counterPrefix: "너의 고통: ", inputPlaceholder: "속삭임..." },
-        es: { counterPrefix: "TU DOLOR: ", inputPlaceholder: "SUSURRA ALGO..." },
-        pt: { counterPrefix: "SUA DOR: ", inputPlaceholder: "SUSSURRE ALGO..." },
-        tr: { counterPrefix: "ACIN: ", inputPlaceholder: "FISILDA..." },
-        vi: { counterPrefix: "NỖI ĐAU CỦA BẠN: ", inputPlaceholder: "THÌ THẦM..." },
-        de: { counterPrefix: "DEIN SCHMERZ: ", inputPlaceholder: "FLÜSTERN..." }
+        en: { counterPrefix: "My regrets: ", inputPlaceholder: "Whisper something..." },
+        ru: { counterPrefix: "Мои сожаления: ", inputPlaceholder: "Прошепчи что-нибудь..." },
+        zh: { counterPrefix: "我的遗憾: ", inputPlaceholder: "低语..." },
+        ja: { counterPrefix: "私の後悔: ", inputPlaceholder: "ささやく..." },
+        ko: { counterPrefix: "나의 후회: ", inputPlaceholder: "속삭임..." },
+        es: { counterPrefix: "Mis arrepentimientos: ", inputPlaceholder: "Susurra algo..." },
+        pt: { counterPrefix: "Meus arrependimentos: ", inputPlaceholder: "Sussurre algo..." },
+        tr: { counterPrefix: "Pişmanlıklarım: ", inputPlaceholder: "Fısılda..." },
+        vi: { counterPrefix: "Hối tiếc của tôi: ", inputPlaceholder: "Thì thầm..." },
+        de: { counterPrefix: "Meine Reue: ", inputPlaceholder: "Flüstern..." }
     };
 
     const CA_VAL = "CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump";
@@ -742,16 +811,20 @@
     let lastHundredThreshold = 0;
     let currentSpecialQuote = null;
     let soundEnabled = true;
-    let windGain, thunderGain, rainGain;
+    let windGain, rainGain, thunderGain;
     let windInterval, thunderInterval;
+    let totalClicks = 0;
+    let pubnub;
+    const CHANNEL = 'void_temple_v8';
 
     document.getElementById('cnt').innerText = interfaceText[currentLang].counterPrefix + clickCount;
     document.getElementById('in').placeholder = interfaceText[currentLang].inputPlaceholder;
 
     function showHundredQuote() {
         const hundredThreshold = Math.floor(clickCount / 100) * 100;
-        if (hundredThreshold > 0 && hundredThreshold > lastHundredThreshold) {
-            lastHundredThreshold = hundredThreshold;
+        
+        if (clickCount > 0 && clickCount % 100 === 0 && clickCount > lastHundredThreshold) {
+            lastHundredThreshold = clickCount;
             const quotesArray = hundredQuotes[currentLang] || hundredQuotes.en;
             const randomIndex = Math.floor(Math.random() * quotesArray.length);
             
@@ -768,21 +841,18 @@
         }
     }
 
-    function hideSpecialQuote() {
-        if (currentSpecialQuote) {
-            currentSpecialQuote.remove();
-            currentSpecialQuote = null;
-        }
-    }
-
     function showRandomChatMessage(text) {
         const container = document.getElementById('chat-wall');
         const msg = document.createElement('div');
         msg.className = 'chat-message';
         msg.innerText = text.toUpperCase();
         
-        const x = Math.random() * 80 + 10; // %
-        const y = Math.random() * 70 + 10; // %
+        let x, y;
+        do {
+            x = Math.random() * 80 + 10;
+            y = Math.random() * 70 + 15;
+        } while (y > 30 && y < 70 && x > 30 && x < 70);
+        
         const duration = 6 + Math.random() * 4;
         const delay = Math.random() * 2;
         
@@ -795,36 +865,115 @@
         setTimeout(() => msg.remove(), (duration + delay) * 1000);
     }
 
+    function updateTotalCounter() {
+        const totalEl = document.getElementById('total-cnt');
+        if (totalEl) {
+            totalEl.innerText = totalClicks;
+        }
+    }
+
+    function sendClickToPubNub() {
+        if (pubnub) {
+            pubnub.publish({
+                channel: CHANNEL,
+                message: {
+                    type: 'click',
+                    total: totalClicks
+                }
+            });
+        }
+    }
+
+    try {
+        pubnub = PUBNUB.init({ 
+            publish_key: 'demo', 
+            subscribe_key: 'demo', 
+            uuid: 'v' + Math.random().toString(36).substring(7) 
+        });
+        
+        pubnub.subscribe({
+            channel: CHANNEL,
+            message: (msg) => {
+                if (msg.type === 'click') {
+                    totalClicks = msg.total;
+                    updateTotalCounter();
+                } else if (msg.type === 'chat') {
+                    showRandomChatMessage(msg.text);
+                }
+            },
+            connect: () => {
+                pubnub.history({
+                    channel: CHANNEL,
+                    count: 100,
+                    callback: (messages) => {
+                        let maxClick = 0;
+                        messages[0].forEach(msg => {
+                            if (msg.type === 'click' && msg.total > maxClick) {
+                                maxClick = msg.total;
+                            }
+                        });
+                        totalClicks = maxClick;
+                        updateTotalCounter();
+                    }
+                });
+            }
+        });
+    } catch(e) {
+        console.log('PubNub error, using local mode');
+    }
+
+    document.getElementById('in').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter' && this.value.trim() !== '') {
+            const message = this.value.trim().toUpperCase();
+            if (pubnub) {
+                pubnub.publish({
+                    channel: CHANNEL,
+                    message: {
+                        type: 'chat',
+                        text: message
+                    }
+                });
+            } else {
+                showRandomChatMessage(message);
+            }
+            this.value = '';
+        }
+    });
+
     function initAudio() {
         if (!audioCtx) {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             
-            // Wind (background)
             const windOsc = audioCtx.createOscillator();
             windGain = audioCtx.createGain();
             windOsc.type = 'sine';
-            windOsc.frequency.setValueAtTime(80, audioCtx.currentTime);
-            windOsc.frequency.linearRampToValueAtTime(120, audioCtx.currentTime + 10);
-            windGain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            windOsc.frequency.setValueAtTime(60, audioCtx.currentTime);
+            windOsc.frequency.linearRampToValueAtTime(90, audioCtx.currentTime + 8);
+            windGain.gain.setValueAtTime(0.03, audioCtx.currentTime);
             windOsc.connect(windGain);
             windGain.connect(audioCtx.destination);
             windOsc.start();
             
-            // Rain (filtered noise)
             const bufferSize = 4096;
             const noiseNode = audioCtx.createScriptProcessor(bufferSize, 1, 1);
             rainGain = audioCtx.createGain();
+            
             noiseNode.onaudioprocess = (e) => {
                 const output = e.outputBuffer.getChannelData(0);
                 for (let i = 0; i < bufferSize; i++) {
-                    output[i] = Math.random() * 2 - 1;
+                    output[i] = (Math.random() * 2 - 1) * 0.008;
                 }
             };
-            noiseNode.connect(rainGain);
-            rainGain.connect(audioCtx.destination);
-            rainGain.gain.setValueAtTime(0.02, audioCtx.currentTime);
             
-            // Thunder (random)
+            const lowpass = audioCtx.createBiquadFilter();
+            lowpass.type = 'lowpass';
+            lowpass.frequency.setValueAtTime(600, audioCtx.currentTime);
+            
+            noiseNode.connect(lowpass);
+            lowpass.connect(rainGain);
+            rainGain.connect(audioCtx.destination);
+            rainGain.gain.setValueAtTime(0.012, audioCtx.currentTime);
+            
             thunderGain = audioCtx.createGain();
             thunderGain.connect(audioCtx.destination);
             thunderGain.gain.setValueAtTime(0, audioCtx.currentTime);
@@ -832,28 +981,28 @@
             windInterval = setInterval(() => {
                 if (!soundEnabled || !audioCtx) return;
                 const now = audioCtx.currentTime;
-                windGain.gain.linearRampToValueAtTime(0.03 + Math.random() * 0.05, now + 2);
-                windGain.gain.linearRampToValueAtTime(0.02, now + 5);
-            }, 8000);
+                windGain.gain.linearRampToValueAtTime(0.02 + Math.random() * 0.04, now + 2);
+                windGain.gain.linearRampToValueAtTime(0.02, now + 6);
+            }, 10000);
             
             thunderInterval = setInterval(() => {
-                if (!soundEnabled || !audioCtx || Math.random() > 0.3) return;
+                if (!soundEnabled || !audioCtx || Math.random() > 0.25) return;
                 const now = audioCtx.currentTime;
-                thunderGain.gain.setValueAtTime(0.2 + Math.random() * 0.3, now);
-                thunderGain.gain.exponentialRampToValueAtTime(0.001, now + 1 + Math.random() * 2);
+                thunderGain.gain.setValueAtTime(0.1 + Math.random() * 0.15, now);
+                thunderGain.gain.exponentialRampToValueAtTime(0.001, now + 1.5 + Math.random() * 2);
                 
                 const osc = audioCtx.createOscillator();
                 const oscGain = audioCtx.createGain();
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(60 + Math.random() * 40, now);
+                osc.frequency.setValueAtTime(50 + Math.random() * 30, now);
                 osc.frequency.exponentialRampToValueAtTime(20, now + 1.5);
-                oscGain.gain.setValueAtTime(0.1, now);
+                oscGain.gain.setValueAtTime(0.05, now);
                 oscGain.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
                 osc.connect(oscGain);
                 oscGain.connect(audioCtx.destination);
                 osc.start(now);
                 osc.stop(now + 1.5);
-            }, 15000);
+            }, 20000);
         }
         
         if (audioCtx.state === 'suspended') {
@@ -867,15 +1016,15 @@
         const soundIcon = document.querySelector('#soundToggle span:first-child');
         
         if (soundEnabled) {
-            soundText.innerText = 'ATMOSPHERE ON';
+            soundText.innerText = 'Atmosphere on';
             soundIcon.innerText = '🔊';
             if (audioCtx && audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
             if (windGain) windGain.gain.setValueAtTime(0.02, audioCtx.currentTime);
-            if (rainGain) rainGain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+            if (rainGain) rainGain.gain.setValueAtTime(0.012, audioCtx.currentTime);
         } else {
-            soundText.innerText = 'ATMOSPHERE OFF';
+            soundText.innerText = 'Atmosphere off';
             soundIcon.innerText = '🔈';
             if (windGain) windGain.gain.setValueAtTime(0, audioCtx.currentTime);
             if (rainGain) rainGain.gain.setValueAtTime(0, audioCtx.currentTime);
@@ -885,30 +1034,6 @@
             }
         }
     }
-
-    let pubnub;
-    try {
-        pubnub = PUBNUB.init({ 
-            publish_key: 'demo', 
-            subscribe_key: 'demo', 
-            uuid: 'v' + Math.random().toString(36).substring(7) 
-        });
-        pubnub.subscribe({
-            channel: 'void_temple_v7',
-            message: (msg) => {
-                showRandomChatMessage(msg);
-            }
-        });
-    } catch(e) {}
-
-    document.getElementById('in').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter' && this.value.trim() !== '') {
-            if (pubnub) {
-                pubnub.publish({ channel: 'void_temple_v7', message: this.value.toUpperCase() });
-            }
-            this.value = '';
-        }
-    });
 
     function playClick() {
         if (!audioCtx) return;
@@ -927,55 +1052,26 @@
 
     function setExpression(expr) {
         const mouth = document.getElementById('mouth');
+        mouth.className = '';
+        
         switch(expr) {
             case 'happy':
-                mouth.style.borderRadius = '30px 30px 0 0';
-                mouth.style.transform = 'rotate(180deg)';
-                mouth.style.border = '4px solid rgba(20,20,20,0.9)';
+                mouth.classList.add('happy');
                 break;
             case 'sad':
-                mouth.style.borderRadius = '0 0 40px 40px';
-                mouth.style.transform = 'rotate(0deg)';
-                mouth.style.border = '4px solid rgba(20,20,20,0.9)';
-                mouth.style.backgroundColor = 'transparent';
                 break;
             case 'surprised':
-                mouth.style.borderRadius = '50%';
-                mouth.style.width = '30px';
-                mouth.style.height = '30px';
-                mouth.style.transform = 'rotate(0deg)';
-                mouth.style.border = '4px solid rgba(20,20,20,0.9)';
-                mouth.style.backgroundColor = 'transparent';
+                mouth.classList.add('surprised');
                 break;
             case 'annoyed':
-                mouth.style.borderRadius = '0';
-                mouth.style.width = '50px';
-                mouth.style.height = '4px';
-                mouth.style.transform = 'rotate(0deg)';
-                mouth.style.border = 'none';
-                mouth.style.backgroundColor = 'rgba(20,20,20,0.9)';
+                mouth.classList.add('annoyed');
                 break;
-            case 'skeptical':
-                mouth.style.borderRadius = '0';
-                mouth.style.width = '50px';
-                mouth.style.height = '4px';
-                mouth.style.transform = 'rotate(-5deg)';
-                mouth.style.border = 'none';
-                mouth.style.backgroundColor = 'rgba(20,20,20,0.9)';
-                break;
-            case 'smile':
-                mouth.style.borderRadius = '0 0 20px 20px';
-                mouth.style.width = '50px';
-                mouth.style.height = '15px';
-                mouth.style.transform = 'rotate(0deg)';
-                mouth.style.border = '4px solid rgba(20,20,20,0.9)';
-                mouth.style.backgroundColor = 'transparent';
-                break;
+            default:
         }
     }
 
     function randomExpression() {
-        const exprs = ['sad', 'happy', 'surprised', 'annoyed', 'skeptical', 'smile'];
+        const exprs = ['sad', 'happy', 'surprised', 'annoyed'];
         const random = exprs[Math.floor(Math.random() * exprs.length)];
         setExpression(random);
         setTimeout(() => setExpression('sad'), 2000);
@@ -995,7 +1091,7 @@
     function updateQuote() {
         const langQuotes = quotes[currentLang] || quotes.en;
         const randomIndex = Math.floor(Math.random() * langQuotes.length);
-        document.getElementById('q').innerText = langQuotes[randomIndex].toUpperCase();
+        document.getElementById('q').innerText = langQuotes[randomIndex];
     }
 
     function blink() {
@@ -1017,12 +1113,15 @@
     button.onmouseup = () => {
         clickCount++; 
         localStorage.setItem('v_c_final', clickCount);
+        
+        totalClicks++;
+        sendClickToPubNub();
+        
         document.documentElement.style.setProperty('--lid', '-100%'); 
         randomExpression();
         updateQuote();
         updateVisuals();
         showHundredQuote();
-        hideSpecialQuote();
     };
 
     button.ontouchstart = button.onmousedown;
@@ -1057,7 +1156,7 @@
         navigator.clipboard.writeText(CA_VAL); 
         const caElem = document.getElementById('ca');
         const originalText = caElem.innerText;
-        caElem.innerText = "✅ COPIED"; 
+        caElem.innerText = "✅ Copied"; 
         setTimeout(() => caElem.innerText = originalText, 1000); 
     }
 
