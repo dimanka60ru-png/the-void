@@ -12,36 +12,41 @@
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 2s ease; overflow: hidden; text-align: center; }
         body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url(https://upload.wikimedia.org); opacity: 0.04; pointer-events: none; }
-        .lang-bar { position: absolute; top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; z-index: 100; padding: 0 10px; }
-        .lang-tag { font-size: 0.6rem; letter-spacing: 1px; cursor: pointer; color: var(--secondary); transition: 0.3s; padding: 5px; text-transform: uppercase; }
+        
+        .lang-bar { position: absolute; top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; z-index: 100; }
+        .lang-tag { font-size: 0.65rem; letter-spacing: 1px; cursor: pointer; color: var(--secondary); transition: 0.3s; padding: 5px; text-transform: uppercase; }
         .lang-tag.active { color: var(--accent); font-weight: bold; }
+
         #chat-area { position: absolute; top: 15%; width: 100%; pointer-events: none; height: 150px; overflow: hidden; }
         .msg { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; opacity: 0; animation: float 6s forwards; margin-bottom: 8px; position: absolute; left: 0; right: 0; }
         @keyframes float { 0% { opacity: 0; transform: translateY(20px); } 15% { opacity: 0.8; } 85% { opacity: 0.5; } 100% { opacity: 0; transform: translateY(-50px); } }
+
         .main { width: 90%; max-width: 600px; z-index: 10; }
-        #quote { font-family: 'Playfair Display', serif; font-size: 1.4rem; line-height: 1.6; min-height: 100px; margin-bottom: 50px; opacity: 0; transition: 0.5s; }
+        #quote { font-family: 'Playfair Display', serif; font-size: 1.4rem; line-height: 1.6; min-height: 100px; margin-bottom: 60px; opacity: 0; transition: 0.5s; }
         #quote.show { opacity: 1; }
-        #void-btn { width: 125px; height: 125px; background: var(--accent); border-radius: 50%; border: none; cursor: pointer; box-shadow: 0 10px 40px rgba(255, 30, 30, 0.2); display: flex; justify-content: center; align-items: center; transition: 0.1s; outline: none; z-index: 60; }
+
+        #void-btn { width: 130px; height: 130px; background: var(--accent); border-radius: 50%; border: none; cursor: pointer; box-shadow: 0 10px 40px rgba(255, 30, 30, 0.2); display: flex; justify-content: center; align-items: center; transition: 0.1s; outline: none; }
         #void-btn:active { transform: scale(0.9); }
-        .eye { width: 26px; height: 15px; background: #eee; border-radius: 50%; position: relative; overflow: hidden; margin: 0 10px; border: 1px solid rgba(0,0,0,0.05); }
-        .pupil { width: 10px; height: 10px; background: #000; border-radius: 50%; position: absolute; top: 2.5px; left: 8px; transition: transform 0.05s linear; }
+        .eye { width: 28px; height: 16px; background: #eee; border-radius: 50%; position: relative; overflow: hidden; margin: 0 10px; border: 1px solid rgba(0,0,0,0.05); }
+        .pupil { width: 11px; height: 11px; background: #000; border-radius: 50%; position: absolute; top: 2.5px; left: 8.5px; transition: transform 0.05s linear; }
         .eyelid { position: absolute; top: var(--eye-open); left: 0; width: 100%; height: 100%; background: var(--accent); transition: 0.15s; z-index: 2; }
-        #chat-input { position: absolute; bottom: 130px; background: none; border: none; border-bottom: 1px solid var(--secondary); color: var(--text); text-align: center; font-size: 0.85rem; padding: 8px; width: 220px; outline: none; transition: 0.3s; z-index: 50; }
+
+        #chat-input { position: absolute; bottom: 130px; background: none; border: none; border-bottom: 1px solid var(--secondary); color: var(--text); text-align: center; font-size: 0.9rem; padding: 8px; width: 240px; outline: none; transition: 0.3s; z-index: 50; }
         .footer { position: absolute; bottom: 25px; width: 100%; font-size: 0.7rem; color: var(--secondary); letter-spacing: 0.5px; z-index: 10; }
-        #ca-box { border: 1px solid var(--secondary); padding: 8px 18px; border-radius: 20px; cursor: pointer; display: inline-block; margin-top: 12px; transition: 0.3s; font-family: monospace; }
+        #ca-box { border: 1px solid var(--secondary); padding: 8px 18px; border-radius: 20px; cursor: pointer; display: inline-block; margin-top: 10px; transition: 0.3s; font-family: monospace; }
     </style>
 </head>
 <body id="b">
 
 <div class="lang-bar">
-    <span class="lang-tag active" onclick="sL('en')">EN</span><span class="lang-tag" onclick="sL('ru')">RU</span><span class="lang-tag" onclick="sL('zh')">ZH</span><span class="lang-tag" onclick="sL('ko')">KO</span><span class="lang-tag" onclick="sL('jp')">JP</span>
-    <span class="lang-tag" onclick="sL('es')">ES</span><span class="lang-tag" onclick="sL('pt')">PT</span><span class="lang-tag" onclick="sL('tr')">TR</span><span class="lang-tag" onclick="sL('vi')">VI</span><span class="lang-tag" onclick="sL('ar')">AR</span>
+    <span class="lang-tag active" onclick="sL('en')">EN</span><span class="lang-tag" onclick="sL('ru')">RU</span><span class="lang-tag" onclick="sL('jp')">JP</span>
+    <span class="lang-tag" onclick="sL('zh')">ZH</span><span class="lang-tag" onclick="sL('ar')">AR</span>
 </div>
 
 <div id="chat-area"></div>
 
 <div class="main">
-    <div id="quote" class="show">The Void Temple is open.</div>
+    <div id="quote" class="show">The Void is silent. For now.</div>
     <div style="display:flex; justify-content:center;">
         <button id="void-btn">
             <div class="eye"><div class="eyelid"></div><div class="pupil"></div></div>
@@ -54,35 +59,58 @@
 
 <div class="footer">
     <div id="p-count">личная боль: 0</div>
-    <div id="g-count">общая пустота: ...</div>
     <div id="ca-box" onclick="copyCA()">CA: CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump</div>
 </div>
 
-<!-- БЕЗОПАСНАЯ ПОДГРУЗКА ЧАТА -->
 <script src="https://cdn.pubnub.com"></script>
 
 <script>
     const ca = "CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump";
     let pClicks = parseInt(localStorage.getItem('v_c')) || 0;
     let lang = 'ru';
-    const goal = 1000;
+    let audioCtx;
 
     const qs = [
-        { en: "God is dead.", ru: "Бог умер.", zh: "上帝已死。", ko: "신은 죽었다.", jp: "神は死んだ。", es: "Dios ha muerto.", pt: "Deus está morto.", tr: "Tanrı öldü.", vi: "Chúa đã chết.", ar: "مات الإله。" },
-        { en: "Time is a circle.", ru: "Время — это круг.", zh: "时间是一个圆圈。", ko: "시간은 원이다.", jp: "時間は円です。", es: "El tiempo es un círculo.", pt: "O tempo é um círculo.", tr: "Zaman bir çemberdir.", vi: "Thời gian là một vòng tròn.", ar: "الوقت دائرة。" },
-        { en: "Void is freedom.", ru: "Пустота — это свобода.", zh: "真空就是自由。", ko: "공허는 자유다.", jp: "空虚は自由です。", es: "El vacío es libertad.", pt: "O vazio é liberdade.", tr: "Boşluk özgürlüktür.", vi: "Hư vô là tự do.", ar: "الفراغ هو الحرية。" }
+        { en: "God is dead.", ru: "Бог умер.", jp: "神は死んだ。", zh: "上帝已死。", ar: "مات الإله。" },
+        { en: "Time is a circle.", ru: "Время — это круг.", jp: "時間は円です。", zh: "时间是一个圆圈。", ar: "الوقت دائرة。" },
+        { en: "The abyss is watching.", ru: "Бездна наблюдает.", jp: "深淵が見つめている。", zh: "深渊在注视。", ar: "الهاوية تراقب。" }
     ];
 
-    // ИНИЦИАЛИЗАЦИЯ ЧАТА (Безопасная)
+    // --- АУДИО ---
+    function initAudio() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine'; osc.frequency.setValueAtTime(40, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); // Фоновый гул
+        }
+    }
+
+    function playClickSound() {
+        if (audioCtx) {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.type = 'sine'; o.frequency.setValueAtTime(120, audioCtx.currentTime);
+            g.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            o.connect(g); g.connect(audioCtx.destination);
+            o.start(); o.stop(audioCtx.currentTime + 0.1);
+        }
+    }
+
+    // --- ЧАТ ---
     let pn;
     try {
-        pn = new PubNub({ publishKey: 'pub-c-46700c2b-986c-486a-8b83-50069a30456c', subscribeKey: 'sub-c-1349071c-7607-11eb-987a-526466f24419', uuid: "u_"+Math.random() });
+        pn = new PubNub({ publishKey: 'pub-c-46700c2b-986c-486a-8b83-50069a30456c', subscribeKey: 'sub-c-1349071c-7607-11eb-987a-526466f24419', uuid: "u_" + Math.random() });
         pn.addListener({ message: (m) => {
             const d = document.createElement('div'); d.className = 'msg'; d.innerText = m.message;
             document.getElementById('chat-area').appendChild(d); setTimeout(() => d.remove(), 6000);
         }});
         pn.subscribe({ channels: ['void_v1'] });
-    } catch(e) { console.log("Chat failed"); }
+    } catch(e) {}
 
     document.getElementById('chat-input').onkeypress = (e) => {
         if(e.key === 'Enter' && e.target.value.trim() !== '' && pn) {
@@ -90,43 +118,46 @@
         }
     };
 
-    // ОБНОВЛЕНИЕ ИНТЕРФЕЙСА
+    // --- ИНТЕРФЕЙС ---
     function updateUI() {
-        const r = document.documentElement; const t = Math.min(pClicks / goal, 1);
+        const r = document.documentElement; const t = Math.min(pClicks / 1000, 1);
         r.style.setProperty('--eye-open', `${-100 + (t * 100)}%`);
         if (pClicks > 300) document.body.classList.add('dark');
-        if (pClicks >= goal) document.body.classList.add('abyss');
         document.getElementById('p-count').innerText = (lang === 'ru' ? 'твоя боль: ' : 'your pain: ') + pClicks;
     }
 
     const vBtn = document.getElementById('void-btn');
-    vBtn.onclick = () => {
-        if(pClicks >= goal) return;
+    vBtn.onmousedown = () => { 
+        initAudio(); // Активируем звук при первом клике
+        document.querySelectorAll('.eyelid').forEach(l => l.style.top = '0%');
+        playClickSound();
+    };
+
+    vBtn.onmouseup = () => {
         pClicks++; localStorage.setItem('v_c', pClicks);
-        
         const q = document.getElementById('quote'); q.classList.remove('show');
         setTimeout(() => {
+            const tiredness = Math.min(pClicks / 1000, 1);
+            document.querySelectorAll('.eyelid').forEach(l => l.style.top = `${-100 + (tiredness * 100)}%`);
             q.innerText = qs[Math.floor(Math.random()*qs.length)][lang];
             q.classList.add('show'); updateUI();
         }, 200);
     };
 
-    // СЛЕЖЕНИЕ ГЛАЗ (Исправлено)
-    const handleMove = (e) => {
-        if(pClicks>=goal) return;
-        const clX = e.clientX || (e.touches && e.touches[0].clientX);
-        const clY = e.clientY || (e.touches && e.touches[0].clientY);
+    // --- СЛЕЖЕНИЕ ГЛАЗ ---
+    const hM = (e) => {
+        const cX = e.clientX || (e.touches && e.touches[0].clientX);
+        const cY = e.clientY || (e.touches && e.touches[0].clientY);
         document.querySelectorAll('.pupil').forEach(p => {
             const r = p.getBoundingClientRect(); const x = r.left + r.width/2; const y = r.top + r.height/2;
-            const a = Math.atan2(clX - x, clY - y);
+            const a = Math.atan2(cX - x, cY - y);
             p.style.transform = `rotate(${(a * (180/Math.PI) * -1) + 180}deg) translateY(-4px)`;
         });
     };
-    document.addEventListener('mousemove', handleMove);
-    document.addEventListener('touchmove', handleMove);
+    document.addEventListener('mousemove', hM); document.addEventListener('touchmove', hM);
 
-    function sL(l) { lang = l; updateUI(); }
-    function copyCA() { navigator.clipboard.writeText(ca); alert("Copied!"); }
+    function sL(l) { lang = l; document.querySelectorAll('.lang-tag').forEach(t=>t.classList.toggle('active', t.innerText.toLowerCase()===l)); updateUI(); }
+    function copyCA() { navigator.clipboard.writeText(ca); const b = document.getElementById('ca-box'); b.innerText = "COPIED"; setTimeout(()=>b.innerText="CA: "+ca.substring(0,6)+'...', 1000); }
     
     updateUI();
 </script>
