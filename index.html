@@ -129,10 +129,27 @@
     const key = "global_v1";
 
     const quotes = [
-        { en: "God is dead. And we have killed him.", ru: "Бог умер: мы его убили.", zh: "上帝已死。是我们杀了他。", ko: "신은 죽었다. 우리가 그를 죽였다.", jp: "神は死んだ。そして私たちが彼を殺した。", es: "Dios ha muerto. Y nosotros lo hemos matado.", pt: "Deus está morto. E nós o matamos.", tr: "Tanrı öldü. Ve onu biz öldürdük.", vi: "Chúa đã chết. Và chúng ta đã giết Người.", ar: "مات الإله. ونحن من قتلناه。" },
-        { en: "Hell is other people.", ru: "Ад — это другие.", zh: "他人即地狱。", ko: "지옥은 다른 사람들이다.", jp: "地獄とは他人のことだ。", es: "El infierno son los otros.", pt: "O inferno são os outros.", tr: "Cehennem başkalarıdır.", vi: "Địa ngục là người khác.", ar: "الجحيم هم الآخرون。" },
-        { en: "Why are you still here?", ru: "Почему ты всё еще здесь?", zh: "你为什么还在这里？", ko: "왜 아직 여기 있나요?", jp: "なぜまだここにいるのですか？", es: "¿Por qué sigues aquí?", pt: "Por que você ainda está aqui?", tr: "Neden hala buradasın?", vi: "Tại sao bạn vẫn ở đây?", ar: "لماذا لا تزال هنا؟" }
-        // Добавьте еще 100+ цитат сюда
+        { en: "God is dead. And we have killed him.", ru: "Бог умер: мы его убили.", zh: "上帝已死。是我们杀了他。", ko: "신은 죽었다. 우리가 그를 죽였다.", jp: "神は死んだ。そして私たちが彼を殺した。", es: "Dios ha muerto.", pt: "Deus está morto.", tr: "Tanrı öldü.", vi: "Chúa đã chết.", ar: "مات الإله。" },
+        { en: "Time is a flat circle.", ru: "Время — это плоский круг.", zh: "时间是一个扁平的圆圈。", ko: "시간은 평면적인 원이다.", jp: "時間は平らな円です。", es: "El tiempo es un círculo plano.", pt: "O tempo é um círculo plano.", tr: "Zaman düz bir çemberdir.", vi: "Thời gian là một vòng tròn phẳng.", ar: "الوقت دائرة مسطحة。" },
+        { en: "Clicking won't save you.", ru: "Клики тебя не спасут.", zh: "点击救不了你。", ko: "클릭은 당신을 구원하지 못할 것입니다.", jp: "クリックはあなたを救いません。", es: "Hacer clic no te salvará.", pt: "Clicar não vai te salvar.", tr: "Tıklamak seni kurtarmayacak.", vi: "Nhấp chuột không cứu được bạn.", ar: "الضغط لن ينقذك。" },
+        { en: "The abyss is watching.", ru: "Бездна наблюдает.", zh: "深渊在注视。", ko: "심연이 지켜보고 있다.", jp: "深淵が見つめている。", es: "El abismo está mirando.", pt: "O abismo está observando.", tr: "Uçurum izliyor.", vi: "Vực thẳm đang quan sát.", ar: "الهاوية تراقب。" },
+        { en: "Everything is temporary.", ru: "Всё временно.", zh: "一切都是暂时的。", ko: "모든 것은 일시적이다.", jp: "すべては一時的なものです。", es: "Todo es temporal.", pt: "Tudo é temporário.", tr: "Her şey geçicidir.", vi: "Mọi thứ đều là tạm thời.", ar: "كل شيء مؤقت。" },
+        { en: "Why are you here?", ru: "Зачем ты здесь?", zh: "你为什么在这里？", ko: "당신은 왜 여기에 있나요?", jp: "なぜここにいるのですか？", es: "¿Por qué estás aquí?", pt: "Por que você está aqui?", tr: "Neden buradasın?", vi: "Tại sao bạn ở đây?", ar: "لماذا أنت هنا؟" },
+        { en: "Existence is pain.", ru: "Существование — это боль.", zh: "存在就是痛苦。", ko: "존재는 고통이다.", jp: "存在は苦痛です。", es: "La existencia es dolor.", pt: "A existência é dor.", tr: "Varoluş acıdır.", vi: "Tồn tại là đau khổ.", ar: "الوجود ألم。" },
+        { en: "Silence is the answer.", ru: "Тишина — это ответ.", zh: "沉默就是答案。", ko: "침묵이 답이다.", jp: "沈黙が答えです。", es: "El silencio es la respuesta.", pt: "O silêncio é a resposta.", tr: "Sessizlik cevaptır.", vi: "Im lặng là câu trả lời.", ar: "الصمت هو الجواب。" },
+        { en: "You are alone.", ru: "Ты одинок.", zh: "你是孤独的。", ko: "당신은 혼자입니다.", jp: "あなたは一人です。", es: "Estás solo.", pt: "Você está sozinho.", tr: "Yalnızsın.", vi: "Bạn cô đơn.", ar: "أنت وحيد。" },
+        { en: "The button knows.", ru: "Кнопка знает.", zh: "按钮知道。", ko: "버튼은 알고 있다.", jp: "ボタンは知っている。", es: "El botón sabe.", pt: "O botão sabe.", tr: "Düğme biliyor.", vi: "Cái nút biết.", ar: "الزر يعرف。" },
+        { en: "Stop looking for meaning.", ru: "Хватит искать смысл.", zh: "停止寻找意义。", ko: "의미를 찾는 것을 멈추세요.", jp: "意味を探すのをやめなさい。", es: "Deja de buscar sentido.", pt: "Pare de procurar sentido.", tr: "Anlam aramayı bırak.", vi: "Đừng tìm kiếm ý nghĩa nữa.", ar: "توقف عن البحث عن المعنى。" },
+        { en: "Your mouse is tired.", ru: "Твоя мышка устала.", zh: "你的鼠标累了。", ko: "당신의 마우스가 피곤해합니다.", jp: "あなたのマウスは疲れています。", es: "Tu ratón está cansado.", pt: "Seu mouse está cansado.", tr: "Fare yoruldu.", vi: "Chuột của bạn đã mệt.", ar: "فأرتك متعبة。" },
+        { en: "Void is freedom.", ru: "Пустота — это свобода.", zh: "真空就是自由。", ko: "공허는 자유다.", jp: "空虚は自由です。", es: "El vacío es libertad.", pt: "O vazio é liberdade.", tr: "Boşluk özgürlüktür.", vi: "Hư vô là tự do.", ar: "الفراغ هو الحرية。" },
+        { en: "Are you real?", ru: "Ты настоящий?", zh: "你是真实的吗？", ko: "당신은 진짜인가요?", jp: "あなたは本物ですか？", es: "¿Eres real?", pt: "Você é real?", tr: "Gerçek misin?", vi: "Bạn có thật không?", ar: "هل أنت حقيقي؟" },
+        { en: "Nothing matters.", ru: "Ничто не имеет значения.", zh: "一切都不重要。", ko: "아무것도 중요하지 않다.", jp: "何も重要ではありません。", es: "Nada importa.", pt: "Nada importa.", tr: "Hiçbir şey önemli değil.", vi: "Không có gì quan trọng.", ar: "لا شيء يهم。" },
+        { en: "Wait for the end.", ru: "Жди конца.", zh: "等待结束。", ko: "끝을 기다리세요.", jp: "最後を待ちなさい。", es: "Espera al final.", pt: "Espere pelo fim.", tr: "Sonu bekle.", vi: "Hãy chờ đợi kết thúc.", ar: "انتظر النهاية。" },
+        { en: "The void is hungry.", ru: "Бездна голодна.", zh: "深渊很饿。", ko: "심연이 배고파한다.", jp: "深淵はお腹を空かせている。", es: "El abismo tiene hambre.", pt: "O abismo está com fome.", tr: "Uçurum aç.", vi: "Vực thẳm đang đói.", ar: "الهاوية جائعة。" },
+        { en: "One more click?", ru: "Еще один клик?", zh: "再点一下？", ko: "한 번 더 클릭?", jp: "もう一度クリック？", es: "¿Un clic más?", pt: "Mais um clique?", tr: "Bir tık daha?", vi: "Thêm một lần nhấp nữa?", ar: "نقرة واحدة أخرى؟" },
+        { en: "Forget yourself.", ru: "Забудь себя.", zh: "忘记你自己。", ko: "자신을 잊으세요.", jp: "自分を忘れて。", es: "Olvídate de ti mismo.", pt: "Esqueça-se de si mesmo.", tr: "Kendini unut.", vi: "Hãy quên bản thân đi.", ar: "انسَ نفسك。" },
+        { en: "Embrace the void.", ru: "Прими пустоту.", zh: "拥抱虚空。", ko: "공허를 받아들이세요.", jp: "空虚を受け入れなさい。", es: "Abraza el vacío.", pt: "Abraça o vazio.", tr: "Boşluğu kucakla.", vi: "Hãy ôm lấy hư vô.", ar: "احتضن الفراغ。" }
+
     ];
 
     const finalInsights = [
@@ -243,3 +260,4 @@
 </script>
 </body>
 </html>
+
