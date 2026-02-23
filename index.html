@@ -2531,6 +2531,8 @@
             return false;
         };
 
+          // Слежение за мышкой (только на десктопах)
+    if (window.matchMedia("(pointer: fine)").matches) {
         document.addEventListener('mousemove', (e) => {
             document.querySelectorAll('.pupil').forEach(pupil => {
                 const rect = pupil.getBoundingClientRect();
@@ -2542,6 +2544,33 @@
                 pupil.style.transform = `translate(${x}px, ${y}px)`;
             });
         });
+    } else {
+        // На мобильных глаза двигаются случайно
+        function randomEyeMovement() {
+            const pupils = document.querySelectorAll('.pupil');
+            
+            // Каждые 2-5 секунд двигаем глаза
+            setInterval(() => {
+                pupils.forEach(pupil => {
+                    // Случайное направление
+                    const randomX = (Math.random() - 0.5) * 12;
+                    const randomY = (Math.random() - 0.5) * 8;
+                    
+                    // Плавное движение
+                    pupil.style.transition = 'transform 0.3s ease';
+                    pupil.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                    
+                    // Возвращаем в центр через 1 секунду
+                    setTimeout(() => {
+                        pupil.style.transition = 'transform 0.5s ease';
+                        pupil.style.transform = 'translate(0px, 0px)';
+                    }, 800);
+                });
+            }, 3000);
+        }
+        
+        randomEyeMovement();
+    }
 
         function setLanguage(lang) { 
             currentLang = lang; 
@@ -2578,5 +2607,6 @@
     </script>
 </body>
 </html>
+
 
 
