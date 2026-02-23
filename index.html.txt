@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>THE VOID TEMPLE | $CLICK</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff; --text: #1a1a1a; --accent: #ff3b30; --secondary: #999;
+            --eye-open: -100%; --glitch: 0px;
+        }
+        body.dark-mode { --bg: #0a0a0a; --text: #eee; --secondary: #444; }
+        body.abyss-mode { --bg: #000; --text: #ff3b30; --secondary: #600; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: 'Inter', sans-serif;
+            height: 100vh; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center;
+            transition: background 2s ease, color 2s ease; overflow: hidden;
+        }
+        body::after {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url(https://upload.wikimedia.org);
+            opacity: 0.04; pointer-events: none;
+        }
+
+        /* Языки */
+        .lang-bar {
+            position: absolute; top: 20px; display: flex; flex-wrap: wrap;
+            justify-content: center; gap: 10px; z-index: 100; max-width: 90%;
+        }
+        .lang-tag {
+            font-size: 0.6rem; letter-spacing: 1px; cursor: pointer;
+            color: var(--secondary); transition: 0.3s; padding: 5px;
+        }
+        .lang-tag.active { color: var(--accent); font-weight: bold; text-decoration: underline; }
+
+        /* Контент */
+        .main { text-align: center; width: 90%; max-width: 600px; z-index: 10; }
+        #quote {
+            font-family: 'Playfair Display', serif; font-size: 1.4rem;
+            line-height: 1.6; min-height: 120px; margin-bottom: 40px;
+            opacity: 0; transition: opacity 0.5s ease;
+            transform: translateX(var(--glitch));
+        }
+        #quote.show { opacity: 1; }
+
+        /* КНОПКА */
+        .btn-wrap { position: relative; display: inline-block; }
+        #void-btn {
+            width: 130px; height: 130px; background: var(--accent);
+            border-radius: 50%; border: none; cursor: pointer;
+            box-shadow: 0 10px 40px rgba(255, 59, 48, 0.2);
+            display: flex; justify-content: center; align-items: center;
+            transition: transform 0.1s, box-shadow 0.3s; outline: none;
+        }
+        #void-btn:active { transform: scale(0.92); }
+
+        /* ГЛАЗА */
+        .eyes-container { display: flex; gap: 20px; pointer-events: none; }
+        .eye-socket {
+            width: 26px; height: 15px; background: #eee; border-radius: 50%;
+            position: relative; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);
+        }
+        .pupil {
+            width: 10px; height: 10px; background: #000; border-radius: 50%;
+            position: absolute; top: 2px; left: 8px; transition: transform 0.05s linear;
+        }
+        .eyelid {
+            position: absolute; top: var(--eye-open); left: 0;
+            width: 100%; height: 100%; background: var(--accent);
+            transition: top 0.15s ease; z-index: 2;
+        }
+
+        /* Футер со счетчиками */
+        .footer { position: absolute; bottom: 30px; text-align: center; width: 100%; font-size: 0.7rem; color: var(--secondary); }
+        .counters { margin-bottom: 15px; line-height: 1.6; letter-spacing: 0.5px; }
+        #ca-box {
+            border: 1px solid var(--secondary); padding: 6px 15px;
+            border-radius: 20px; cursor: pointer; display: inline-block; transition: 0.3s;
+        }
+        #ca-box:hover { border-color: var(--text); color: var(--text); }
+    </style>
+</head>
+<body id="body">
+
+<div class="lang-bar" id="langBar">
+    <span class="lang-tag active" onclick="setLang('en')">EN</span>
+    <span class="lang-tag" onclick="setLang('ru')">RU</span>
+    <span class="lang-tag" onclick="setLang('zh')">ZH</span>
+    <span class="lang-tag" onclick="setLang('ko')">KO</span>
+    <span class="lang-tag" onclick="setLang('jp')">JP</span>
+    <span class="lang-tag" onclick="setLang('es')">ES</span>
+    <span class="lang-tag" onclick="setLang('pt')">PT</span>
+    <span class="lang-tag" onclick="setLang('tr')">TR</span>
+    <span class="lang-tag" onclick="setLang('vi')">VI</span>
+    <span class="lang-tag" onclick="setLang('ar')">AR</span>
+</div>
+
+<div class="main">
+    <div id="quote" class="show">The Void is calling. Look into it.</div>
+    <div class="btn-wrap">
+        <button id="void-btn">
+            <div class="eyes-container">
+                <div class="eye-socket"><div class="eyelid"></div><div class="pupil"></div></div>
+                <div class="eye-socket"><div class="eyelid"></div><div class="pupil"></div></div>
+            </div>
+        </button>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="counters">
+        <div id="personal-counter">твоя боль: 0 кликов</div>
+        <div id="global-counter">общая пустота: загрузка...</div>
+    </div>
+    <div id="ca-box" onclick="copyCA()">CA: 0xВАШ_КОНТРАКТ_ЗДЕСЬ</div>
+</div>
+
+<script>
+    // --- ПЕРЕМЕННЫЕ И ДАННЫЕ ---
+    let personalClicks = parseInt(localStorage.getItem('void_clicks')) || 0;
+    let currentLang = 'en';
+    const goal = 1000;
+    const namespace = "void_temple_click_project"; // Уникальный ID для глобального счетчика
+    const key = "global_v1";
+
+    const quotes = [
+        { en: "God is dead. And we have killed him.", ru: "Бог умер: мы его убили.", zh: "上帝已死。是我们杀了他。", ko: "신은 죽었다. 우리가 그를 죽였다.", jp: "神は死んだ。そして私たちが彼を殺した。", es: "Dios ha muerto. Y nosotros lo hemos matado.", pt: "Deus está morto. E nós o matamos.", tr: "Tanrı öldü. Ve onu biz öldürdük.", vi: "Chúa đã chết. Và chúng ta đã giết Người.", ar: "مات الإله. ونحن من قتلناه。" },
+        { en: "Hell is other people.", ru: "Ад — это другие.", zh: "他人即地狱。", ko: "지옥은 다른 사람들이다.", jp: "地獄とは他人のことだ。", es: "El infierno son los otros.", pt: "O inferno são os outros.", tr: "Cehennem başkalarıdır.", vi: "Địa ngục là người khác.", ar: "الجحيم هم الآخرون。" },
+        { en: "Why are you still here?", ru: "Почему ты всё еще здесь?", zh: "你为什么还在这里？", ko: "왜 아직 여기 있나요?", jp: "なぜまだここにいるのですか？", es: "¿Por qué sigues aquí?", pt: "Por que você ainda está aqui?", tr: "Neden hala buradasın?", vi: "Tại sao bạn vẫn ở đây?", ar: "لماذا لا تزال هنا؟" }
+        // Добавьте еще 100+ цитат сюда
+    ];
+
+    const finalInsights = [
+        { en: "Time is the only thing you can't buy. Stop wasting it.", ru: "Время — единственное, что нельзя купить. Не трать его впустую.", zh: "时间是唯一买不到的东西。别再浪费了。", ko: "시간은 살 수 없는 유일한 것입니다. 그만 낭비하세요.", jp: "時間は買えない唯一のものです。無駄遣いはやめましょう。", es: "El tiempo es lo único que no puedes comprar. Deja de malgastarlo.", pt: "O tempo é a única coisa que não se pode comprar. Pare de desperdiçá-lo.", tr: "Zaman satın alamayacağınız tek şeydir. Onu boşa harcamayı bırakın.", vi: "Thời gian là thứ duy nhất bạn không thể mua được. Đừng lãng phí nó nữa.", ar: "الوقت هو الشيء الوحيد الذي لا يمكنك شراؤه. توقف عن إضاعته。" }
+    ];
+
+    // --- ЗВУКОВАЯ СИСТЕМА ---
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playClickSound() {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine'; osc.frequency.setValueAtTime(120 - (personalClicks/10), audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+    }
+
+    // --- ГЛОБАЛЬНЫЙ СЧЕТЧИК (API) ---
+    async function updateGlobal() {
+        try {
+            const r = await fetch(`https://api.countapi.xyz{namespace}/${key}`);
+            const d = await r.json();
+            document.getElementById('global-counter').innerText = `общая пустота: ${d.value.toLocaleString()}`;
+        } catch(e) { document.getElementById('global-counter').innerText = "пустота бесконечна"; }
+    }
+    async function hitGlobal() {
+        try { fetch(`https://api.countapi.xyz{namespace}/${key}`); } catch(e) {}
+    }
+
+    // --- ЛОГИКА ИНТЕРФЕЙСА ---
+    function updateUI() {
+        const root = document.documentElement;
+        const tiredness = Math.min(personalClicks / goal, 1);
+        root.style.setProperty('--eye-open', `${-100 + (tiredness * 100)}%`);
+
+        if (personalClicks > 300) document.body.classList.add('dark-mode');
+        if (personalClicks >= goal) {
+            document.body.classList.add('abyss-mode');
+            document.getElementById('langBar').style.opacity = '0';
+        }
+
+        const pMsg = { ru: `твоя боль: ${personalClicks} кликов`, en: `your pain: ${personalClicks} clicks`, ar: `ألمك: ${personalClicks} ضغطة` };
+        document.getElementById('personal-counter').innerText = pMsg[currentLang] || `clicks: ${personalClicks}`;
+    }
+
+    // Слежение зрачков
+    document.addEventListener('mousemove', (e) => {
+        if (personalClicks >= goal) return;
+        document.querySelectorAll('.pupil').forEach(p => {
+            const rect = p.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            const rad = Math.atan2(e.clientX - x, e.clientY - y);
+            const rot = (rad * (180 / Math.PI) * -1) + 180;
+            p.style.transform = `rotate(${rot}deg) translateY(-4px)`;
+        });
+    });
+
+    // Клик по кнопке
+    const btn = document.getElementById('void-btn');
+    const qEl = document.getElementById('quote');
+
+    btn.addEventListener('mousedown', () => {
+        if (personalClicks >= goal) return;
+        document.querySelectorAll('.eyelid').forEach(l => l.style.top = '0%');
+        playClickSound();
+    });
+
+    btn.addEventListener('mouseup', () => {
+        if (personalClicks >= goal) return;
+        personalClicks++;
+        localStorage.setItem('void_clicks', personalClicks);
+        hitGlobal();
+        
+        qEl.classList.remove('show');
+        setTimeout(() => {
+            if (personalClicks === goal) {
+                qEl.innerHTML = `<span style="color:var(--accent)">${finalInsights[0][currentLang]}</span>`;
+                btn.disabled = true; btn.style.opacity = "0.1";
+            } else {
+                qEl.innerText = quotes[Math.floor(Math.random() * quotes.length)][currentLang];
+                if (personalClicks > 800) document.documentElement.style.setProperty('--glitch', (Math.random()*4-2)+'px');
+            }
+            qEl.classList.add('show');
+            updateUI();
+        }, 300);
+    });
+
+    function setLang(l) {
+        currentLang = l;
+        document.querySelectorAll('.lang-tag').forEach(t => t.classList.toggle('active', t.innerText.toLowerCase() === l));
+        document.body.dir = (l === 'ar') ? 'rtl' : 'ltr';
+        updateUI();
+    }
+
+    function copyCA() {
+        const ca = "0xВАШ_КОНТРАКТ_ЗДЕСЬ";
+        navigator.clipboard.writeText(ca);
+        const box = document.getElementById('ca-box');
+        box.innerText = "COPIED"; setTimeout(() => box.innerText = "CA: " + ca.substring(0,6)+'...', 1000);
+    }
+
+    // Старт
+    updateUI();
+    updateGlobal();
+    setInterval(updateGlobal, 10000);
+</script>
+</body>
+</html>
