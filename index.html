@@ -7,10 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --bg-start: #1a2634;    /* Тёмный серо-голубой */
-            --bg-end: #2c3e50;       /* Глубокий серо-синий */
+            --bg-start: #1a1f2e;    /* Тёмный синий */
+            --bg-end: #2c3a5e;       /* Глубокий синий */
             --text-col: #ecf0f1;
-            --accent: #ff6b6b;
+            --accent: #ff3b30;
             --lid: -100%;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; user-select: none; }
@@ -28,35 +28,41 @@
             overflow-x: hidden;
             text-align: center;
             position: relative;
+            padding-top: 40px; /* Поднимаем контент выше */
         }
 
-        /* ТЕКСТУРА */
+        /* ТЕКСТУРА (более насыщенная) */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                radial-gradient(circle at 20% 30%, rgba(255,107,107,0.03) 0%, transparent 25%),
-                radial-gradient(circle at 80% 70%, rgba(255,107,107,0.03) 0%, transparent 25%),
-                repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 8px);
+                radial-gradient(circle at 20% 30%, rgba(255,75,75,0.05) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(255,100,100,0.05) 0%, transparent 30%),
+                repeating-linear-gradient(45deg, rgba(255,100,100,0.02) 0px, rgba(255,100,100,0.02) 2px, transparent 2px, transparent 8px);
             pointer-events: none;
             z-index: 1;
         }
 
-        /* ЧАСТИЦЫ */
+        /* КРАСНЫЕ ЧАСТИЦЫ */
         .particle {
             position: fixed;
             width: 6px; height: 6px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 80, 80, 0.25);
             border-radius: 50%;
             pointer-events: none;
             z-index: 2;
             animation: float 15s infinite linear;
+            box-shadow: 0 0 8px rgba(255, 60, 60, 0.3);
+        }
+        .particle:nth-child(odd) {
+            background: rgba(255, 120, 120, 0.3);
+            box-shadow: 0 0 12px rgba(255, 80, 80, 0.4);
         }
         @keyframes float {
             0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
             100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
         }
 
@@ -67,11 +73,11 @@
             display: flex; 
             gap: 8px; 
             z-index: 100; 
-            background: rgba(0,0,0,0.2);
+            background: rgba(10,10,20,0.4);
             backdrop-filter: blur(8px);
             padding: 8px 12px;
             border-radius: 40px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,100,100,0.3);
             flex-wrap: wrap;
             justify-content: center;
             max-width: 90%;
@@ -79,25 +85,27 @@
         .l-btn { 
             font-size: 0.75rem; 
             cursor: pointer; 
-            opacity: 0.6; 
+            opacity: 0.7; 
             text-transform: uppercase;
             padding: 4px 8px;
             border-radius: 20px;
             transition: 0.2s;
             font-weight: 500;
             letter-spacing: 0.5px;
+            color: rgba(255,255,255,0.9);
         }
         .l-btn.active { 
             opacity: 1; 
-            background: rgba(255,107,107,0.3);
+            background: rgba(255,70,70,0.4);
             color: #fff;
-            text-shadow: 0 0 5px rgba(255,107,107,0.5);
+            text-shadow: 0 0 8px rgba(255,70,70,0.6);
+            border: 1px solid rgba(255,100,100,0.4);
         }
 
-        /* ЧАТ */
+        /* ЧАТ (опускаем ниже, чтобы не мешал кнопке) */
         #chat-wall { 
             position: fixed; 
-            top: 15%; 
+            top: 60%; 
             width: 100%; 
             pointer-events: none; 
             height: 200px; 
@@ -113,16 +121,16 @@
             position: absolute; 
             left: 0; 
             right: 0; 
-            color: rgba(255,255,255,0.8);
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 2px 15px rgba(255,50,50,0.4);
         }
         @keyframes floatMsg { 
             0% { opacity: 0; transform: translateY(20px); } 
-            15% { opacity: 0.8; } 
+            15% { opacity: 0.9; } 
             100% { opacity: 0; transform: translateY(-100px); } 
         }
 
-        /* ОСНОВНОЙ КОНТЕЙНЕР */
+        /* ОСНОВНОЙ КОНТЕЙНЕР (поднят выше) */
         .main { 
             width: 90%; 
             max-width: 600px; 
@@ -131,89 +139,93 @@
             flex-direction: column; 
             align-items: center; 
             position: relative;
+            margin-top: -50px; /* Поднимаем выше */
         }
 
-        /* ЦИТАТА */
+        /* ЦИТАТА (поднята выше, крупнее) */
         #q { 
             font-family: 'Playfair Display', serif; 
-            font-size: 1.6rem; 
-            margin-bottom: 40px; 
-            min-height: 120px; 
+            font-size: 1.8rem; 
+            margin-bottom: 50px; 
+            min-height: 140px; 
             width: 100%; 
             display: flex;
             align-items: center;
             justify-content: center;
             transition: opacity 0.3s;
             padding: 0 20px;
-            text-shadow: 0 2px 15px rgba(0,0,0,0.3);
+            text-shadow: 0 3px 20px rgba(255,50,50,0.4), 0 2px 10px rgba(0,0,0,0.5);
             line-height: 1.5;
+            font-weight: 500;
+            letter-spacing: 0.3px;
         }
 
-        /* КНОПКА */
+        /* КНОПКА (НОВАЯ: ЯРКО-КРАСНАЯ, ГЛЯНЦЕВАЯ) */
         #btn { 
-            width: 240px; height: 240px; 
-            background: radial-gradient(circle at 35% 35%, #ff8a80, #d32f2f); 
+            width: 260px; height: 260px; 
+            background: radial-gradient(circle at 30% 30%, #ff5e5e, #c62828); 
             border-radius: 50%; 
-            border: 4px solid rgba(255,255,255,0.3);
+            border: 4px solid rgba(255,255,255,0.5);
             cursor: pointer; 
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
             align-items: center; 
-            box-shadow: 0 30px 50px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,107,107,0.3), inset 0 -15px 25px rgba(0,0,0,0.4); 
+            box-shadow: 0 30px 60px rgba(180, 30, 30, 0.6), 0 0 0 3px rgba(255,100,100,0.4), inset 0 -10px 20px rgba(0,0,0,0.5), inset 0 10px 25px rgba(255,255,255,0.4); 
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
             position: relative; 
             flex-shrink: 0; 
-            margin: 0 auto;
+            margin: 20px auto 0;
             animation: bob 3s infinite ease-in-out;
         }
         @keyframes bob {
             0% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-10px); }
             100% { transform: translateY(0); }
         }
         #btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 40px 70px rgba(0,0,0,0.6), 0 0 0 4px rgba(255,107,107,0.5);
+            transform: scale(1.08);
+            box-shadow: 0 40px 70px rgba(200, 40, 40, 0.7), 0 0 0 5px rgba(255,100,100,0.6), inset 0 -10px 20px rgba(0,0,0,0.5), inset 0 12px 25px rgba(255,255,255,0.5);
         }
         #btn:active { 
-            transform: scale(0.95); 
+            transform: scale(0.96); 
             animation: none;
         }
 
         /* ГЛАЗА */
         .eyes { 
             display: flex; 
-            gap: 25px; 
+            gap: 30px; 
             margin-bottom: 15px; 
             position: relative; 
             z-index: 2; 
             pointer-events: none; 
         }
         .eye { 
-            width: 55px; height: 35px; 
+            width: 60px; height: 40px; 
             background: #fff; 
             border-radius: 50%; 
             position: relative; 
             overflow: hidden; 
             border: 2px solid rgba(0,0,0,0.2);
-            box-shadow: inset 0 -2px 5px rgba(0,0,0,0.1);
+            box-shadow: inset 0 -3px 8px rgba(0,0,0,0.2), 0 0 10px rgba(255,255,255,0.3);
         }
         .pupil { 
-            width: 20px; height: 20px; 
-            background: #2c3e50; 
+            width: 24px; height: 24px; 
+            background: #111; 
             border-radius: 50%; 
             position: absolute; 
-            top: 7px; left: 17px; 
+            top: 8px; left: 18px; 
             transition: transform 0.05s linear;
-            border: 2px solid #1a2634;
+            border: 2px solid #222;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
         }
         .pupil::after {
             content: "";
             position: absolute;
-            top: 4px; left: 4px;
-            width: 5px; height: 5px;
-            background: rgba(255,255,255,0.8);
+            top: 5px; left: 5px;
+            width: 6px; height: 6px;
+            background: rgba(255,255,255,0.9);
             border-radius: 50%;
         }
         .lid { 
@@ -222,7 +234,7 @@
             left: 0; 
             width: 100%; 
             height: 100%; 
-            background: #ff8a80; 
+            background: #ff5e5e; 
             transition: 0.1s; 
             z-index: 3; 
             border-radius: 50%;
@@ -230,68 +242,79 @@
 
         /* РОТ */
         #mouth { 
-            width: 60px; height: 25px; 
-            border: 3px solid rgba(0,0,0,0.6); 
+            width: 70px; height: 30px; 
+            border: 4px solid rgba(20,20,20,0.8); 
             border-top: transparent; border-left: transparent; border-right: transparent; 
-            border-radius: 0 0 30px 30px; 
+            border-radius: 0 0 40px 40px; 
             transition: all 0.3s ease; 
-            margin-top: 5px; 
+            margin-top: 8px; 
             transform-origin: center;
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2));
         }
 
-        /* РУМЯНЕЦ */
+        /* РУМЯНЕЦ (более яркий) */
         .blush {
             position: absolute;
-            width: 30px; height: 15px;
-            background: rgba(255,107,107,0.3);
+            width: 40px; height: 20px;
+            background: rgba(255, 90, 90, 0.4);
             border-radius: 50%;
-            bottom: 60px;
-            filter: blur(5px);
+            bottom: 65px;
+            filter: blur(7px);
             transition: 0.3s;
+            opacity: 0.7;
         }
-        .blush-left { left: 30px; }
-        .blush-right { right: 30px; }
+        .blush-left { left: 25px; }
+        .blush-right { right: 25px; }
+        #btn:hover .blush {
+            opacity: 1;
+            background: rgba(255, 100, 100, 0.6);
+            filter: blur(8px);
+        }
 
         /* ИНТЕРФЕЙС */
         #in { 
             position: fixed; 
-            bottom: 130px; 
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.2);
+            bottom: 120px; 
+            background: rgba(10,10,20,0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,80,80,0.4);
             border-radius: 40px;
             color: inherit; 
             text-align: center; 
-            width: 280px; 
+            width: 300px; 
             padding: 12px 20px; 
             font-size: 0.9rem; 
             z-index: 60; 
             user-select: text; 
+            box-shadow: 0 0 15px rgba(255,60,60,0.2);
         }
         .ft { 
             position: fixed; 
             bottom: 20px; 
-            font-size: 0.8rem; 
-            opacity: 0.8; 
+            font-size: 0.85rem; 
+            opacity: 0.9; 
             width: 100%; 
             pointer-events: none; 
-            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 8px rgba(255,50,50,0.4);
         }
         #ca { 
-            border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px);
-            padding: 8px 20px; 
+            border: 1px solid rgba(255,100,100,0.4);
+            background: rgba(10,10,20,0.5);
+            backdrop-filter: blur(8px);
+            padding: 8px 22px; 
             border-radius: 40px; 
             cursor: pointer; 
             display: inline-block; 
-            margin-top: 10px; 
+            margin-top: 12px; 
             pointer-events: auto;
             transition: 0.2s;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
+            box-shadow: 0 0 15px rgba(255,60,60,0.2);
         }
         #ca:hover {
-            background: rgba(255,107,107,0.3);
+            background: rgba(255,80,80,0.4);
+            border-color: rgba(255,120,120,0.6);
+            box-shadow: 0 0 20px rgba(255,80,80,0.4);
         }
 
         /* ПОРОГОВЫЕ СООБЩЕНИЯ */
@@ -299,47 +322,49 @@
             position: fixed;
             bottom: 200px;
             font-size: 1rem;
-            opacity: 0.9;
+            opacity: 0.95;
             animation: fadeUp 2s forwards;
             pointer-events: none;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-            padding: 10px 20px;
+            background: rgba(10,10,20,0.6);
+            backdrop-filter: blur(8px);
+            padding: 12px 25px;
             border-radius: 40px;
-            border: 1px solid rgba(255,107,107,0.3);
+            border: 1px solid rgba(255,80,80,0.5);
             left: 50%;
             transform: translateX(-50%);
             white-space: nowrap;
             max-width: 90%;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 0 20px rgba(255,60,60,0.3);
         }
         @keyframes fadeUp {
             0% { opacity: 0; transform: translate(-50%, 10px); }
-            20% { opacity: 0.9; }
-            80% { opacity: 0.9; }
-            100% { opacity: 0; transform: translate(-50%, -30px); }
+            20% { opacity: 0.95; }
+            80% { opacity: 0.95; }
+            100% { opacity: 0; transform: translate(-50%, -40px); }
         }
     </style>
 </head>
 <body>
 
-    <!-- ПАРЯЩИЕ ЧАСТИЦЫ (ГЕНЕРИРУЕМ 30 ШТУК) -->
+    <!-- КРАСНЫЕ ЧАСТИЦЫ -->
     <script>
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 40; i++) {
             const particle = document.createElement('div');
             particle.className = 'particle';
             particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDuration = (15 + Math.random() * 20) + 's';
+            particle.style.animationDuration = (12 + Math.random() * 20) + 's';
             particle.style.animationDelay = (Math.random() * 10) + 's';
-            particle.style.width = (3 + Math.random() * 8) + 'px';
+            particle.style.width = (4 + Math.random() * 10) + 'px';
             particle.style.height = particle.style.width;
-            particle.style.background = `rgba(255, 255, 255, ${0.05 + Math.random() * 0.1})`;
             document.body.appendChild(particle);
         }
     </script>
 
-    <!-- ПАНЕЛЬ ЯЗЫКОВ (10 ШТУК) -->
+    <!-- ПАНЕЛЬ ЯЗЫКОВ -->
     <div class="langs">
         <div class="l-btn active" onclick="setLanguage('en')">EN</div>
         <div class="l-btn" onclick="setLanguage('ru')">RU</div>
@@ -385,9 +410,8 @@
 
 <script src="https://cdn.pubnub.com/pubnub-3.7.16.js"></script>
 <script>
-    // === 10 ЯЗЫКОВ: ЦИТАТЫ И ИНТЕРФЕЙС ===
+    // === 10 ЯЗЫКОВ: ЦИТАТЫ ===
     const quotes = {
-        // Английский (основной)
         en: [
             "I think, therefore I am. I regret both.",
             "The unexamined life is not worth living. The examined one is exhausting.",
@@ -405,7 +429,6 @@
             "The void is generous today. (Unfortunately.)",
             "Click. Regret. Repeat."
         ],
-        // Русский
         ru: [
             "Я мыслю, следовательно, существую. Жалею об обоих.",
             "Неисследованная жизнь не стоит того, чтобы жить. Исследованная — выматывает.",
@@ -423,7 +446,6 @@
             "Пустота сегодня щедра. (К сожалению.)",
             "Нажми. Пожалей. Повтори."
         ],
-        // Китайский
         zh: [
             "我思故我在。两者都后悔。",
             "未经审视的人生不值得过。审视后的人生令人疲惫。",
@@ -441,7 +463,6 @@
             "虚空今天很慷慨。（不幸的是。）",
             "点击。后悔。重复。"
         ],
-        // Японский
         ja: [
             "我思う、故に我あり。両方を後悔している。",
             "吟味されない人生は生きる価値がない。吟味された人生は疲れる。",
@@ -457,7 +478,6 @@
             "虚空は今日は寛大だ。（残念ながら。）",
             "クリック。後悔。繰り返す。"
         ],
-        // Корейский
         ko: [
             "나는 생각한다, 고로 존재한다. 둘 다 후회한다.",
             "검토되지 않은 삶은 살 가치가 없다. 검토된 삶은 지치게 한다.",
@@ -473,7 +493,6 @@
             "오늘 공허는 관대하다. (불행히도.)",
             "클릭. 후회. 반복."
         ],
-        // Испанский
         es: [
             "Pienso, luego existo. Me arrepiento de ambas.",
             "La vida no examinada no merece ser vivida. La examinada es agotadora.",
@@ -490,7 +509,6 @@
             "El vacío es generoso hoy. (Desafortunadamente.)",
             "Haz clic. Arrepiéntete. Repite."
         ],
-        // Португальский
         pt: [
             "Penso, logo existo. Arrependo-me de ambos.",
             "A vida não examinada não vale a pena ser vivida. A examinada é exaustiva.",
@@ -507,7 +525,6 @@
             "O vazio é generoso hoje. (Infelizmente.)",
             "Clique. Arrependa-se. Repita."
         ],
-        // Турецкий
         tr: [
             "Düşünüyorum, öyleyse varım. İkisinden de pişmanım.",
             "Sorgulanmamış hayat yaşamaya değmez. Sorgulanmış olan yorucudur.",
@@ -524,7 +541,6 @@
             "Boşluk bugün cömert. (Ne yazık ki.)",
             "Tıkla. Pişman ol. Tekrarla."
         ],
-        // Вьетнамский
         vi: [
             "Tôi tư duy, vậy tôi tồn tại. Tôi hối tiếc cả hai.",
             "Cuộc sống không được xem xét thì không đáng sống. Cuộc sống được xem xét thì mệt mỏi.",
@@ -541,7 +557,6 @@
             "Hư vô hôm nay hào phóng. (Thật không may.)",
             "Nhấp. Hối tiếc. Lặp lại."
         ],
-        // Немецкий
         de: [
             "Ich denke, also bin ich. Ich bereue beides.",
             "Das ungeprüfte Leben ist nicht lebenswert. Das geprüfte ist anstrengend.",
@@ -560,21 +575,19 @@
         ]
     };
 
-    // Интерфейс на 10 языках
     const interfaceText = {
-        en: { hint: "(she doesn't want to be clicked)", counterPrefix: "your pain: ", counterSuffix: "", footer: "don't click. (you will)", smallNote: "every click is a small death.", inputPlaceholder: "whisper something..." },
-        ru: { hint: "(она не хочет, чтобы на неё нажимали)", counterPrefix: "твоя боль: ", counterSuffix: "", footer: "не нажимай. (но ты нажмёшь)", smallNote: "каждое нажатие — маленькая смерть.", inputPlaceholder: "прошепчи что-нибудь..." },
-        zh: { hint: "(她不想被点击)", counterPrefix: "你的痛苦: ", counterSuffix: "", footer: "不要点击。(但你会)", smallNote: "每次点击都是一次小死亡。", inputPlaceholder: "低语..." },
-        ja: { hint: "(彼女はクリックされたくない)", counterPrefix: "あなたの痛み: ", counterSuffix: "", footer: "クリックしないで。(あなたはする)", smallNote: "すべてのクリックは小さな死です。", inputPlaceholder: "ささやく..." },
-        ko: { hint: "(그녀는 클릭되기를 원하지 않는다)", counterPrefix: "너의 고통: ", counterSuffix: "", footer: "클릭하지 마세요. (그래도 할거야)", smallNote: "모든 클릭은 작은 죽음이다.", inputPlaceholder: "속삭임..." },
-        es: { hint: "(ella no quiere ser clickeada)", counterPrefix: "tu dolor: ", counterSuffix: "", footer: "no hagas clic. (lo harás)", smallNote: "cada clic es una pequeña muerte.", inputPlaceholder: "susurra algo..." },
-        pt: { hint: "(ela não quer ser clicada)", counterPrefix: "sua dor: ", counterSuffix: "", footer: "não clique. (você vai)", smallNote: "cada clique é uma pequena morte.", inputPlaceholder: "sussurre algo..." },
-        tr: { hint: "(tıklanmak istemiyor)", counterPrefix: "acın: ", counterSuffix: "", footer: "tıklama. (tıklayacaksın)", smallNote: "her tıklama küçük bir ölümdür.", inputPlaceholder: "fısılda..." },
-        vi: { hint: "(cô ấy không muốn bị nhấp)", counterPrefix: "nỗi đau của bạn: ", counterSuffix: "", footer: "đừng nhấp. (bạn sẽ)", smallNote: "mỗi cú nhấp là một cái chết nhỏ.", inputPlaceholder: "thì thầm..." },
-        de: { hint: "(sie will nicht geklickt werden)", counterPrefix: "dein Schmerz: ", counterSuffix: "", footer: "nicht klicken. (du wirst)", smallNote: "jeder Klick ist ein kleiner Tod.", inputPlaceholder: "flüstern..." }
+        en: { counterPrefix: "your pain: ", inputPlaceholder: "whisper something..." },
+        ru: { counterPrefix: "твоя боль: ", inputPlaceholder: "прошепчи что-нибудь..." },
+        zh: { counterPrefix: "你的痛苦: ", inputPlaceholder: "低语..." },
+        ja: { counterPrefix: "あなたの痛み: ", inputPlaceholder: "ささやく..." },
+        ko: { counterPrefix: "너의 고통: ", inputPlaceholder: "속삭임..." },
+        es: { counterPrefix: "tu dolor: ", inputPlaceholder: "susurra algo..." },
+        pt: { counterPrefix: "sua dor: ", inputPlaceholder: "sussurre algo..." },
+        tr: { counterPrefix: "acın: ", inputPlaceholder: "fısılda..." },
+        vi: { counterPrefix: "nỗi đau của bạn: ", inputPlaceholder: "thì thầm..." },
+        de: { counterPrefix: "dein Schmerz: ", inputplaceholder: "flüstern..." }
     };
 
-    // Пороговые сообщения (EN/RU как пример, можно расширить)
     const thresholdMessages = [
         { threshold: 50, en: "The void notices you.", ru: "Бездна замечает тебя." },
         { threshold: 100, en: "You are becoming part of the void.", ru: "Ты становишься частью пустоты." },
@@ -592,11 +605,9 @@
     let expressionTimer;
     let currentExpression = 'sad';
 
-    // --- ИНИЦИАЛИЗАЦИЯ ---
     document.getElementById('cnt').innerText = interfaceText[currentLang].counterPrefix + clickCount;
     document.getElementById('in').placeholder = interfaceText[currentLang].inputPlaceholder;
 
-    // --- ПОРОГОВЫЕ СООБЩЕНИЯ ---
     function checkThreshold() {
         for (let i = 0; i < thresholdMessages.length; i++) {
             const msg = thresholdMessages[i];
@@ -617,7 +628,6 @@
         setTimeout(() => msg.remove(), 2000);
     }
 
-    // --- ЧАТ (PubNub) ---
     let pubnub;
     try {
         pubnub = PUBNUB.init({ 
@@ -626,7 +636,7 @@
             uuid: 'v' + Math.random().toString(36).substring(7) 
         });
         pubnub.subscribe({
-            channel: 'void_temple_v3',
+            channel: 'void_temple_v4',
             message: (msg) => {
                 const div = document.createElement('div'); 
                 div.className = 'm'; 
@@ -640,16 +650,12 @@
     document.getElementById('in').addEventListener('keypress', function (e) {
         if (e.key === 'Enter' && this.value.trim() !== '') {
             if (pubnub) {
-                pubnub.publish({
-                    channel: 'void_temple_v3',
-                    message: this.value
-                });
+                pubnub.publish({ channel: 'void_temple_v4', message: this.value });
             }
             this.value = '';
         }
     });
 
-    // --- ЗВУК ---
     function initAudio() {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -660,9 +666,9 @@
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1);
-        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(900, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
@@ -670,7 +676,6 @@
         osc.stop(audioCtx.currentTime + 0.15);
     }
 
-    // --- АНИМАЦИЯ РТА (ВЫРАЖЕНИЯ) ---
     function setExpression(expr) {
         const mouth = document.getElementById('mouth');
         switch(expr) {
@@ -679,22 +684,21 @@
                 mouth.style.transform = 'rotate(180deg)';
                 break;
             case 'sad':
-                mouth.style.borderRadius = '0 0 30px 30px';
+                mouth.style.borderRadius = '0 0 40px 40px';
                 mouth.style.transform = 'rotate(0deg)';
                 break;
             case 'surprised':
                 mouth.style.borderRadius = '50%';
-                mouth.style.width = '25px';
-                mouth.style.height = '25px';
-                mouth.style.border = '3px solid rgba(0,0,0,0.6)';
-                mouth.style.borderTop = '3px solid rgba(0,0,0,0.6)';
+                mouth.style.width = '30px';
+                mouth.style.height = '30px';
+                mouth.style.border = '4px solid rgba(20,20,20,0.8)';
                 break;
             case 'annoyed':
                 mouth.style.borderRadius = '0';
-                mouth.style.width = '40px';
-                mouth.style.height = '3px';
+                mouth.style.width = '50px';
+                mouth.style.height = '4px';
                 mouth.style.border = 'none';
-                mouth.style.backgroundColor = 'rgba(0,0,0,0.6)';
+                mouth.style.backgroundColor = 'rgba(20,20,20,0.8)';
                 break;
         }
         currentExpression = expr;
@@ -704,34 +708,27 @@
         const exprs = ['sad', 'happy', 'surprised', 'annoyed'];
         const random = exprs[Math.floor(Math.random() * exprs.length)];
         setExpression(random);
-        // Возвращаем грустное выражение через 2 секунды
         clearTimeout(expressionTimer);
         expressionTimer = setTimeout(() => setExpression('sad'), 2000);
     }
 
-    // --- ОБНОВЛЕНИЕ ВИЗУАЛА ---
     function updateVisuals() {
         const root = document.documentElement;
         const progress = Math.min(clickCount / 1000, 1);
-        
-        // Изменение цвета фона
-        const r = 26 + Math.floor(progress * 30);
-        const g = 38 + Math.floor(progress * 30);
-        const b = 52 + Math.floor(progress * 30);
+        const r = 26 + Math.floor(progress * 40);
+        const g = 31 + Math.floor(progress * 40);
+        const b = 46 + Math.floor(progress * 40);
         root.style.setProperty('--bg-start', `rgb(${r}, ${g}, ${b})`);
-        root.style.setProperty('--bg-end', `rgb(${r+20}, ${g+20}, ${b+20})`);
-        
+        root.style.setProperty('--bg-end', `rgb(${r+25}, ${g+25}, ${b+25})`);
         document.getElementById('cnt').innerText = interfaceText[currentLang].counterPrefix + clickCount;
     }
 
-    // --- СЛУЧАЙНАЯ ЦИТАТА ---
     function updateQuote() {
         const langQuotes = quotes[currentLang] || quotes.en;
         const randomIndex = Math.floor(Math.random() * langQuotes.length);
         document.getElementById('q').innerText = langQuotes[randomIndex];
     }
 
-    // --- МОРГАНИЕ ---
     function blink() {
         const root = document.documentElement;
         root.style.setProperty('--lid', '0%');
@@ -739,7 +736,6 @@
     }
     setInterval(blink, 4000);
 
-    // --- ОБРАБОТКА КЛИКА ---
     const button = document.getElementById('btn');
     
     button.onmousedown = (e) => { 
@@ -753,35 +749,28 @@
         clickCount++; 
         localStorage.setItem('v_c_final', clickCount);
         document.documentElement.style.setProperty('--lid', '-100%'); 
-        
-        // Случайное выражение лица
         randomExpression();
-        
-        // Обновляем цитату
         updateQuote();
         updateVisuals();
         checkThreshold();
     };
 
-    // СЕНСОРНАЯ ПОДДЕРЖКА ДЛЯ МОБИЛЬНЫХ
     button.ontouchstart = button.onmousedown;
     button.ontouchend = button.onmouseup;
 
-    // --- СЛЕЖЕНИЕ ЗРАЧКОВ ---
     document.addEventListener('mousemove', (e) => {
         document.querySelectorAll('.pupil').forEach(pupil => {
             const rect = pupil.getBoundingClientRect();
             const dx = e.clientX - (rect.left + rect.width/2);
             const dy = e.clientY - (rect.top + rect.height/2);
             const angle = Math.atan2(dy, dx);
-            const distance = Math.min(8, Math.sqrt(dx*dx + dy*dy) / 20);
+            const distance = Math.min(10, Math.sqrt(dx*dx + dy*dy) / 20);
             const x = Math.cos(angle) * distance;
             const y = Math.sin(angle) * distance;
             pupil.style.transform = `translate(${x}px, ${y}px)`;
         });
     });
 
-    // --- ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА ---
     function setLanguage(lang) { 
         currentLang = lang; 
         document.querySelectorAll('.l-btn').forEach(btn => {
@@ -790,16 +779,11 @@
                 (lang === 'ja' && btn.innerText.includes('日本語')) ||
                 (lang === 'ko' && btn.innerText.includes('한국어')));
         });
-        
-        // Обновляем интерфейс
         document.getElementById('in').placeholder = interfaceText[lang].inputPlaceholder;
         document.getElementById('cnt').innerText = interfaceText[lang].counterPrefix + clickCount;
-        
-        // Обновляем цитату
         updateQuote();
     }
 
-    // --- КОПИРОВАНИЕ CA ---
     function copyCA() { 
         navigator.clipboard.writeText(CA_VAL); 
         const caElem = document.getElementById('ca');
@@ -808,7 +792,6 @@
         setTimeout(() => caElem.innerText = originalText, 1000); 
     }
 
-    // --- ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ ---
     window.onload = () => {
         updateVisuals();
         updateQuote();
