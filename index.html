@@ -6,258 +6,164 @@
     <title>THE VOID TEMPLE | $CLICK</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
-        :root {
-            --bg: #ffffff; --text: #1a1a1a; --accent: #ff3b30; --secondary: #999;
-            --eye-open: -100%; --glitch: 0px;
-        }
-        body.dark-mode { --bg: #0a0a0a; --text: #eee; --secondary: #444; }
-        body.abyss-mode { --bg: #000; --text: #ff3b30; --secondary: #600; }
-
+        :root { --bg: #ffffff; --text: #1a1a1a; --accent: #ff3b30; --secondary: #999; --eye-open: -100%; }
+        body.dark { --bg: #0f0f0f; --text: #eee; --secondary: #555; }
+        body.abyss { --bg: #000; --text: #ff3b30; --secondary: #700; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body {
-            background: var(--bg); color: var(--text);
-            font-family: 'Inter', sans-serif;
-            height: 100vh; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center;
-            transition: background 2s ease, color 2s ease; overflow: hidden;
-        }
-        body::after {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url(https://upload.wikimedia.org);
-            opacity: 0.04; pointer-events: none;
-        }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 2s ease; overflow: hidden; text-align: center; }
+        body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url(https://upload.wikimedia.org); opacity: 0.04; pointer-events: none; }
+        
+        .lang-bar { position: absolute; top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; z-index: 100; padding: 0 10px; }
+        .lang-tag { font-size: 0.6rem; letter-spacing: 1px; cursor: pointer; color: var(--secondary); transition: 0.3s; padding: 5px; text-transform: uppercase; }
+        .lang-tag.active { color: var(--accent); font-weight: bold; }
 
-        /* Языки */
-        .lang-bar {
-            position: absolute; top: 20px; display: flex; flex-wrap: wrap;
-            justify-content: center; gap: 10px; z-index: 100; max-width: 90%;
-        }
-        .lang-tag {
-            font-size: 0.6rem; letter-spacing: 1px; cursor: pointer;
-            color: var(--secondary); transition: 0.3s; padding: 5px;
-        }
-        .lang-tag.active { color: var(--accent); font-weight: bold; text-decoration: underline; }
+        #chat-area { position: absolute; top: 15%; width: 100%; pointer-events: none; height: 150px; overflow: hidden; }
+        .msg { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; opacity: 0; animation: float 6s forwards; margin-bottom: 8px; position: absolute; left: 0; right: 0; }
+        @keyframes float { 0% { opacity: 0; transform: translateY(20px); } 15% { opacity: 0.8; } 85% { opacity: 0.5; } 100% { opacity: 0; transform: translateY(-50px); } }
 
-        /* Контент */
-        .main { text-align: center; width: 90%; max-width: 600px; z-index: 10; }
-        #quote {
-            font-family: 'Playfair Display', serif; font-size: 1.4rem;
-            line-height: 1.6; min-height: 120px; margin-bottom: 40px;
-            opacity: 0; transition: opacity 0.5s ease;
-            transform: translateX(var(--glitch));
-        }
+        .main { width: 90%; max-width: 600px; z-index: 10; }
+        #quote { font-family: 'Playfair Display', serif; font-size: 1.4rem; line-height: 1.6; min-height: 100px; margin-bottom: 50px; opacity: 0; transition: 0.5s; }
         #quote.show { opacity: 1; }
 
-        /* КНОПКА */
-        .btn-wrap { position: relative; display: inline-block; }
-        #void-btn {
-            width: 130px; height: 130px; background: var(--accent);
-            border-radius: 50%; border: none; cursor: pointer;
-            box-shadow: 0 10px 40px rgba(255, 59, 48, 0.2);
-            display: flex; justify-content: center; align-items: center;
-            transition: transform 0.1s, box-shadow 0.3s; outline: none;
-        }
-        #void-btn:active { transform: scale(0.92); }
+        #void-btn { width: 125px; height: 125px; background: var(--accent); border-radius: 50%; border: none; cursor: pointer; box-shadow: 0 10px 40px rgba(255, 30, 30, 0.2); display: flex; justify-content: center; align-items: center; transition: 0.1s; outline: none; }
+        #void-btn:active { transform: scale(0.9); }
+        .eye { width: 26px; height: 15px; background: #eee; border-radius: 50%; position: relative; overflow: hidden; margin: 0 10px; border: 1px solid rgba(0,0,0,0.05); }
+        .pupil { width: 10px; height: 10px; background: #000; border-radius: 50%; position: absolute; top: 2.5px; left: 8px; transition: transform 0.05s linear; }
+        .eyelid { position: absolute; top: var(--eye-open); left: 0; width: 100%; height: 100%; background: var(--accent); transition: 0.15s; z-index: 2; }
 
-        /* ГЛАЗА */
-        .eyes-container { display: flex; gap: 20px; pointer-events: none; }
-        .eye-socket {
-            width: 26px; height: 15px; background: #eee; border-radius: 50%;
-            position: relative; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);
-        }
-        .pupil {
-            width: 10px; height: 10px; background: #000; border-radius: 50%;
-            position: absolute; top: 2px; left: 8px; transition: transform 0.05s linear;
-        }
-        .eyelid {
-            position: absolute; top: var(--eye-open); left: 0;
-            width: 100%; height: 100%; background: var(--accent);
-            transition: top 0.15s ease; z-index: 2;
-        }
+        #chat-input { position: absolute; bottom: 130px; background: none; border: none; border-bottom: 1px solid var(--secondary); color: var(--text); text-align: center; font-size: 0.85rem; padding: 8px; width: 220px; outline: none; transition: 0.3s; z-index: 50; }
+        #chat-input::placeholder { color: var(--secondary); opacity: 0.6; }
 
-        /* Футер со счетчиками */
-        .footer { position: absolute; bottom: 30px; text-align: center; width: 100%; font-size: 0.7rem; color: var(--secondary); }
-        .counters { margin-bottom: 15px; line-height: 1.6; letter-spacing: 0.5px; }
-        #ca-box {
-            border: 1px solid var(--secondary); padding: 6px 15px;
-            border-radius: 20px; cursor: pointer; display: inline-block; transition: 0.3s;
-        }
+        .footer { position: absolute; bottom: 25px; width: 100%; font-size: 0.7rem; color: var(--secondary); letter-spacing: 0.5px; z-index: 10; }
+        #ca-box { border: 1px solid var(--secondary); padding: 8px 18px; border-radius: 20px; cursor: pointer; display: inline-block; margin-top: 12px; transition: 0.3s; font-family: monospace; }
         #ca-box:hover { border-color: var(--text); color: var(--text); }
+        
+        .sound-toggle { position: absolute; bottom: 20px; right: 20px; font-size: 0.8rem; cursor: pointer; opacity: 0.4; }
     </style>
 </head>
-<body id="body">
+<body id="b">
 
-<div class="lang-bar" id="langBar">
-    <span class="lang-tag active" onclick="setLang('en')">EN</span>
-    <span class="lang-tag" onclick="setLang('ru')">RU</span>
-    <span class="lang-tag" onclick="setLang('zh')">ZH</span>
-    <span class="lang-tag" onclick="setLang('ko')">KO</span>
-    <span class="lang-tag" onclick="setLang('jp')">JP</span>
-    <span class="lang-tag" onclick="setLang('es')">ES</span>
-    <span class="lang-tag" onclick="setLang('pt')">PT</span>
-    <span class="lang-tag" onclick="setLang('tr')">TR</span>
-    <span class="lang-tag" onclick="setLang('vi')">VI</span>
-    <span class="lang-tag" onclick="setLang('ar')">AR</span>
+<div class="lang-bar">
+    <span class="lang-tag active" onclick="sL('en')">EN</span><span class="lang-tag" onclick="sL('ru')">RU</span><span class="lang-tag" onclick="sL('zh')">ZH</span><span class="lang-tag" onclick="sL('ko')">KO</span><span class="lang-tag" onclick="sL('jp')">JP</span>
+    <span class="lang-tag" onclick="sL('es')">ES</span><span class="lang-tag" onclick="sL('pt')">PT</span><span class="lang-tag" onclick="sL('tr')">TR</span><span class="lang-tag" onclick="sL('vi')">VI</span><span class="lang-tag" onclick="sL('ar')">AR</span>
 </div>
 
+<div id="chat-area"></div>
+
 <div class="main">
-    <div id="quote" class="show">The Void is calling. Look into it.</div>
-    <div class="btn-wrap">
+    <div id="quote" class="show">Welcome to the Void Temple.</div>
+    <div style="display:flex; justify-content:center;">
         <button id="void-btn">
-            <div class="eyes-container">
-                <div class="eye-socket"><div class="eyelid"></div><div class="pupil"></div></div>
-                <div class="eye-socket"><div class="eyelid"></div><div class="pupil"></div></div>
-            </div>
+            <div class="eye"><div class="eyelid"></div><div class="pupil"></div></div>
+            <div class="eye"><div class="eyelid"></div><div class="pupil"></div></div>
         </button>
     </div>
 </div>
 
+<input type="text" id="chat-input" placeholder="прошепчи что-нибудь..." maxlength="50" autocomplete="off">
+
 <div class="footer">
-    <div class="counters">
-        <div id="personal-counter">твоя боль: 0 кликов</div>
-        <div id="global-counter">общая пустота: загрузка...</div>
-    </div>
-    <div id="ca-box" onclick="copyCA()">CA: 0xВАШ_КОНТРАКТ_ЗДЕСЬ</div>
+    <div id="p-count">твоя боль: 0</div>
+    <div id="g-count">общая пустота: ...</div>
+    <div id="ca-box" onclick="copyCA()">CA: CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump</div>
 </div>
 
+<script src="https://cdn.pubnub.com"></script>
 <script>
-    // --- ПЕРЕМЕННЫЕ И ДАННЫЕ ---
-    let personalClicks = parseInt(localStorage.getItem('void_clicks')) || 0;
-    let currentLang = 'en';
+    const ca = "CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump";
+    let pClicks = parseInt(localStorage.getItem('v_c')) || 0;
+    let lang = 'ru';
     const goal = 1000;
-    const namespace = "void_temple_click_project"; // Уникальный ID для глобального счетчика
-    const key = "global_v1";
+    let audioStarted = false;
 
-    const quotes = [
+    // ЦИТАТЫ
+    const qs = [
         { en: "God is dead. And we have killed him.", ru: "Бог умер: мы его убили.", zh: "上帝已死。是我们杀了他。", ko: "신은 죽었다. 우리가 그를 죽였다.", jp: "神は死んだ。そして私たちが彼を殺した。", es: "Dios ha muerto.", pt: "Deus está morto.", tr: "Tanrı öldü.", vi: "Chúa đã chết.", ar: "مات الإله。" },
-        { en: "Time is a flat circle.", ru: "Время — это плоский круг.", zh: "时间是一个扁平的圆圈。", ko: "시간은 평면적인 원이다.", jp: "時間は平らな円です。", es: "El tiempo es un círculo plano.", pt: "O tempo é um círculo plano.", tr: "Zaman düz bir çemberdir.", vi: "Thời gian là một vòng tròn phẳng.", ar: "الوقت دائرة مسطحة。" },
-        { en: "Clicking won't save you.", ru: "Клики тебя не спасут.", zh: "点击救不了你。", ko: "클릭은 당신을 구원하지 못할 것입니다.", jp: "クリックはあなたを救いません。", es: "Hacer clic no te salvará.", pt: "Clicar não vai te salvar.", tr: "Tıklamak seni kurtarmayacak.", vi: "Nhấp chuột không cứu được bạn.", ar: "الضغط لن ينقذك。" },
-        { en: "The abyss is watching.", ru: "Бездна наблюдает.", zh: "深渊在注视。", ko: "심연이 지켜보고 있다.", jp: "深淵が見つめている。", es: "El abismo está mirando.", pt: "O abismo está observando.", tr: "Uçurum izliyor.", vi: "Vực thẳm đang quan sát.", ar: "الهاوية تراقب。" },
+        { en: "Time is a flat circle.", ru: "Время — это плоский круг.", zh: "时间是一个扁平的圆圈。", ko: "시간은 평면적인 원이다.", jp: "時間は平らな円です。", es: "El tiempo es un círculo plano.", pt: "O tempo es un círculo plano.", tr: "Zaman düz bir çemberdir.", vi: "Thời gian là một vòng tròn phẳng.", ar: "الوقت دائرة مسطحة。" },
         { en: "Everything is temporary.", ru: "Всё временно.", zh: "一切都是暂时的。", ko: "모든 것은 일시적이다.", jp: "すべては一時的なものです。", es: "Todo es temporal.", pt: "Tudo é temporário.", tr: "Her şey geçicidir.", vi: "Mọi thứ đều là tạm thời.", ar: "كل شيء مؤقت。" },
-        { en: "Why are you here?", ru: "Зачем ты здесь?", zh: "你为什么在这里？", ko: "당신은 왜 여기에 있나요?", jp: "なぜここにいるのですか？", es: "¿Por qué estás aquí?", pt: "Por que você está aqui?", tr: "Neden buradasın?", vi: "Tại sao bạn ở đây?", ar: "لماذا أنت هنا؟" },
-        { en: "Existence is pain.", ru: "Существование — это боль.", zh: "存在就是痛苦。", ko: "존재는 고통이다.", jp: "存在は苦痛です。", es: "La existencia es dolor.", pt: "A existência é dor.", tr: "Varoluş acıdır.", vi: "Tồn tại là đau khổ.", ar: "الوجود ألم。" },
-        { en: "Silence is the answer.", ru: "Тишина — это ответ.", zh: "沉默就是答案。", ko: "침묵이 답이다.", jp: "沈黙が答えです。", es: "El silencio es la respuesta.", pt: "O silêncio é a resposta.", tr: "Sessizlik cevaptır.", vi: "Im lặng là câu trả lời.", ar: "الصمت هو الجواب。" },
-        { en: "You are alone.", ru: "Ты одинок.", zh: "你是孤独的。", ko: "당신은 혼자입니다.", jp: "あなたは一人です。", es: "Estás solo.", pt: "Você está sozinho.", tr: "Yalnızsın.", vi: "Bạn cô đơn.", ar: "أنت وحيد。" },
-        { en: "The button knows.", ru: "Кнопка знает.", zh: "按钮知道。", ko: "버튼은 알고 있다.", jp: "ボタンは知っている。", es: "El botón sabe.", pt: "O botão sabe.", tr: "Düğme biliyor.", vi: "Cái nút biết.", ar: "الزر يعرف。" },
-        { en: "Stop looking for meaning.", ru: "Хватит искать смысл.", zh: "停止寻找意义。", ko: "의미를 찾는 것을 멈추세요.", jp: "意味を探すのをやめなさい。", es: "Deja de buscar sentido.", pt: "Pare de procurar sentido.", tr: "Anlam aramayı bırak.", vi: "Đừng tìm kiếm ý nghĩa nữa.", ar: "توقف عن البحث عن المعنى。" },
-        { en: "Your mouse is tired.", ru: "Твоя мышка устала.", zh: "你的鼠标累了。", ko: "당신의 마우스가 피곤해합니다.", jp: "あなたのマウスは疲れています。", es: "Tu ratón está cansado.", pt: "Seu mouse está cansado.", tr: "Fare yoruldu.", vi: "Chuột của bạn đã mệt.", ar: "فأرتك متعبة。" },
-        { en: "Void is freedom.", ru: "Пустота — это свобода.", zh: "真空就是自由。", ko: "공허는 자유다.", jp: "空虚は自由です。", es: "El vacío es libertad.", pt: "O vazio é liberdade.", tr: "Boşluk özgürlüktür.", vi: "Hư vô là tự do.", ar: "الفراغ هو الحرية。" },
-        { en: "Are you real?", ru: "Ты настоящий?", zh: "你是真实的吗？", ko: "당신은 진짜인가요?", jp: "あなたは本物ですか？", es: "¿Eres real?", pt: "Você é real?", tr: "Gerçek misin?", vi: "Bạn có thật không?", ar: "هل أنت حقيقي؟" },
-        { en: "Nothing matters.", ru: "Ничто не имеет значения.", zh: "一切都不重要。", ko: "아무것도 중요하지 않다.", jp: "何も重要ではありません。", es: "Nada importa.", pt: "Nada importa.", tr: "Hiçbir şey önemli değil.", vi: "Không có gì quan trọng.", ar: "لا شيء يهم。" },
-        { en: "Wait for the end.", ru: "Жди конца.", zh: "等待结束。", ko: "끝을 기다리세요.", jp: "最後を待ちなさい。", es: "Espera al final.", pt: "Espere pelo fim.", tr: "Sonu bekle.", vi: "Hãy chờ đợi kết thúc.", ar: "انتظر النهاية。" },
-        { en: "The void is hungry.", ru: "Бездна голодна.", zh: "深渊很饿。", ko: "심연이 배고파한다.", jp: "深淵はお腹を空かせている。", es: "El abismo tiene hambre.", pt: "O abismo está com fome.", tr: "Uçurum aç.", vi: "Vực thẳm đang đói.", ar: "الهاوية جائعة。" },
-        { en: "One more click?", ru: "Еще один клик?", zh: "再点一下？", ko: "한 번 더 클릭?", jp: "もう一度クリック？", es: "¿Un clic más?", pt: "Mais um clique?", tr: "Bir tık daha?", vi: "Thêm một lần nhấp nữa?", ar: "نقرة واحدة أخرى؟" },
-        { en: "Forget yourself.", ru: "Забудь себя.", zh: "忘记你自己。", ko: "자신을 잊으세요.", jp: "自分を忘れて。", es: "Olvídate de ti mismo.", pt: "Esqueça-se de si mesmo.", tr: "Kendini unut.", vi: "Hãy quên bản thân đi.", ar: "انسَ نفسك。" },
-        { en: "Embrace the void.", ru: "Прими пустоту.", zh: "拥抱虚空。", ko: "공허를 받아들이세요.", jp: "空虚を受け入れなさい。", es: "Abraza el vacío.", pt: "Abraça o vazio.", tr: "Boşluğu kucakla.", vi: "Hãy ôm lấy hư vô.", ar: "احتضن الفراغ。" }
-
+        { en: "The abyss is watching.", ru: "Бездна наблюдает.", zh: "深渊在注视。", ko: "심연이 지켜보고 있다.", jp: "深淵が見つめている。", es: "El abismo está mirando.", pt: "O abismo está observando.", tr: "Uçurum izliyor.", vi: "Vực thẳm đang quan sát.", ar: "الهاوية تراقب。" },
+        { en: "Clicking won't save you.", ru: "Клики тебя не спасут.", zh: "点击救不了你。", ko: "클릭은 당신을 구원하지 못할 것입니다.", jp: "クリックはあなたを救いません。", es: "Hacer clic no te salvará.", pt: "Clicar não vai te salvar.", tr: "Tıklamak seni kurtarmayacak.", vi: "Nhấp chuột không cứu được bạn.", ar: "الضغط لن ينقذك。" }
     ];
 
-    const finalInsights = [
-        { en: "Time is the only thing you can't buy. Stop wasting it.", ru: "Время — единственное, что нельзя купить. Не трать его впустую.", zh: "时间是唯一买不到的东西。别再浪费了。", ko: "시간은 살 수 없는 유일한 것입니다. 그만 낭비하세요.", jp: "時間は買えない唯一のものです。無駄遣いはやめましょう。", es: "El tiempo es lo único que no puedes comprar. Deja de malgastarlo.", pt: "O tempo é a única coisa que não se pode comprar. Pare de desperdiçá-lo.", tr: "Zaman satın alamayacağınız tek şeydir. Onu boşa harcamayı bırakın.", vi: "Thời gian là thứ duy nhất bạn không thể mua được. Đừng lãng phí nó nữa.", ar: "الوقت هو الشيء الوحيد الذي لا يمكنك شراؤه. توقف عن إضاعته。" }
-    ];
+    const finalIns = { en: "Time is the only thing you can't buy. Stop wasting it.", ru: "Самое ценное, что есть у нас в жизни — это время. Не трать его впустую.", ar: "الوقت هو الشيء الوحيد الذي لا يمكنك شراؤه。" };
 
-    // --- ЗВУКОВАЯ СИСТЕМА ---
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function playClickSound() {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine'; osc.frequency.setValueAtTime(120 - (personalClicks/10), audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+    // ЗВУК
+    const aCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playClick() {
+        if(!audioStarted) { startHum(); audioStarted = true; }
+        const o = aCtx.createOscillator(); const g = aCtx.createGain();
+        o.type = 'sine'; o.frequency.setValueAtTime(100, aCtx.currentTime);
+        g.gain.setValueAtTime(0.1, aCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.01, aCtx.currentTime + 0.1);
+        o.connect(g); g.connect(aCtx.destination); o.start(); o.stop(aCtx.currentTime + 0.1);
+    }
+    function startHum() {
+        const o = aCtx.createOscillator(); const g = aCtx.createGain();
+        o.type = 'sine'; o.frequency.setValueAtTime(50, aCtx.currentTime);
+        g.gain.setValueAtTime(0.02, aCtx.currentTime); o.connect(g); g.connect(aCtx.destination);
+        o.start();
     }
 
-    // --- ГЛОБАЛЬНЫЙ СЧЕТЧИК (API) ---
-    async function updateGlobal() {
-        try {
-            const r = await fetch(`https://api.countapi.xyz{namespace}/${key}`);
-            const d = await r.json();
-            document.getElementById('global-counter').innerText = `общая пустота: ${d.value.toLocaleString()}`;
-        } catch(e) { document.getElementById('global-counter').innerText = "пустота бесконечна"; }
-    }
-    async function hitGlobal() {
-        try { fetch(`https://api.countapi.xyz{namespace}/${key}`); } catch(e) {}
-    }
+    // ЧАТ
+    const pn = new PubNub({ publishKey: 'pub-c-46700c2b-986c-486a-8b83-50069a30456c', subscribeKey: 'sub-c-1349071c-7607-11eb-987a-526466f24419', uuid: "u_"+Math.random() });
+    pn.addListener({ message: (m) => {
+        const d = document.createElement('div'); d.className = 'msg'; d.innerText = m.message;
+        document.getElementById('chat-area').appendChild(d); setTimeout(() => d.remove(), 6000);
+    }});
+    pn.subscribe({ channels: ['void_v1'] });
 
-    // --- ЛОГИКА ИНТЕРФЕЙСА ---
-    function updateUI() {
-        const root = document.documentElement;
-        const tiredness = Math.min(personalClicks / goal, 1);
-        root.style.setProperty('--eye-open', `${-100 + (tiredness * 100)}%`);
-
-        if (personalClicks > 300) document.body.classList.add('dark-mode');
-        if (personalClicks >= goal) {
-            document.body.classList.add('abyss-mode');
-            document.getElementById('langBar').style.opacity = '0';
+    document.getElementById('chat-input').onkeypress = (e) => {
+        if(e.key === 'Enter' && e.target.value.trim() !== '') {
+            pn.publish({ channel: 'void_v1', message: e.target.value }); e.target.value = '';
         }
+    };
 
-        const pMsg = { ru: `твоя боль: ${personalClicks} кликов`, en: `your pain: ${personalClicks} clicks`, ar: `ألمك: ${personalClicks} ضغطة` };
-        document.getElementById('personal-counter').innerText = pMsg[currentLang] || `clicks: ${personalClicks}`;
+    // ГЛОБАЛЬНЫЙ СЧЕТЧИК
+    async function uG() {
+        try {
+            const r = await fetch(`https://api.countapi.xyz`);
+            const d = await r.json(); document.getElementById('g-count').innerText = (lang === 'ru' ? 'общая пустота: ' : 'global void: ') + d.value.toLocaleString();
+        } catch(e) { document.getElementById('g-count').innerText = "..."; }
+    }
+    async function hG() { try { fetch(`https://api.countapi.xyz`); } catch(e){} }
+
+    function updateUI() {
+        const r = document.documentElement; const t = Math.min(pClicks / goal, 1);
+        r.style.setProperty('--eye-open', `${-100 + (t * 100)}%`);
+        if (pClicks > 300) document.body.classList.add('dark');
+        if (pClicks >= goal) document.body.classList.add('abyss');
+        document.getElementById('p-count').innerText = (lang === 'ru' ? 'твоя боль: ' : 'your pain: ') + pClicks;
     }
 
-    // Слежение зрачков
-    document.addEventListener('mousemove', (e) => {
-        if (personalClicks >= goal) return;
-        document.querySelectorAll('.pupil').forEach(p => {
-            const rect = p.getBoundingClientRect();
-            const x = rect.left + rect.width / 2;
-            const y = rect.top + rect.height / 2;
-            const rad = Math.atan2(e.clientX - x, e.clientY - y);
-            const rot = (rad * (180 / Math.PI) * -1) + 180;
-            p.style.transform = `rotate(${rot}deg) translateY(-4px)`;
-        });
-    });
-
-    // Клик по кнопке
-    const btn = document.getElementById('void-btn');
-    const qEl = document.getElementById('quote');
-
-    btn.addEventListener('mousedown', () => {
-        if (personalClicks >= goal) return;
-        document.querySelectorAll('.eyelid').forEach(l => l.style.top = '0%');
-        playClickSound();
-    });
-
-    btn.addEventListener('mouseup', () => {
-        if (personalClicks >= goal) return;
-        personalClicks++;
-        localStorage.setItem('void_clicks', personalClicks);
-        hitGlobal();
-        
-        qEl.classList.remove('show');
+    const vBtn = document.getElementById('void-btn');
+    vBtn.onmousedown = () => { if(pClicks<goal) { document.querySelectorAll('.eyelid').forEach(l=>l.style.top='0%'); playClick(); } };
+    vBtn.onmouseup = () => {
+        if(pClicks >= goal) return;
+        pClicks++; localStorage.setItem('v_c', pClicks); hG();
+        const q = document.getElementById('quote'); q.classList.remove('show');
         setTimeout(() => {
-            if (personalClicks === goal) {
-                qEl.innerHTML = `<span style="color:var(--accent)">${finalInsights[0][currentLang]}</span>`;
-                btn.disabled = true; btn.style.opacity = "0.1";
-            } else {
-                qEl.innerText = quotes[Math.floor(Math.random() * quotes.length)][currentLang];
-                if (personalClicks > 800) document.documentElement.style.setProperty('--glitch', (Math.random()*4-2)+'px');
-            }
-            qEl.classList.add('show');
-            updateUI();
+            if(pClicks >= goal) { q.innerText = finalIns[lang] || finalIns['en']; vBtn.style.opacity="0.1"; }
+            else { q.innerText = qs[Math.floor(Math.random()*qs.length)][lang]; }
+            q.classList.add('show'); updateUI();
         }, 300);
-    });
+    };
 
-    function setLang(l) {
-        currentLang = l;
-        document.querySelectorAll('.lang-tag').forEach(t => t.classList.toggle('active', t.innerText.toLowerCase() === l));
-        document.body.dir = (l === 'ar') ? 'rtl' : 'ltr';
-        updateUI();
-    }
+    const handleMove = (e) => {
+        if(pClicks>=goal) return;
+        const clX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clY = e.clientY || (e.touches && e.touches[0].clientY);
+        document.querySelectorAll('.pupil').forEach(p => {
+            const r = p.getBoundingClientRect(); const x = r.left + r.width/2; const y = r.top + r.height/2;
+            const a = Math.atan2(clX - x, clY - y);
+            p.style.transform = `rotate(${(a * (180/Math.PI) * -1) + 180}deg) translateY(-4px)`;
+        });
+    };
+    document.addEventListener('mousemove', handleMove);
+    document.addEventListener('touchmove', handleMove);
 
-    function copyCA() {
-        const ca = "0xВАШ_КОНТРАКТ_ЗДЕСЬ";
-        navigator.clipboard.writeText(ca);
-        const box = document.getElementById('ca-box');
-        box.innerText = "COPIED"; setTimeout(() => box.innerText = "CA: " + ca.substring(0,6)+'...', 1000);
-    }
-
-    // Старт
-    updateUI();
-    updateGlobal();
-    setInterval(updateGlobal, 10000);
+    function sL(l) { lang = l; document.querySelectorAll('.lang-tag').forEach(t=>t.classList.toggle('active', t.innerText.toLowerCase()===l)); updateUI(); uG(); }
+    function copyCA() { navigator.clipboard.writeText(ca); const b = document.getElementById('ca-box'); b.innerText = "COPIED"; setTimeout(()=>b.innerText="CA: "+ca.substring(0,6)+'...', 1000); }
+    
+    updateUI(); uG(); setInterval(uG, 10000);
 </script>
 </body>
 </html>
-
