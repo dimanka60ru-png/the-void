@@ -22,7 +22,7 @@
         }
         
         body { 
-            background: #0a050f;
+            background: #000;
             color: var(--text-col);
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
@@ -37,51 +37,80 @@
             height: 100vh;
             padding: 10px 20px 80px;
         }
-            body::before {
-            content: "";
+        
+        /* ===== НОВЫЙ ФОН ===== */
+        
+        /* Звёздное небо */
+        .sky {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                radial-gradient(circle at 30% 40%, rgba(100, 20, 20, 0.2) 0%, transparent 50%),
-                repeating-linear-gradient(45deg, rgba(50, 10, 10, 0.15) 0px, rgba(50, 10, 10, 0.15) 2px, transparent 2px, transparent 8px);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
             pointer-events: none;
-            z-index: 1;
         }
-
-        .particle {
-            position: fixed;
-            width: 8px; height: 8px;
+        
+        /* Неподвижные звёзды */
+        .star {
+            position: absolute;
+            background: white;
             border-radius: 50%;
+            box-shadow: 0 0 10px white;
+            animation: twinkle 4s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        /* Падающие звёзды */
+        .shooting-star {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 20px white, 0 0 40px white;
+            z-index: 5;
             pointer-events: none;
-            z-index: 2;
-            animation: float 15s infinite linear;
-            opacity: 0.6;
         }
         
-        .particle:nth-child(3n) {
-            background: rgba(255, 80, 80, 0.5);
-            box-shadow: 0 0 12px rgba(255, 60, 60, 0.6);
-        }
-        .particle:nth-child(3n+1) {
-            background: rgba(255, 150, 50, 0.5);
-            box-shadow: 0 0 12px rgba(255, 120, 40, 0.6);
-        }
-        .particle:nth-child(3n+2) {
-            background: rgba(255, 200, 80, 0.5);
-            box-shadow: 0 0 12px rgba(255, 180, 60, 0.6);
-        }
-        .particle:nth-child(5n+3) {
-            background: rgba(255, 100, 150, 0.5);
-            box-shadow: 0 0 12px rgba(255, 80, 120, 0.6);
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.7; }
-            90% { opacity: 0.7; }
-            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        /* Туман */
+        .fogContainer {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            z-index: 7;
+            pointer-events: none;
         }
 
+        .fog {
+            position: absolute;
+            left: -50%;
+            top: -30%;
+            width: 200%;
+            height: 200%;
+            animation-name: fogFrames;
+            animation-duration: 60s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            background: linear-gradient(-5deg, #00000000 0%, #ffffff15 40%, #74590121 45%, #8b845b21 55%, #00000000 70%);
+        }
+
+        @keyframes fogFrames {
+            0% { transform: none; }
+            10% { transform: scaleY(.75) translate(5%, -2%) rotate(15deg); }
+            25% { transform: scaleY(1) translate(10%, 7%); }
+            50% { transform: scaleY(0.5) rotate(-15deg); }
+            75% { transform: scaleY(0.2) translate(7%, -2%); }
+            100% { transform: none; }
+        }
+        
+        /* ===== ИНТЕРФЕЙС ===== */
         .langs { 
             position: fixed; 
             top: 15px; 
@@ -139,13 +168,27 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.3s;
+            transition: all 0.5s ease;
             padding: 0 15px;
             text-shadow: 0 3px 25px rgba(255,70,70,0.6), 0 2px 10px rgba(0,0,0,0.5);
             line-height: 1.4;
             font-weight: 600;
             letter-spacing: 0.3px;
             color: #fff;
+        }
+
+        /* Стиль для золотой цитаты */
+        #q.gold-quote {
+            color: #ffd700;
+            text-shadow: 0 0 20px #ffaa00, 0 0 40px #ffaa00;
+            animation: goldPulse 2s infinite;
+            font-size: 2rem;
+        }
+        
+        @keyframes goldPulse {
+            0% { text-shadow: 0 0 20px #ffaa00, 0 0 40px #ffaa00; }
+            50% { text-shadow: 0 0 30px #ffaa00, 0 0 60px #ffaa00; }
+            100% { text-shadow: 0 0 20px #ffaa00, 0 0 40px #ffaa00; }
         }
 
         #btn { 
@@ -251,7 +294,6 @@
             box-shadow: 0 0 8px rgba(255,255,255,0.8);
         }
         
-        /* Второй блик (маленький) */
         .pupil::before {
             content: "";
             position: absolute;
@@ -275,8 +317,6 @@
             transition: 0.1s; 
             z-index: 3; 
             border-radius: 50%;
-        }
-      
         }
 
         #mouth {
@@ -359,34 +399,6 @@
             margin-right: auto;
         }
         
-        #mouth.crying {
-            width: 50px;
-            height: 20px;
-            border-bottom: 8px solid #1a1a1a;
-            border-left: transparent;
-            border-right: transparent;
-            border-top: transparent;
-            border-radius: 0 0 40px 40px;
-            transform: rotate(0deg);
-            position: relative;
-            margin-top: 20px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        #mouth.crying::before,
-        #mouth.crying::after {
-            content: "💧";
-            position: absolute;
-            font-size: 16px;
-            top: -10px;
-        }
-        #mouth.crying::before {
-            left: -15px;
-        }
-        #mouth.crying::after {
-            right: -15px;
-        }
-
         .blush {
             position: absolute;
             width: 45px; height: 22px;
@@ -497,47 +509,6 @@
             text-shadow: 0 0 10px rgba(255,100,100,0.5);
         }
 
-        .threshold-msg {
-            position: fixed;
-            bottom: 350px;
-            font-size: 1.2rem;
-            opacity: 1;
-            pointer-events: none;
-            background: rgba(20,10,20,0.8);
-            backdrop-filter: blur(10px);
-            padding: 18px 35px;
-            border-radius: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            max-width: 80%;
-            color: #ffd700;
-            text-shadow: 0 0 20px #ffaa00;
-            word-break: break-word;
-            white-space: normal;
-            line-height: 1.5;
-            border: 2px solid #ffd700;
-            box-shadow: 0 0 50px rgba(255,215,0,0.6);
-            z-index: 200;
-            transition: opacity 0.3s;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-        .special-threshold {
-            background: linear-gradient(145deg, #3a2a00, #4d3f00);
-            border: 3px solid #ffd700;
-            color: #ffd700;
-            text-shadow: 0 0 20px #ffaa00, 0 0 40px #ffaa00;
-            font-size: 1.4rem;
-            font-weight: 700;
-            box-shadow: 0 0 60px rgba(255,215,0,0.8);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 40px rgba(255,215,0,0.6); }
-            50% { box-shadow: 0 0 70px rgba(255,215,0,0.9); }
-            100% { box-shadow: 0 0 40px rgba(255,215,0,0.6); }
-        }
-
         @media (max-width: 600px) {
             body {
                 padding: 10px 10px 80px;
@@ -556,6 +527,10 @@
                 font-size: 1.4rem;
                 min-height: 100px;
                 margin-bottom: 15px;
+            }
+            
+            #q.gold-quote {
+                font-size: 1.6rem;
             }
             
             .counters {
@@ -582,32 +557,6 @@
             .l-btn {
                 font-size: 0.6rem;
                 padding: 4px 5px;
-            }
-            
-            .threshold-msg {
-                bottom: 250px;
-                font-size: 1rem;
-                padding: 12px 20px;
-                max-width: 85%;
-            }
-            
-            .special-threshold {
-                font-size: 1.2rem;
-            }
-            
-            .link-group {
-                max-width: 90%;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 5px;
-            }
-            #ca, #x-link {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 45%;
-                font-size: 0.65rem;
-                padding: 6px 8px;
             }
         }
 
@@ -637,38 +586,35 @@
                 font-size: 1.2rem;
             }
             
-            .threshold-msg {
-                bottom: 230px;
-                font-size: 0.9rem;
-                padding: 8px 12px;
-                max-width: 80%;
+            #q.gold-quote {
+                font-size: 1.4rem;
             }
             
-            .special-threshold {
-                font-size: 1.1rem;
+            .link-group {
+                max-width: 90%;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 5px;
             }
-            
             #ca, #x-link {
-                max-width: 40%;
-                font-size: 0.6rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 45%;
+                font-size: 0.65rem;
+                padding: 6px 8px;
             }
         }
     </style>
 </head>
 <body>
-
-    <script>
-        for (let i = 0; i < 50; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDuration = (10 + Math.random() * 20) + 's';
-            particle.style.animationDelay = (Math.random() * 10) + 's';
-            particle.style.width = (5 + Math.random() * 12) + 'px';
-            particle.style.height = particle.style.width;
-            document.body.appendChild(particle);
-        }
-    </script>
+    <!-- Звёздное небо -->
+    <div class="sky"></div>
+    
+    <!-- Туман -->
+    <div class="fogContainer">
+        <div class="fog"></div>
+    </div>
 
     <div class="langs">
         <div class="l-btn active" onclick="setLanguage('en')">EN</div>
@@ -713,10 +659,75 @@
         </div>
     </div>
 
-    <div id="threshold-container"></div>
-
     <script>
-        // === ЦИТАТЫ НА 10 ЯЗЫКАХ ===
+        // ===== СОЗДАЁМ ЗВЁЗДЫ =====
+        const sky = document.querySelector('.sky');
+        
+        // Создаём 200 неподвижных звёзд
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            const size = Math.random() * 3 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            
+            star.style.top = Math.random() * 100 + '%';
+            star.style.left = Math.random() * 100 + '%';
+            
+            star.style.animationDelay = Math.random() * 5 + 's';
+            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            
+            sky.appendChild(star);
+        }
+        
+        // ===== ПАДАЮЩИЕ ЗВЁЗДЫ =====
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            
+            const startX = Math.random() * 100;
+            const startY = Math.random() * 30;
+            
+            star.style.left = startX + '%';
+            star.style.top = startY + '%';
+            
+            const size = Math.random() * 3 + 2;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            
+            document.body.appendChild(star);
+            
+            let posX = startX;
+            let posY = startY;
+            let opacity = 1;
+            
+            const interval = setInterval(() => {
+                posX += 0.5;
+                posY += 0.8;
+                opacity -= 0.01;
+                
+                star.style.left = posX + '%';
+                star.style.top = posY + '%';
+                star.style.opacity = opacity;
+                star.style.boxShadow = `0 0 ${20 * opacity}px white`;
+                
+                if (posY > 120 || opacity <= 0) {
+                    clearInterval(interval);
+                    star.remove();
+                }
+            }, 30);
+        }
+        
+        // Запускаем падающие звёзды
+        setInterval(() => {
+            const count = Math.floor(Math.random() * 3) + 1;
+            for (let i = 0; i < count; i++) {
+                setTimeout(createShootingStar, i * 200);
+            }
+        }, 2000);
+        
+        // ===== ЦИТАТЫ =====
         const quotes = {
             en: [
                 "I think, therefore I am. I regret both.",
@@ -823,7 +834,6 @@
                 "Time is the longest distance between two places.",
                 "Lost time is never found again.",
                 "The two most powerful warriors are patience and time.",
-                // Button quotes
                 "I didn't ask to exist.",
                 "Don't click me. (But you will.)",
                 "I'm tired of being almost.",
@@ -970,7 +980,6 @@
                 "Время — это ткань, из которой сделана жизнь.",
                 "Потерянного времени никогда не вернуть.",
                 "Два самых могущественных воина — это терпение и время.",
-                // Button quotes in Russian
                 "Я не просил существовать.",
                 "Не нажимай меня. (Но ты нажмёшь.)",
                 "Я устал быть почти.",
@@ -1117,7 +1126,6 @@
                 "时间是最长的距离。",
                 "失去的时间永远找不回。",
                 "两个最强大的战士是耐心和时间。",
-                // Button quotes in Chinese
                 "我没有要求存在。",
                 "不要点击我。（但你会。）",
                 "我厌倦了几乎。",
@@ -1265,7 +1273,6 @@
                 "時間は二地点間の最長距離。",
                 "失われた時間は二度と戻らない。",
                 "二つの最強の戦士は忍耐と時間。",
-                // Button quotes in Japanese
                 "私は存在を求めなかった。",
                 "私をクリックしないで。（でもするだろう。）",
                 "もうすぐなのに疲れた。",
@@ -1413,7 +1420,6 @@
                 "시간은 두 지점 사이의 가장 긴 거리다.",
                 "잃어버린 시간은 다시 찾을 수 없다.",
                 "가장 강력한 두 전사는 인내와 시간이다.",
-                // Button quotes in Korean
                 "나는 존재하기를 요구하지 않았다.",
                 "나를 클릭하지 마라. (하지만 할 것이다.)",
                 "나는 거의 되는 것에 지쳤다.",
@@ -1561,7 +1567,6 @@
                 "El tiempo es la distancia más larga entre dos lugares.",
                 "El tiempo perdido nunca se encuentra.",
                 "Los dos guerreros más poderosos son la paciencia y el tiempo.",
-                // Button quotes in Spanish
                 "No pedí existir.",
                 "No me hagas clic. (Pero lo harás.)",
                 "Estoy cansado de ser casi.",
@@ -1709,7 +1714,6 @@
                 "O tempo é a distância mais longa entre dois lugares.",
                 "O tempo perdido nunca se encontra.",
                 "Os dois guerreiros mais poderosos são a paciência e o tempo.",
-                // Button quotes in Portuguese
                 "Não pedi para existir.",
                 "Não me cliques. (Mas vais.)",
                 "Estou cansado de ser quase.",
@@ -1857,7 +1861,6 @@
                 "Zaman iki yer arasındaki en uzun mesafedir.",
                 "Kaybedilen zaman asla bulunmaz.",
                 "En güçlü iki savaşçı sabır ve zamandır.",
-                // Button quotes in Turkish
                 "Var olmayı istemedim.",
                 "Bana tıklama. (Ama tıklayacaksın.)",
                 "Neredeyse olmaktan yoruldum.",
@@ -2005,7 +2008,6 @@
                 "Thời gian là khoảng cách dài nhất giữa hai nơi.",
                 "Thời gian đã mất không bao giờ tìm lại được.",
                 "Hai chiến binh mạnh nhất là kiên nhẫn và thời gian.",
-                // Button quotes in Vietnamese
                 "Tôi không yêu cầu tồn tại.",
                 "Đừng nhấp tôi. (Nhưng bạn sẽ.)",
                 "Tôi mệt mỏi vì gần như.",
@@ -2153,7 +2155,6 @@
                 "Zeit ist die längste Entfernung zwischen zwei Orten.",
                 "Verlorene Zeit wird nie wiedergefunden.",
                 "Die beiden mächtigsten Krieger sind Geduld und Zeit.",
-                // Button quotes in German
                 "Ich habe nicht um Existenz gebeten.",
                 "Klick mich nicht. (Aber du wirst.)",
                 "Ich bin es leid, fast zu sein.",
@@ -2198,128 +2199,128 @@
             ]
         };
 
-        const hundredQuotes = {
-            en: [
-                "✨ 100 clicks. 100 moments. All gone. Was it worth it? ✨",
-                "✨ Time is the only currency that can't be mined. You just spent 100 units. ✨",
-                "✨ You have clicked 100 times. The button remembers. Do you? ✨",
-                "✨ Every click is a second of your life. You won't get them back. ✨",
-                "✨ What if each click was a day? You'd be 100 days older now. Feel any wiser? ✨",
-                "✨ The button doesn't care. But maybe you should. ✨",
-                "✨ 100 clicks deeper into the void. How far will you go? ✨",
-                "✨ You came here for meaning. You found a button. And 100 clicks. ✨",
-                "✨ Imagine if you'd spent those 100 clicks on something real. ✨",
-                "✨ The average human lifetime is 2.5 billion clicks. You're just getting started. ✨"
-            ],
-            ru: [
-                "✨ 100 нажатий. 100 мгновений. Все прошли. Оно того стоило? ✨",
-                "✨ Время — единственная валюта, которую нельзя намайнить. Ты только что потратил 100 единиц. ✨",
-                "✨ Ты нажал 100 раз. Кнопка помнит. А ты? ✨",
-                "✨ Каждое нажатие — секунда твоей жизни. Ты их не вернёшь. ✨",
-                "✨ А что, если каждый клик — это день? Ты бы стал на 100 дней старше. Почувствовал мудрость? ✨",
-                "✨ Кнопке всё равно. А тебе не должно быть. ✨",
-                "✨ 100 нажатий в глубину пустоты. Как далеко ты зайдёшь? ✨",
-                "✨ Ты пришёл сюда за смыслом. А нашёл кнопку и 100 нажатий. ✨",
-                "✨ Представь, если бы ты потратил эти 100 кликов на что-то настоящее. ✨",
-                "✨ Средняя жизнь человека — 2.5 миллиарда кликов. Ты только начинаешь. ✨"
-            ],
-            zh: [
-                "✨ 100次点击。100个瞬间。都过去了。值得吗？ ✨",
-                "✨ 时间是唯一不能开采的货币。你刚刚花了100单位。 ✨",
-                "✨ 你已经点击了100次。按钮记得。你呢？ ✨",
-                "✨ 每次点击都是你生命的一秒。你再也回不来了。 ✨",
-                "✨ 如果每次点击是一天呢？你现在就老了100天。感觉更明智了吗？ ✨",
-                "✨ 按钮不在乎。但也许你该在乎。 ✨",
-                "✨ 深入虚空100次点击。你会走多远？ ✨",
-                "✨ 你来这里寻找意义。你找到了一个按钮。还有100次点击。 ✨",
-                "✨ 想象一下，如果你把100次点击花在真正的东西上。 ✨",
-                "✨ 人类的平均寿命是25亿次点击。你才刚刚开始。 ✨"
-            ],
-            ja: [
-                "✨ 100クリック。100の瞬間。すべて消えた。価値はあったか？ ✨",
-                "✨ 時間は採掘できない唯一の通貨だ。たった今100単位使った。 ✨",
-                "✨ 100回クリックした。ボタンは覚えている。あなたは？ ✨",
-                "✨ すべてのクリックはあなたの人生の一秒。二度と戻らない。 ✨",
-                "✨ もし各クリックが一日だったら？今100日年を取った。賢くなったか？ ✨",
-                "✨ ボタンは気にしない。でもあなたは気にすべきだ。 ✨",
-                "✨ 虚空の奥へ100クリック。どこまで行く？ ✨",
-                "✨ 意味を求めて来た。見つけたのはボタンと100クリック。 ✨",
-                "✨ その100クリックを本当の何かに使ったとしたら？ ✨",
-                "✨ 人間の平均寿命は25億クリック。始まったばかりだ。 ✨"
-            ],
-            ko: [
-                "✨ 100번의 클릭. 100개의 순간. 모두 사라졌다. 가치가 있었나? ✨",
-                "✨ 시간은 채굴할 수 없는 유일한 통화다. 방금 100단위를 썼다. ✨",
-                "✨ 100번 클릭했다. 버튼은 기억한다. 당신은? ✨",
-                "✨ 모든 클릭은 당신 인생의 1초다. 되돌릴 수 없다. ✨",
-                "✨ 각 클릭이 하루라면? 지금 100일 더 늙었다. 더 현명해졌나? ✨",
-                "✨ 버튼은 신경 쓰지 않는다. 하지만 당신은 그래야 한다. ✨",
-                "✨ 공허 속으로 100클릭. 얼마나 갈 건가? ✨",
-                "✨ 의미를 찾아 왔다. 버튼과 100클릭을 찾았다. ✨",
-                "✨ 그 100클릭을 진짜 무언가에 썼다면 상상해봐. ✨",
-                "✨ 인간의 평균 수명은 25억 클릭이다. 방금 시작했다. ✨"
-            ],
-            es: [
-                "✨ 100 clics. 100 momentos. Todo ido. ¿Valió la pena? ✨",
-                "✨ El tiempo es la única moneda que no se puede minar. Acabas de gastar 100 unidades. ✨",
-                "✨ Has hecho clic 100 veces. El botón lo recuerda. ¿Y tú? ✨",
-                "✨ Cada clic es un segundo de tu vida. No los recuperarás. ✨",
-                "✨ ¿Y si cada clic fuera un día? Serías 100 días mayor. ¿Te sientes más sabio? ✨",
-                "✨ Al botón no le importa. Pero a ti debería. ✨",
-                "✨ 100 clics más profundo en el vacío. ¿Hasta dónde llegarás? ✨",
-                "✨ Viniste buscando sentido. Encontraste un botón. Y 100 clics. ✨",
-                "✨ Imagina si hubieras usado esos 100 clics en algo real. ✨",
-                "✨ La vida humana promedio son 2.5 mil millones de clics. Apenas empiezas. ✨"
-            ],
-            pt: [
-                "✨ 100 cliques. 100 momentos. Tudo se foi. Valeu a pena? ✨",
-                "✨ O tempo é a única moeda que não pode ser minerada. Acabaste de gastar 100 unidades. ✨",
-                "✨ Clicaste 100 vezes. O botão lembra. E tu? ✨",
-                "✨ Cada clique é um segundo da tua vida. Não os recuperarás. ✨",
-                "✨ E se cada clique fosse um dia? Estarias 100 dias mais velho. Mais sábio? ✨",
-                "✨ O botão não se importa. Mas tu devias. ✨",
-                "✨ 100 cliques mais fundo no vazio. Até onde irás? ✨",
-                "✨ Vieste à procura de sentido. Encontraste um botão. E 100 cliques. ✨",
-                "✨ Imagina se tivesses usado esses 100 cliques em algo real. ✨",
-                "✨ A vida humana média são 2.5 mil milhões de cliques. Estás apenas a começar. ✨"
-            ],
-            tr: [
-                "✨ 100 tıklama. 100 an. Hepsi gitti. Değdi mi? ✨",
-                "✨ Zaman, mayınlanamayan tek para birimidir. Az önce 100 birim harcadın. ✨",
-                "✨ 100 kez tıkladın. Düğme hatırlıyor. Ya sen? ✨",
-                "✨ Her tıklama hayatının bir saniyesi. Onları geri alamazsın. ✨",
-                "✨ Ya her tıklama bir gün olsaydı? Şimdi 100 gün yaşlandın. Daha bilge hissettin mi? ✨",
-                "✨ Düğme umursamıyor. Ama belki sen umursamalısın. ✨",
-                "✨ Boşluğun 100 tıklama derinliğinde. Ne kadar ileri gideceksin? ✨",
-                "✨ Anlam aramaya geldin. Bir düğme buldun. Ve 100 tıklama. ✨",
-                "✨ Bu 100 tıklamayı gerçek bir şeye harcadığını hayal et. ✨",
-                "✨ Ortalama insan ömrü 2.5 milyar tıklamadır. Daha yeni başlıyorsun. ✨"
-            ],
-            vi: [
-                "✨ 100 nhấp. 100 khoảnh khắc. Tất cả qua. Đáng không? ✨",
-                "✨ Thời gian là tiền tệ duy nhất không thể khai thác. Bạn vừa tiêu 100 đơn vị. ✨",
-                "✨ Bạn đã nhấp 100 lần. Nút nhớ. Bạn thì sao? ✨",
-                "✨ Mỗi nhấp là một giây cuộc đời bạn. Không thể lấy lại. ✨",
-                "✨ Nếu mỗi nhấp là một ngày? Bây giờ bạn già hơn 100 ngày. Cảm thấy khôn ngoan hơn? ✨",
-                "✨ Nút không quan tâm. Nhưng có lẽ bạn nên. ✨",
-                "✨ 100 nhấp sâu vào hư vô. Bạn sẽ đi bao xa? ✨",
-                "✨ Bạn đến tìm ý nghĩa. Bạn tìm thấy nút. Và 100 nhấp. ✨",
-                "✨ Tưởng tượng nếu bạn dùng 100 nhấp đó vào thứ gì thực. ✨",
-                "✨ Tuổi thọ trung bình là 2.5 tỷ nhấp. Bạn chỉ mới bắt đầu. ✨"
-            ],
-            de: [
-                "✨ 100 Klicks. 100 Momente. Alle weg. War es das wert? ✨",
-                "✨ Zeit ist die einzige Währung, die nicht geschürft werden kann. Du hast gerade 100 Einheiten ausgegeben. ✨",
-                "✨ Du hast 100 Mal geklickt. Der Knopf erinnert sich. Und du? ✨",
-                "✨ Jeder Klick ist eine Sekunde deines Lebens. Du bekommst sie nicht zurück. ✨",
-                "✨ Was, wenn jeder Klick ein Tag wäre? Du wärst jetzt 100 Tage älter. Fühlst du dich weiser? ✨",
-                "✨ Der Knopf kümmert sich nicht. Aber du vielleicht solltest. ✨",
-                "✨ 100 Klicks tiefer in die Leere. Wie weit wirst du gehen? ✨",
-                "✨ Du kamst auf der Suche nach Sinn. Du fandest einen Knopf. Und 100 Klicks. ✨",
-                "✨ Stell dir vor, du hättest diese 100 Klicks für etwas Reales genutzt. ✨",
-                "✨ Die durchschnittliche menschliche Lebensdauer beträgt 2,5 Milliarden Klicks. Du fängst gerade erst an. ✨"
-            ]
-        };
+      const hundredQuotes = {
+    en: [
+        "✨ 100 clicks. 100 moments. All gone. Was it worth it? ✨",
+        "✨ Time is the only currency that can't be mined. You just spent 100 units. ✨",
+        "✨ You have clicked 100 times. The button remembers. Do you? ✨",
+        "✨ Every click is a second of your life. You won't get them back. ✨",
+        "✨ What if each click was a day? You'd be 100 days older now. Feel any wiser? ✨",
+        "✨ The button doesn't care. But maybe you should. ✨",
+        "✨ 100 clicks deeper into the void. How far will you go? ✨",
+        "✨ You came here for meaning. You found a button. And 100 clicks. ✨",
+        "✨ Imagine if you'd spent those 100 clicks on something real. ✨",
+        "✨ The average human lifetime is 2.5 billion clicks. You're just getting started. ✨"
+    ],
+    ru: [
+        "✨ 100 нажатий. 100 мгновений. Все прошли. Оно того стоило? ✨",
+        "✨ Время — единственная валюта, которую нельзя намайнить. Ты только что потратил 100 единиц. ✨",
+        "✨ Ты нажал 100 раз. Кнопка помнит. А ты? ✨",
+        "✨ Каждое нажатие — секунда твоей жизни. Ты их не вернёшь. ✨",
+        "✨ А что, если каждый клик — это день? Ты бы стал на 100 дней старше. Почувствовал мудрость? ✨",
+        "✨ Кнопке всё равно. А тебе не должно быть. ✨",
+        "✨ 100 нажатий в глубину пустоты. Как далеко ты зайдёшь? ✨",
+        "✨ Ты пришёл сюда за смыслом. А нашёл кнопку и 100 нажатий. ✨",
+        "✨ Представь, если бы ты потратил эти 100 кликов на что-то настоящее. ✨",
+        "✨ Средняя жизнь человека — 2.5 миллиарда кликов. Ты только начинаешь. ✨"
+    ],
+    zh: [
+        "✨ 100次点击。100个瞬间。都过去了。值得吗？ ✨",
+        "✨ 时间是唯一不能开采的货币。你刚刚花了100单位。 ✨",
+        "✨ 你已经点击了100次。按钮记得。你呢？ ✨",
+        "✨ 每次点击都是你生命的一秒。你再也回不来了。 ✨",
+        "✨ 如果每次点击是一天呢？你现在就老了100天。感觉更明智了吗？ ✨",
+        "✨ 按钮不在乎。但也许你该在乎。 ✨",
+        "✨ 深入虚空100次点击。你会走多远？ ✨",
+        "✨ 你来这里寻找意义。你找到了一个按钮。还有100次点击。 ✨",
+        "✨ 想象一下，如果你把100次点击花在真正的东西上。 ✨",
+        "✨ 人类的平均寿命是25亿次点击。你才刚刚开始。 ✨"
+    ],
+    ja: [
+        "✨ 100クリック。100の瞬間。すべて消えた。価値はあったか？ ✨",
+        "✨ 時間は採掘できない唯一の通貨だ。たった今100単位使った。 ✨",
+        "✨ 100回クリックした。ボタンは覚えている。あなたは？ ✨",
+        "✨ すべてのクリックはあなたの人生の一秒。二度と戻らない。 ✨",
+        "✨ もし各クリックが一日だったら？今100日年を取った。賢くなったか？ ✨",
+        "✨ ボタンは気にしない。でもあなたは気にすべきだ。 ✨",
+        "✨ 虚空の奥へ100クリック。どこまで行く？ ✨",
+        "✨ 意味を求めて来た。見つけたのはボタンと100クリック。 ✨",
+        "✨ その100クリックを本当の何かに使ったとしたら？ ✨",
+        "✨ 人間の平均寿命は25億クリック。始まったばかりだ。 ✨"
+    ],
+    ko: [
+        "✨ 100번의 클릭. 100개의 순간. 모두 사라졌다. 가치가 있었나? ✨",
+        "✨ 시간은 채굴할 수 없는 유일한 통화다. 방금 100단위를 썼다. ✨",
+        "✨ 100번 클릭했다. 버튼은 기억한다. 당신은? ✨",
+        "✨ 모든 클릭은 당신 인생의 1초다. 되돌릴 수 없다. ✨",
+        "✨ 각 클릭이 하루라면? 지금 100일 더 늙었다. 더 현명해졌나? ✨",
+        "✨ 버튼은 신경 쓰지 않는다. 하지만 당신은 그래야 한다. ✨",
+        "✨ 공허 속으로 100클릭. 얼마나 갈 건가? ✨",
+        "✨ 의미를 찾아 왔다. 버튼과 100클릭을 찾았다. ✨",
+        "✨ 그 100클릭을 진짜 무언가에 썼다면 상상해봐. ✨",
+        "✨ 인간의 평균 수명은 25억 클릭이다. 방금 시작했다. ✨"
+    ],
+    es: [
+        "✨ 100 clics. 100 momentos. Todo ido. ¿Valió la pena? ✨",
+        "✨ El tiempo es la única moneda que no se puede minar. Acabas de gastar 100 unidades. ✨",
+        "✨ Has hecho clic 100 veces. El botón lo recuerda. ¿Y tú? ✨",
+        "✨ Cada clic es un segundo de tu vida. No los recuperarás. ✨",
+        "✨ ¿Y si cada clic fuera un día? Serías 100 días mayor. ¿Te sientes más sabio? ✨",
+        "✨ Al botón no le importa. Pero a ti debería. ✨",
+        "✨ 100 clics más profundo en el vacío. ¿Hasta dónde llegarás? ✨",
+        "✨ Viniste buscando sentido. Encontraste un botón. Y 100 clics. ✨",
+        "✨ Imagina si hubieras usado esos 100 clics en algo real. ✨",
+        "✨ La vida humana promedio son 2.5 mil millones de clics. Apenas empiezas. ✨"
+    ],
+    pt: [
+        "✨ 100 cliques. 100 momentos. Tudo se foi. Valeu a pena? ✨",
+        "✨ O tempo é a única moeda que não pode ser minerada. Acabaste de gastar 100 unidades. ✨",
+        "✨ Clicaste 100 vezes. O botão lembra. E tu? ✨",
+        "✨ Cada clique é um segundo da tua vida. Não os recuperarás. ✨",
+        "✨ E se cada clique fosse um dia? Estarias 100 dias mais velho. Mais sábio? ✨",
+        "✨ O botão não se importa. Mas tu devias. ✨",
+        "✨ 100 cliques mais fundo no vazio. Até onde irás? ✨",
+        "✨ Vieste à procura de sentido. Encontraste um botão. E 100 cliques. ✨",
+        "✨ Imagina se tivesses usado esses 100 cliques em algo real. ✨",
+        "✨ A vida humana média são 2.5 mil milhões de cliques. Estás apenas a começar. ✨"
+    ],
+    tr: [
+        "✨ 100 tıklama. 100 an. Hepsi gitti. Değdi mi? ✨",
+        "✨ Zaman, mayınlanamayan tek para birimidir. Az önce 100 birim harcadın. ✨",
+        "✨ 100 kez tıkladın. Düğme hatırlıyor. Ya sen? ✨",
+        "✨ Her tıklama hayatının bir saniyesi. Onları geri alamazsın. ✨",
+        "✨ Ya her tıklama bir gün olsaydı? Şimdi 100 gün yaşlandın. Daha bilge hissettin mi? ✨",
+        "✨ Düğme umursamıyor. Ama belki sen umursamalısın. ✨",
+        "✨ Boşluğun 100 tıklama derinliğinde. Ne kadar ileri gideceksin? ✨",
+        "✨ Anlam aramaya geldin. Bir düğme buldun. Ve 100 tıklama. ✨",
+        "✨ Bu 100 tıklamayı gerçek bir şeye harcadığını hayal et. ✨",
+        "✨ Ortalama insan ömrü 2.5 milyar tıklamadır. Daha yeni başlıyorsun. ✨"
+    ],
+    vi: [
+        "✨ 100 nhấp. 100 khoảnh khắc. Tất cả qua. Đáng không? ✨",
+        "✨ Thời gian là tiền tệ duy nhất không thể khai thác. Bạn vừa tiêu 100 đơn vị. ✨",
+        "✨ Bạn đã nhấp 100 lần. Nút nhớ. Bạn thì sao? ✨",
+        "✨ Mỗi nhấp là một giây cuộc đời bạn. Không thể lấy lại. ✨",
+        "✨ Nếu mỗi nhấp là một ngày? Bây giờ bạn già hơn 100 ngày. Cảm thấy khôn ngoan hơn? ✨",
+        "✨ Nút không quan tâm. Nhưng có lẽ bạn nên. ✨",
+        "✨ 100 nhấp sâu vào hư vô. Bạn sẽ đi bao xa? ✨",
+        "✨ Bạn đến tìm ý nghĩa. Bạn tìm thấy nút. Và 100 nhấp. ✨",
+        "✨ Tưởng tượng nếu bạn dùng 100 nhấp đó vào thứ gì thực. ✨",
+        "✨ Tuổi thọ trung bình là 2.5 tỷ nhấp. Bạn chỉ mới bắt đầu. ✨"
+    ],
+    de: [
+        "✨ 100 Klicks. 100 Momente. Alle weg. War es das wert? ✨",
+        "✨ Zeit ist die einzige Währung, die nicht geschürft werden kann. Du hast gerade 100 Einheiten ausgegeben. ✨",
+        "✨ Du hast 100 Mal geklickt. Der Knopf erinnert sich. Und du? ✨",
+        "✨ Jeder Klick ist eine Sekunde deines Lebens. Du bekommst sie nicht zurück. ✨",
+        "✨ Was, wenn jeder Klick ein Tag wäre? Du wärst jetzt 100 Tage älter. Fühlst du dich weiser? ✨",
+        "✨ Der Knopf kümmert sich nicht. Aber du vielleicht solltest. ✨",
+        "✨ 100 Klicks tiefer in die Leere. Wie weit wirst du gehen? ✨",
+        "✨ Du kamst auf der Suche nach Sinn. Du fandest einen Knopf. Und 100 Klicks. ✨",
+        "✨ Stell dir vor, du hättest diese 100 Klicks für etwas Reales genutzt. ✨",
+        "✨ Die durchschnittliche menschliche Lebensdauer beträgt 2,5 Milliarden Klicks. Du fängst gerade erst an. ✨"
+    ]
+};
 
         const interfaceText = {
             en: { 
@@ -2368,9 +2369,10 @@
         let clickCount = parseInt(localStorage.getItem('v_c_final')) || 0;
         let currentLang = 'en';
         let lastHundredThreshold = 0;
-        let currentSpecialQuote = null;
-        
-              // === COLLECTIVE REGRET (UNIQUE VISITORS) ===
+        let isGoldQuoteActive = false;
+        let currentQuoteIndex = 0; // Индекс текущей цитаты
+        let currentGoldQuoteIndex = 0; // Индекс текущей золотой цитаты
+        // === COLLECTIVE REGRET (UNIQUE VISITORS) ===
         let totalVisitors = parseInt(localStorage.getItem('total_collective_regret')) || 0;
         
         // Generate unique ID for this user (if not exists)
@@ -2387,29 +2389,18 @@
         document.getElementById('cnt').innerText = interfaceText[currentLang].counterPrefix + clickCount;
 
         function showHundredQuote() {
-            const hundredThreshold = Math.floor(clickCount / 100) * 100;
-            
-            if (clickCount > 0 && clickCount % 100 === 0 && clickCount > lastHundredThreshold) {
-                lastHundredThreshold = clickCount;
-                
-                setExpression('crying');
-                setTimeout(() => setExpression('sad'), 2000);
-                
-                const quotesArray = hundredQuotes[currentLang] || hundredQuotes.en;
-                const randomIndex = Math.floor(Math.random() * quotesArray.length);
-                
-                if (currentSpecialQuote) {
-                    currentSpecialQuote.remove();
-                }
-                
-                const container = document.getElementById('threshold-container');
-                const msg = document.createElement('div');
-                msg.className = 'threshold-msg special-threshold';
-                msg.innerText = quotesArray[randomIndex];
-                container.appendChild(msg);
-                currentSpecialQuote = msg;
-            }
-        }
+    if (clickCount > 0 && clickCount % 100 === 0 && clickCount > lastHundredThreshold) {
+        lastHundredThreshold = clickCount;
+        
+        const quotesArray = hundredQuotes[currentLang] || hundredQuotes.en;
+        currentGoldQuoteIndex = Math.floor(Math.random() * quotesArray.length);
+        
+        const qElement = document.getElementById('q');
+        qElement.classList.add('gold-quote');
+        qElement.innerText = quotesArray[currentGoldQuoteIndex];
+        isGoldQuoteActive = true;
+    }
+}
 
         function playClick() {
             const clickSound = new Audio();
@@ -2460,12 +2451,6 @@
             document.getElementById('cnt').innerText = interfaceText[currentLang].counterPrefix + clickCount;
         }
 
-        function updateQuote() {
-            const langQuotes = quotes[currentLang] || quotes.en;
-            const randomIndex = Math.floor(Math.random() * langQuotes.length);
-            document.getElementById('q').innerText = langQuotes[randomIndex];
-        }
-
         function blink() {
             document.documentElement.style.setProperty('--lid', '0%');
             setTimeout(() => document.documentElement.style.setProperty('--lid', '-100%'), 150);
@@ -2473,6 +2458,30 @@
         setInterval(blink, 3500);
 
         const button = document.getElementById('btn');
+        
+    function handleClick() {
+    clickCount++; 
+    localStorage.setItem('v_c_final', clickCount);
+    
+    randomExpression();
+    updateVisuals();
+    
+    // Если была активна золотая цитата - убираем её
+    if (isGoldQuoteActive) {
+        document.getElementById('q').classList.remove('gold-quote');
+        isGoldQuoteActive = false;
+    }
+    
+    // Показываем новую цитату (проверяем, не пора ли золотую)
+    if (clickCount % 100 === 0 && clickCount > lastHundredThreshold) {
+        showHundredQuote();
+    } else {
+        // Обычная цитата - сохраняем индекс
+        const langQuotes = quotes[currentLang] || quotes.en;
+        currentQuoteIndex = Math.floor(Math.random() * langQuotes.length);
+        document.getElementById('q').innerText = langQuotes[currentQuoteIndex];
+    }
+}
         
         button.onmousedown = (e) => { 
             e.preventDefault();
@@ -2485,20 +2494,7 @@
         button.onmouseup = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            
-            if (currentSpecialQuote) {
-                currentSpecialQuote.remove();
-                currentSpecialQuote = null;
-            }
-        
-            clickCount++; 
-            localStorage.setItem('v_c_final', clickCount);
-            
-            randomExpression();
-            updateQuote();
-            updateVisuals();
-            showHundredQuote();
-            
+            handleClick();
             return false;
         };
 
@@ -2514,20 +2510,7 @@
         button.ontouchend = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            
-            if (currentSpecialQuote) {
-                currentSpecialQuote.remove();
-                currentSpecialQuote = null;
-            }
-        
-            clickCount++; 
-            localStorage.setItem('v_c_final', clickCount);
-            
-            randomExpression();
-            updateQuote();
-            updateVisuals();
-            showHundredQuote();
-            
+            handleClick();
             return false;
         };
         
@@ -2536,84 +2519,72 @@
             return false;
         };
 
-          // Слежение за мышкой (только на десктопах)
-    if (window.matchMedia("(pointer: fine)").matches) {
-        document.addEventListener('mousemove', (e) => {
-            document.querySelectorAll('.pupil').forEach(pupil => {
-                const rect = pupil.getBoundingClientRect();
-                const dx = e.clientX - (rect.left + rect.width/2);
-                const dy = e.clientY - (rect.top + rect.height/2);
-                const distance = Math.min(12, Math.sqrt(dx*dx + dy*dy) / 18);
-                const x = Math.cos(Math.atan2(dy, dx)) * distance;
-                const y = Math.sin(Math.atan2(dy, dx)) * distance;
-                pupil.style.transform = `translate(${x}px, ${y}px)`;
-            });
-        });
-    } else {
-        // На мобильных глаза двигаются случайно
-        function randomEyeMovement() {
-            const pupils = document.querySelectorAll('.pupil');
-            
-            // Каждые 2-5 секунд двигаем глаза
-            setInterval(() => {
-                pupils.forEach(pupil => {
-                    // Случайное направление
-                    const randomX = (Math.random() - 0.5) * 12;
-                    const randomY = (Math.random() - 0.5) * 8;
-                    
-                    // Плавное движение
-                    pupil.style.transition = 'transform 0.3s ease';
-                    pupil.style.transform = `translate(${randomX}px, ${randomY}px)`;
-                    
-                    // Возвращаем в центр через 1 секунду
-                    setTimeout(() => {
-                        pupil.style.transition = 'transform 0.5s ease';
-                        pupil.style.transform = 'translate(0px, 0px)';
-                    }, 800);
+        // Слежение за мышкой (только на десктопах)
+        if (window.matchMedia("(pointer: fine)").matches) {
+            document.addEventListener('mousemove', (e) => {
+                document.querySelectorAll('.pupil').forEach(pupil => {
+                    const rect = pupil.getBoundingClientRect();
+                    const dx = e.clientX - (rect.left + rect.width/2);
+                    const dy = e.clientY - (rect.top + rect.height/2);
+                    const distance = Math.min(12, Math.sqrt(dx*dx + dy*dy) / 18);
+                    const x = Math.cos(Math.atan2(dy, dx)) * distance;
+                    const y = Math.sin(Math.atan2(dy, dx)) * distance;
+                    pupil.style.transform = `translate(${x}px, ${y}px)`;
                 });
-            }, 3000);
-        }
-        
-        randomEyeMovement();
-    }
-
-        function setLanguage(lang) { 
-            currentLang = lang; 
-            document.querySelectorAll('.l-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.innerText.toLowerCase().includes(lang) || 
-                    (lang === 'zh' && btn.innerText.includes('中文')) ||
-                    (lang === 'ja' && btn.innerText.includes('日本語')) ||
-                    (lang === 'ko' && btn.innerText.includes('한국어')));
             });
-            document.getElementById('cnt').innerText = interfaceText[lang].counterPrefix + clickCount;
+        } else {
+            // На мобильных глаза двигаются случайно
+            function randomEyeMovement() {
+                const pupils = document.querySelectorAll('.pupil');
+                
+                setInterval(() => {
+                    pupils.forEach(pupil => {
+                        const randomX = (Math.random() - 0.5) * 12;
+                        const randomY = (Math.random() - 0.5) * 8;
+                        
+                        pupil.style.transition = 'transform 0.3s ease';
+                        pupil.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                        
+                        setTimeout(() => {
+                            pupil.style.transition = 'transform 0.5s ease';
+                            pupil.style.transform = 'translate(0px, 0px)';
+                        }, 800);
+                    });
+                }, 3000);
+            }
             
-            const totalContainer = document.getElementById('total-cnt-container');
-            totalContainer.innerHTML = interfaceText[lang].totalPrefix + '<span id="total-cnt">' + totalVisitors + '</span>';
-            
-            updateQuote();
+            randomEyeMovement();
         }
 
-        function copyCA() { 
-            navigator.clipboard.writeText(CA_VAL); 
-            const caElem = document.getElementById('ca');
-            const originalText = caElem.innerText;
-            caElem.innerText = "✅ Copied"; 
-            setTimeout(() => caElem.innerText = originalText, 1000); 
-        }
-
-        window.onload = () => {
-            updateQuote();
-            setExpression('sad');
-            updateVisuals();
-            
-            const totalContainer = document.getElementById('total-cnt-container');
-            totalContainer.innerHTML = interfaceText[currentLang].totalPrefix + '<span id="total-cnt">' + totalVisitors + '</span>';
-        };
+  function setLanguage(lang) { 
+    currentLang = lang; 
+    document.querySelectorAll('.l-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText.toLowerCase().includes(lang) || 
+            (lang === 'zh' && btn.innerText.includes('中文')) ||
+            (lang === 'ja' && btn.innerText.includes('日本語')) ||
+            (lang === 'ko' && btn.innerText.includes('한국어')));
+    });
+    document.getElementById('cnt').innerText = interfaceText[lang].counterPrefix + clickCount;
+    
+    const totalContainer = document.getElementById('total-cnt-container');
+    totalContainer.innerHTML = interfaceText[lang].totalPrefix + '<span id="total-cnt">' + totalVisitors + '</span>';
+    
+    const qElement = document.getElementById('q');
+    
+    if (isGoldQuoteActive) {
+        // Золотая цитата - берём тот же индекс
+        const goldQuotesArray = hundredQuotes[lang] || hundredQuotes.en;
+        const safeIndex = Math.min(currentGoldQuoteIndex, goldQuotesArray.length - 1);
+        qElement.innerText = goldQuotesArray[safeIndex];
+        console.log('Перевёл золотую на', lang, 'индекс', safeIndex);
+    } else {
+        // Обычная цитата - берём тот же индекс
+        const langQuotes = quotes[lang] || quotes.en;
+        const safeIndex = Math.min(currentQuoteIndex, langQuotes.length - 1);
+        qElement.innerText = langQuotes[safeIndex];
+        console.log('Перевёл обычную на', lang, 'индекс', safeIndex);
+    }
+}
     </script>
 </body>
 </html>
-
-
-
-
-
