@@ -2602,7 +2602,30 @@ function copyCA() {
         alert('Не удалось скопировать. Выдели текст вручную');
     });
 }
+        function copyCA() { 
+    // ... код копирования ...
+}
+
+// ===== ЗАПУСК ПРИ ЗАГРУЗКЕ СТРАНИЦЫ =====
+window.onload = () => {
+    // Показываем случайную цитату при загрузке
+    const langQuotes = quotes[currentLang] || quotes.en;
+    currentQuoteIndex = Math.floor(Math.random() * langQuotes.length);
+    document.getElementById('q').innerText = langQuotes[currentQuoteIndex];
+    
+    setExpression('sad');
+    updateVisuals();
+    
+    const totalVisitors = parseInt(localStorage.getItem('total_collective_regret')) || 0;
+    const totalContainer = document.getElementById('total-cnt-container');
+    totalContainer.innerHTML = interfaceText[currentLang].totalPrefix + '<span id="total-cnt">' + totalVisitors + '</span>';
+};
+
+</script>
+</body>
+</html>
     </script>
 </body>
 </html>
+
 
