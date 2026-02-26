@@ -2585,6 +2585,24 @@
         console.log('Перевёл обычную на', lang, 'индекс', safeIndex);
     }
 }
+        // ===== КОПИРОВАНИЕ CA =====
+function copyCA() { 
+    const caValue = "CZkrVESiJHyjtR39m7a5doaZwSFT5YMpy8pJMretpump";
+    
+    navigator.clipboard.writeText(caValue).then(() => {
+        const caElem = document.getElementById('ca');
+        const originalText = caElem.innerText;
+        caElem.innerText = "✅ Copied!";
+        
+        setTimeout(() => {
+            caElem.innerText = originalText;
+        }, 1000);
+    }).catch(err => {
+        console.error('Ошибка копирования:', err);
+        alert('Не удалось скопировать. Выдели текст вручную');
+    });
+}
     </script>
 </body>
 </html>
+
