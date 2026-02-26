@@ -2534,24 +2534,88 @@
             });
         } else {
             // На мобильных глаза двигаются случайно
-            function randomEyeMovement() {
-                const pupils = document.querySelectorAll('.pupil');
+             // Переменные для управления интервалами
+    let eyeMovementInterval;
+    let eyeTimeout;
+    
+    function randomEyeMovement() {
+        const pupils = document.querySelectorAll('.pupil');
+        
+        // Очищаем предыдущие таймеры
+        if (eyeMovementInterval) clearInterval(eyeMovementInterval);
+        if (eyeTimeout) clearTimeout(eyeTimeout);
+        
+        // Выбираем случайное поведение
+        const behaviors = ['lookAround', 'lookCenter', 'lookAway', 'sleepy'];
+        const behavior = behaviors[Math.floor(Math.random() * behaviors.length)];
+        
+        console.log('Поведение:', behavior); // Для отладки
+        
+        switch(behavior) {
+            case 'lookAround':
+                // Осматривается
+                pupils.forEach(pupil => {
+                    const randomX = (Math.random() - 0.5) * 14;
+                    const randomY = (Math.random() - 0.5) * 10;
+                    pupil.style.transition = 'transform 0.4s ease';
+                    pupil.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                });
                 
-                setInterval(() => {
+                eyeTimeout = setTimeout(() => {
                     pupils.forEach(pupil => {
-                        const randomX = (Math.random() - 0.5) * 12;
-                        const randomY = (Math.random() - 0.5) * 8;
-                        
-                        pupil.style.transition = 'transform 0.3s ease';
-                        pupil.style.transform = `translate(${randomX}px, ${randomY}px)`;
-                        
-                        setTimeout(() => {
-                            pupil.style.transition = 'transform 0.5s ease';
-                            pupil.style.transform = 'translate(0px, 0px)';
-                        }, 800);
+                        pupil.style.transition = 'transform 0.6s ease';
+                        pupil.style.transform = 'translate(0px, 0px)';
                     });
-                }, 3000);
-            }
+                }, 1500);
+                break;
+                
+            case 'lookCenter':
+                // Смотрит в центр
+                pupils.forEach(pupil => {
+                    pupil.style.transition = 'transform 0.5s ease';
+                    pupil.style.transform = 'translate(0px, 0px)';
+                });
+                break;
+                
+            case 'lookAway':
+                // Отводит взгляд
+                pupils.forEach((pupil, index) => {
+                    if (index === 0) {
+                        pupil.style.transform = 'translate(-6px, 2px)';
+                    } else {
+                        pupil.style.transform = 'translate(6px, 2px)';
+                    }
+                    pupil.style.transition = 'transform 0.3s ease';
+                });
+                
+                eyeTimeout = setTimeout(() => {
+                    pupils.forEach(pupil => {
+                        pupil.style.transition = 'transform 0.5s ease';
+                        pupil.style.transform = 'translate(0px, 0px)';
+                    });
+                }, 1000);
+                break;
+                
+            case 'sleepy':
+                // Сонный взгляд
+                pupils.forEach(pupil => {
+                    pupil.style.transition = 'transform 0.8s ease';
+                    pupil.style.transform = 'translate(2px, 5px)';
+                });
+                
+                eyeTimeout = setTimeout(() => {
+                    pupils.forEach(pupil => {
+                        pupil.style.transition = 'transform 0.5s ease';
+                        pupil.style.transform = 'translate(0px, 0px)';
+                    });
+                }, 2000);
+                break;
+        }
+        
+        // Планируем следующее движение через случайный интервал
+        const nextInterval = Math.floor(Math.random() * 5000) + 2000; // 2-7 секунд
+        eyeMovementInterval = setTimeout(randomEyeMovement, nextInterval);
+    }
             
             randomEyeMovement();
         }
@@ -2627,5 +2691,6 @@ window.onload = () => {
     </script>
 </body>
 </html>
+
 
 
