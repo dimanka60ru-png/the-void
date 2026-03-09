@@ -557,8 +557,41 @@
             .l-btn {
                 font-size: 0.6rem;
                 padding: 4px 5px;
-            }
-        }
+            }   
+/* ===== НОВЫЙ КОД ДЛЯ ССЫЛОК ===== */
+    .link-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        width: 75%;
+        max-width: 250px;
+        margin: 0 auto;
+        padding: 12px 15px;
+        background: rgba(20,10,20,0.5);
+        backdrop-filter: blur(8px);
+        border-radius: 20px;
+    }
+
+    #ca, #x-link {
+        width: 100%;
+        text-align: center;
+        padding: 10px 12px;
+        font-size: 0.8rem;
+        border-radius: 15px;
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    #ca {
+        background: rgba(255,100,100,0.1);
+        border-right: none;
+    }
+
+    #x-link {
+        background: rgba(255,255,255,0.05);
+    }
+}
 
         @media (max-width: 380px) {
             #btn {
@@ -590,21 +623,18 @@
                 font-size: 1.4rem;
             }
             
-            .link-group {
-                max-width: 90%;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 5px;
-            }
-            #ca, #x-link {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 45%;
-                font-size: 0.65rem;
-                padding: 6px 8px;
-            }
-        }
+         .link-group {
+        width: 80%;  /* На совсем маленьких чуть шире, но всё равно компактно */
+        max-width: 220px;
+        padding: 8px 10px;
+        gap: 5px;
+    }
+
+    #ca, #x-link {
+        font-size: 0.65rem;
+        padding: 6px 8px;
+    }
+}
     </style>
 </head>
 <body>
